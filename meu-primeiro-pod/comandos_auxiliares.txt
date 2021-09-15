@@ -1,5 +1,4 @@
-para descobrir o valor da apiVersion à ser utilizado, rodar o comando:
-
+#para descobrir o valor da apiVersion à ser utilizado, rodar o comando:
 kubectl api-resources
 
 ao rodar o comando acima, validar a versão para o objeto sendo utilizado no exemplo aplicado (Pod)

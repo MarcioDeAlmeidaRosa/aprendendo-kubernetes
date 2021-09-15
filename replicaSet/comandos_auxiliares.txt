@@ -1,0 +1,5 @@
+#para atribuir a versão do replicaset necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+#aplicando o manifesto
+ kubectl apply -f ./replicaSet/meu-primeiro-replicaSet.yaml

@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: meuprimeiroreplicaset
+spec:
+  selector:
+    matchLabels:
+      app: exemplo #precisa bater como label do pod abaixo
+  template: #começa a descrever as definições do pod
+    metadata:
+      labels:
+        app: exemplo #igualando ao seletor do replicaSet
+    spec:
+      containers:
+        - name: meucontainerusandoreplicaset
+          image: kubedevio/nginx-color:blue
+        
