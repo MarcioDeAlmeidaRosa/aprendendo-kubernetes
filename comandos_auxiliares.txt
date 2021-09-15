@@ -1,0 +1,22 @@
+para descobrir o valor da apiVersion à ser utilizado, rodar o comando:
+
+kubectl api-resources
+
+ao rodar o comando acima, validar a versão para o objeto sendo utilizado no exemplo aplicado (Pod)
+
+Após gerado o yaml, fazer o deploy da aplicação
+
+#aplicando um manifesto de pod
+kubectl apply -f ./meuprimeiropod.yaml
+
+#acessando as inforções do pod
+kubectl describe pod meu-primeiro-pod
+
+#fazendo encaminhamento de porta
+kubectl port-forward pod/meu-primeiro-pod 8080:80
+
+#acessando 
+http://localhost:8080
+
+#deletando pod
+kubectl delete pod meu-primeiro-pod
