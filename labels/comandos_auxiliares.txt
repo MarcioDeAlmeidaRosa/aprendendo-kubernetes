@@ -1,0 +1,12 @@
+#rodando os pods
+kubectl apply -f ./labels/meu-pode-azul.yaml -f ./labels/meu-pode-verde.yaml
+
+#listando pods filtrando pelas labels
+kubectl get pods -l versao=verde
+
+kubectl get pods -l app=nginx
+
+#usando seleção para excluir
+kubectl delete pods -l versao=verde
+
+kubectl delete pods -l app=nginx
