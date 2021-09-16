@@ -3,3 +3,21 @@ kubectl api-resources
 
 #aplicando o manifesto
  kubectl apply -f ./replicaSet/meu-primeiro-replicaSet.yaml
+
+ #verificar o pod rodando
+ kubectl get pods
+
+ #deletando o pod para o replicaSet criar um novo
+ kubectl delete pods -l app=exemplo
+
+#consultando novamente os pods
+kubectl get pods
+
+#consultando o replicaSet
+kubectl get replicaset
+
+#dando um describe no replicaSet
+kubectl describe replicaset meuprimeiroreplicaset
+
+#testar escalabilidade usando replicaSet
+kubectl scale replicaset meuprimeiroreplicaset --replicas=15
