@@ -3,6 +3,7 @@ kind: ReplicaSet
 metadata:
   name: meuprimeiroreplicaset
 spec:
+  replicas: 20
   selector:
     matchLabels:
       app: exemplo #precisa bater como label do pod abaixo
