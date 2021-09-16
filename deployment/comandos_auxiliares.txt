@@ -12,3 +12,6 @@ kubectl get deployment
 
 #fazendo describe no objeto deployment
 kubectl describe deployment meuprimeirodeployment
+
+#aumentando número de replicas
+kubectl scale deployment meuprimeirodeployment --replicas=50
