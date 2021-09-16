@@ -1,0 +1,14 @@
+#para atribuir a versão do deployment necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+#deletando replicaset anterior para aplicar testes com deployment
+replicaset.apps "meuprimeiroreplicaset" deleted
+
+#aplicando objeto deployment
+kubectl apply -f ./deployment/meu-primeiro-deployment.yaml
+
+#consultando objetos deployment
+kubectl get deployment
+
+#fazendo describe no objeto deployment
+kubectl describe deployment meuprimeirodeployment
