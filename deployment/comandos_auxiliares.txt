@@ -15,3 +15,6 @@ kubectl describe deployment meuprimeirodeployment
 
 #aumentando número de replicas
 kubectl scale deployment meuprimeirodeployment --replicas=50
+
+#obtendo mais detalhes sobre o pod
+kubectl get pods -o wide
