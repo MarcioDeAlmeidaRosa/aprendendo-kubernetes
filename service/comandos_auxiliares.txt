@@ -11,7 +11,7 @@ kubectl run -i --tty --image=kubedevio/ubuntu-curl ping-test --restart='Never' -
 kubectl get pods -o wide
 
 #rodar dentro do container com acesso ao curl para ver chamada responder
- http://10.244.1.173:8080/temperatura/fahrenheitparacelsius/100
+curl http://10.244.1.173:8080/temperatura/fahrenheitparacelsius/100
 
  ###################################################################################
  #para atribuir a versão do service necessário rodar o comando abaixo para verificar qual é a versão permitida
@@ -19,3 +19,12 @@ kubectl api-resources
 
 # aplicar manifesto de service criado
 kubectl apply -f ./service/meuprimeiroservice.yaml
+
+# rodando novamente o crul porém agora com o nome do serviço - 
+curl http://api-service/temperatura/fahrenheitparacelsius/100
+
+# aumentando o número de replicas para fazer o teste no consumo da api
+kubectl scale deployment api-conversao --replicas=20
+
+# rodar o crul novamente e verificação que o nome da máquina muda a cada requisição
+curl http://api-service/temperatura/fahrenheitparacelsius/100
