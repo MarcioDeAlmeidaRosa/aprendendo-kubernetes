@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-conversao
+  name: api-conversao-cluster-ip
 spec:
   selector:
     matchLabels:
-      app: api-conversao
+      app: api-conversao-cluster-ip
   template:
     metadata:
       labels:
-        app: api-conversao
+        app: api-conversao-cluster-ip
     spec:
       containers:
-      - name: api-conversao
+      - name: api-conversao-cluster-ip
         image: kubedevio/api-conversao:v1-machine-name

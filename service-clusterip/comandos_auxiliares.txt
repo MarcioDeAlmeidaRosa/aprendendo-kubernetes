@@ -2,7 +2,7 @@
 kubectl api-resources
 
 #aplicando este manifesto
-kubectl apply -f ./service/deployment.yaml
+kubectl apply -f ./service-clusterip/deployment.yaml
 
 #rodando um container na mão em um ambiente kubernetes
 kubectl run -i --tty --image=kubedevio/ubuntu-curl ping-test --restart='Never' --rm -- /bin/bash
@@ -18,10 +18,10 @@ curl http://10.244.1.173:8080/temperatura/fahrenheitparacelsius/100
 kubectl api-resources
 
 # aplicar manifesto de service criado
-kubectl apply -f ./service/meuprimeiroservice.yaml
+kubectl apply -f ./service-clusterip/meuprimeiroservice.yaml
 
 # rodando novamente o crul porém agora com o nome do serviço - 
-curl http://api-service/temperatura/fahrenheitparacelsius/100
+curl http://api-service-cluster-ip/temperatura/fahrenheitparacelsius/100
 
 # aumentando o número de replicas para fazer o teste no consumo da api
 kubectl scale deployment api-conversao --replicas=20
