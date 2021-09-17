@@ -2,7 +2,7 @@
 kubectl api-resources
 
 #aplicando este manifesto
-kubectl apply -f ./service/meuprimeiroservice.yaml
+kubectl apply -f ./service/deployment.yaml
 
 #rodando um container na mão em um ambiente kubernetes
 kubectl run -i --tty --image=kubedevio/ubuntu-curl ping-test --restart='Never' --rm -- /bin/bash
