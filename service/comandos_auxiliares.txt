@@ -1,0 +1,14 @@
+#para atribuir a versão do replicaset necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+#aplicando este manifesto
+kubectl apply -f ./service/meuprimeiroservice.yaml
+
+#rodando um container na mão em um ambiente kubernetes
+kubectl run -i --tty --image=kubedevio/ubuntu-curl ping-test --restart='Never' --rm -- /bin/bash
+
+#obtendo mais detalhes sobre o pod - pegar ip para efetuar teste de chamada interna pela rede
+kubectl get pods -o wide
+
+#rodar dentro do container com acesso ao curl para ver chamada responder
+ http://10.244.1.173:8080/temperatura/fahrenheitparacelsius/100
