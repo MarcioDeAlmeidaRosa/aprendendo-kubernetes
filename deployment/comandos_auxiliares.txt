@@ -18,3 +18,12 @@ kubectl scale deployment meuprimeirodeployment --replicas=50
 
 #obtendo mais detalhes sobre o pod
 kubectl get pods -o wide
+
+#listar o histórico de implantação de um deployment
+kubectl rollout history deployment meuprimeirodeployment
+
+#efetuar rooback da versão do deployment
+kubectl rollout undo deployment meuprimeirodeployment
+
+#trocar a imagem do container por linha de comando
+kubectl set image deployment meuprimeirodeployment meucontainercomdeployment=kubedevio/nginx-color:green

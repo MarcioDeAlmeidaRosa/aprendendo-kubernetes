@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: meuprimeirodeployment
 spec:
-  replicas: 10
+  replicas: 20
   selector:
     matchLabels:
       app: exemplo
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: meucontainercomdeployment
-          image: kubedevio/nginx-color:blue
+          image: kubedevio/nginx-color:green
 
 
       
