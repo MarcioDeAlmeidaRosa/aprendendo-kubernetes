@@ -1,4 +1,4 @@
-#para atribuir a versão do replicaset necessário rodar o comando abaixo para verificar qual é a versão permitida
+#para atribuir a versão do deployment necessário rodar o comando abaixo para verificar qual é a versão permitida
 kubectl api-resources
 
 #aplicando este manifesto
@@ -12,3 +12,10 @@ kubectl get pods -o wide
 
 #rodar dentro do container com acesso ao curl para ver chamada responder
  http://10.244.1.173:8080/temperatura/fahrenheitparacelsius/100
+
+ ###################################################################################
+ #para atribuir a versão do service necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+# aplicar manifesto de service criado
+kubectl apply -f ./service/meuprimeiroservice.yaml
