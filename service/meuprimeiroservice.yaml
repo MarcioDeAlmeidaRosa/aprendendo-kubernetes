@@ -9,3 +9,4 @@ spec:
     - protocol: TCP
       port: 80 #vinculando com a porta do service
       targetPort: 8080 #vinculando com a porta do container
+  type: ClusterIP #quando não declarado, ClusterIP é o tipo default
