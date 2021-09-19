@@ -1,0 +1,14 @@
+#listando os endpoints criados
+kubectl get endpoints
+
+#filtrando os pods com labels -> app=api-conversao-load-balance
+kubectl get pods -l app=api-conversao-load-balance
+
+#filtrando os pods com labels -> app=api-conversao-node-port
+kubectl get pods -l app=api-conversao-node-port
+
+#filtrando um endpoint específico -> api-service-load-balance
+kubectl get endpoints api-service-load-balance
+
+#filtrando describe de um endpoint específico -> api-service-load-balance
+kubectl describe endpoints api-service-load-balance

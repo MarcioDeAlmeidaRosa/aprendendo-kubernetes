@@ -451,8 +451,13 @@ Semana 02
 		
 		* ExternalName
 	
-	EndPoint
-	O que são os Endpoints?
+	EndPoint	
+		* O que são os Endpoints?
+		  -> Toda vez que é criado um service utilizando os selectors para vincular aos pods, é 
+		  criado um objeto endopoints, onde os pods se registram nesta coleção para permitirem
+		  receber requisições no momento do processamento do workload.
+		  -> Coloção com todos os pods vinculados ao service que originou o endpoint
+		
 	Namespace
 	Utilizando Namespace
 	Comunicação entre Namespaces
