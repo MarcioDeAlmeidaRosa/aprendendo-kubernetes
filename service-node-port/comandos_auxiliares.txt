@@ -1,0 +1,44 @@
+#para atribuir a versão do deployment necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+#subir instância via multipass
+multipass launch -n k8s -c 2 -m 2G -d 20G
+
+#instalar o microk8s na máquina
+multipass exec k8s -- sudo snap install microk8s --classic --channel=1.18/stable
+
+#dando permissão de super usuário para o aplicativo "microk8s" para o usuário "ubuntu" da máquina
+multipass exec k8s -- sudo usermod -a -G microk8s ubuntu
+
+#setar senha ao usuário ubuntu
+multipass exec k8s -- sudo passwd ubuntu
+
+#acessar terminao da máquina
+multipass shell k8s
+
+#criar o manifesto de deploy e service na máquina
+touch deployment.yaml
+touch service-node-port.yaml
+
+#colar o conteúdo de cada arquivo na máquina
+
+# executando apply do deployment
+/snap/bin/microk8s.kubectl apply -f ./deployment.yaml
+
+# executando apply do service
+/snap/bin/microk8s.kubectl apply -f ./service-node-port.yaml
+
+#rodando um container na mão em um ambiente kubernetes
+/snap/bin/microk8s.kubectl run -i --tty --image=kubedevio/ubuntu-curl ping-test --restart='Never' --rm -- /bin/bash
+
+#executando a aplicação dentro do cluster não acessando a rede local - usando o service NodePorto
+curl http://172.18.128.134:32505/temperatura/fahrenheitparacelsius/100
+
+#executando a aplicação por fora do cluster - usando o service NodePorto
+curl http://172.18.128.134:32505/temperatura/fahrenheitparacelsius/100
+
+#executando a aplicação por dentro do cluentes - usando o service ClusterIP
+curl http://10.152.183.242:80/temperatura/fahrenheitparacelsius/100
+
+#escalando replicas para teste de balanceamento
+/snap/bin/microk8s.kubectl scale deployment api-conversao-node-port --replicas=3

@@ -6,7 +6,7 @@ ao rodar o comando acima, validar a versão para o objeto sendo utilizado no exe
 Após gerado o yaml, fazer o deploy da aplicação
 
 #aplicando um manifesto de pod
-kubectl apply -f ./meuprimeiropod.yaml
+kubectl apply -f ./meu-primeiro-pod/meuprimeiropod.yaml
 
 #acessando as inforções do pod
 kubectl describe pod meu-primeiro-pod

@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-conversao-node-port
+spec:
+  selector:
+    matchLabels:
+      app: api-conversao-node-port
+  template:
+    metadata:
+      labels:
+        app: api-conversao-node-port
+    spec:
+      containers:
+      - name: api-conversao-node-port
+        image: kubedevio/api-conversao:v1-machine-name
