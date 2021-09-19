@@ -1,0 +1,12 @@
+#para atribuir a versão do deployment necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+#aplicar manifesto de deployment
+kubectl apply -f ./service-external-name/service-external-name.yaml
+
+#rodando um container na mão em um ambiente kubernetes
+kubectl run -i --tty --image=kubedevio/ubuntu-curl ping-test --restart='Never' --rm -- /bin/bash
+
+#executando teste no serviço com load balancer
+curl -L -v http://service-funcionou-marcti-net
+curl -v http://funcionou.marcti.net
