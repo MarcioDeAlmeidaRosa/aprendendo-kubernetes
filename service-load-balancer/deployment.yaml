@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-conversao-load-balance
+spec:
+  selector:
+    matchLabels:
+      app: api-conversao-load-balance
+  template:
+    metadata:
+      labels:
+        app: api-conversao-load-balance
+    spec:
+      containers:
+      - name: api-conversao-load-balance
+        image: kubedevio/api-conversao:v1-machine-name

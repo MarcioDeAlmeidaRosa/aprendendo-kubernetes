@@ -1,0 +1,20 @@
+#para atribuir a versão do deployment necessário rodar o comando abaixo para verificar qual é a versão permitida
+kubectl api-resources
+
+#aplicar manifesto de deployment
+kubectl apply -f ./service-load-balancer/deployment.yaml
+
+#aplicar o manifesto do serviço load balancer
+ kubectl apply -f ./service-load-balancer/service-load-balancer.yaml
+
+#executando teste no serviço com load balancer
+curl http://52.142.18.89:80/temperatura/fahrenheitparacelsius/100
+
+#listar todos os objetos em execução no kubernetes
+kubectl get all
+
+#aumentando replicas para 4
+kubectl scale deployment api-conversao-load-balance --replicas=4
+
+#testando variações de nós respondendo
+curl http://52.142.18.89:80/temperatura/fahrenheitparacelsius/100
