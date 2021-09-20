@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depliyment-app-nxing
+spec:
+  selector:
+    matchLabels:
+      app: app-nxing
+  template:
+    metadata:
+      labels:
+        app: app-nxing
+    spec:
+      containers:
+      - name: app-nxing
+        image: kubedevio/nginx-color:blue

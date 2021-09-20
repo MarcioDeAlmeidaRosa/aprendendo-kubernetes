@@ -29,3 +29,9 @@ kubectl get deployment -A
 kubectl get deployment --all-namespaces=true
 #ou
 kubectl get deployment --all-namespaces=true -o wide
+
+#criando novo namespace para fazer o deploy selecionando o namespace por linha de comando
+kubectl create namespace space-color
+
+#efetuando apply selecionando o namespace por linha de comando
+kubectl apply -f ./namespace/deployment-color.yaml -n space-color
