@@ -1,16 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: depliyment-app-green
+  name: depliyment-app-nginx
+  namespace: space-green
 spec:
   selector:
-    machLabels:
-      app: app-green
+    matchLabels:
+      app: app-nginx
   template:
     metadata:
       labels:
-        app: app-green
+        app: app-nginx
     spec:
       containers:
-      - name: app-green
+      - name: app-nginx
         image: kubedevio/nginx-color:green

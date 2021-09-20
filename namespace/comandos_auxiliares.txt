@@ -10,3 +10,6 @@ kubectl describe namespaces default
 #criando um namespace
 kubectl create namespace space-blue
 kubectl create namespace space-green
+
+#aplicando deployment em cada namespace usando a tag namespace do reploy para direcionar o apply
+kubectl apply -f ./namespace/deployment-blue.yaml -f ./namespace/deployment-green.yaml

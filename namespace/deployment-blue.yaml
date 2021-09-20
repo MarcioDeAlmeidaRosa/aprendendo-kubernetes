@@ -1,16 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: depliyment-app-blue
+  name: depliyment-app-nxing
+  namespace: space-blue
 spec:
   selector:
-    machLabels:
-      app: app-blue
+    matchLabels:
+      app: app-nxing
   template:
     metadata:
       labels:
-        app: app-blue
+        app: app-nxing
     spec:
       containers:
-      - name: app-blue
+      - name: app-nxing
         image: kubedevio/nginx-color:blue
