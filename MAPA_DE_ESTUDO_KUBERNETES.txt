@@ -456,12 +456,22 @@ Semana 02
 		  -> Toda vez que é criado um service utilizando os selectors para vincular aos pods, é 
 		  criado um objeto endopoints, onde os pods se registram nesta coleção para permitirem
 		  receber requisições no momento do processamento do workload.
-		  -> Coloção com todos os pods vinculados ao service que originou o endpoint
+		  -> Coloção com todos os pods vinculados ao service que originou o endpoint.
 		
 	Namespace
-	Utilizando Namespace
-	Comunicação entre Namespaces
-	O que é separado por namespaces e o que não é ?
+	    -> permete que você crie vários clustes kubernetes lógicos, dentro de um cluster físico
+		   kubernetes. (Vários miniclustes kubernetes dentro de um cluster)
+		-> permite dar acesso ao usuário por cluster
+		-> permite limitar consumo de recurso por cluster por namespaces
+		
+		
+		* Utilizando Namespace
+		
+		* Comunicação entre Namespaces
+		
+		* O que é separado por namespaces e o que não é ?
+	
+	
 	Deploy de uma aplicação: Do GitHub ao Kubernetes
 	Subindo a aplicação
 	Exercícios

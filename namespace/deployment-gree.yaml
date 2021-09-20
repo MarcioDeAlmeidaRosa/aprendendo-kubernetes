@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depliyment-app-green
+spec:
+  selector:
+    machLabels:
+      app: app-green
+  template:
+    metadata:
+      labels:
+        app: app-green
+    spec:
+      containers:
+      - name: app-green
+        image: kubedevio/nginx-color:green

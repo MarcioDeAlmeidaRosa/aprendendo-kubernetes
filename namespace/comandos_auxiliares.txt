@@ -1,0 +1,12 @@
+#recuperando lista de recursos do kubernetes
+kubectl api-resources
+
+#listar namespaces criados
+kubectl get namespaces
+
+#acessando describe do name
+kubectl describe namespaces default
+
+#criando um namespace
+kubectl create namespace space-blue
+kubectl create namespace space-green

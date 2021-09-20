@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depliyment-app-blue
+spec:
+  selector:
+    machLabels:
+      app: app-blue
+  template:
+    metadata:
+      labels:
+        app: app-blue
+    spec:
+      containers:
+      - name: app-blue
+        image: kubedevio/nginx-color:blue
