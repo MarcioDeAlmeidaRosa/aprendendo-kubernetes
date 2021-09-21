@@ -34,6 +34,13 @@ curl http://10.244.1.230
 #tentando resolver pelo nome do servico ser usar o dns corretamento do kubernetes -> curl: (6) Could not resolve host: service-nginx-color
 curl http://service-nginx-color
 
-#tentando resolver pelo dns conforme sintaxe para acessar serviços de outros namespaces
+#tentando resolver pelo dns completo conforme sintaxe para acessar serviços de outros namespaces
 curl http://service-nginx-color.blue.svc.cluster.local
 curl http://service-nginx-color.green.svc.cluster.local
+
+#para simplificar a comunicação, podemos criar service external name.
+kubectl apply -f .\comunicacao-diferentes-namespace\service-external-name-blue.yaml -f .\comunicacao-diferentes-namespace\service-external-name-green.yaml
+
+#tentando resolver pelo nome do serviço que também esta criado no namespace default
+curl http://service-nginx-color-blue
+curl http://service-nginx-color-green
