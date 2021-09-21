@@ -1,0 +1,39 @@
+#listar serviços e versões
+kubectl api-resources
+
+#criando namespace
+kubectl create namespace blue
+kubectl create namespace green
+
+#listando namespace
+kubectl get namespace
+
+#listar todos deployment de todos os namespace
+kubectl get deployment --all-namespaces=true
+
+#aplicando objetos de deployment em seus respectivos namespaces
+kubectl apply -f .\comunicacao-diferentes-namespace\deployment-blue.yaml -f.\comunicacao-diferentes-namespace\deployment-green.yaml
+
+#listando services de todos os namespaces
+kubectl get service --all-namespaces=true
+
+#aplicando service em namespaces blue/green que processam os objetos deployment blue/gree por conta do mesmo seletor
+kubectl apply -f .\comunicacao-diferentes-namespace\service.yaml -n blue
+kubectl apply -f .\comunicacao-diferentes-namespace\service.yaml -n green
+
+#acessando um container no namespace default para fazer achamadas testes para validar deployment e service funcionando
+kubectl run -i --tty --image kubedevio/ubuntu-curl curl-teste --restart=Never --rm -- /bin/bash
+
+#recuperando container filtrando mais de um namespace
+eval 'kubectl --namespace='{blue,green}' get pod -o wide;'
+
+#tentando resolver chamada por ip do pod bleu/green
+curl http://10.244.1.229
+curl http://10.244.1.230
+
+#tentando resolver pelo nome do servico ser usar o dns corretamento do kubernetes -> curl: (6) Could not resolve host: service-nginx-color
+curl http://service-nginx-color
+
+#tentando resolver pelo dns conforme sintaxe para acessar serviços de outros namespaces
+curl http://service-nginx-color.blue.svc.cluster.local
+curl http://service-nginx-color.green.svc.cluster.local
