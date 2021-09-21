@@ -468,8 +468,14 @@ Semana 02
 		* Utilizando Namespace
 		
 		* Comunicação entre Namespaces
+		  -> usando diretamente o ip do node (este não roda separado de namespace) ou criar 
+		     serviços do tipo ExternalName apontando para o dns completo do serviço no namespace 
+			 onde ele é executado
 		
 		* O que é separado por namespaces e o que não é ?
+		  -> nem todo objeto do kubernetes é separado por namespace, conseguimos saber pelo filtro:
+		  kubectl api-resources --namespaced=true
+		  kubectl api-resources --namespaced=false
 	
 	
 	Deploy de uma aplicação: Do GitHub ao Kubernetes
