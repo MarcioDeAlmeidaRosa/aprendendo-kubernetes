@@ -1,0 +1,11 @@
+#aplicando deploy do sql server
+kubectl apply -f ./deploy-aplicacao-agenda/sql-server/deployment.yaml
+
+#aplicando service do sql server
+kubectl apply -f ./deploy-aplicacao-agenda/sql-server/service.yaml
+
+#aplicando o deployment da aplicacao
+kubectl apply -f ./deploy-aplicacao-agenda/api/deployment.yaml
+
+#aplicando o service da api
+kubectl apply -f ./deploy-aplicacao-agenda/api/service.yaml
