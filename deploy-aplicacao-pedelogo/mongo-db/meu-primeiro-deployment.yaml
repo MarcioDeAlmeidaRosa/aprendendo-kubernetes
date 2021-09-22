@@ -1,0 +1,14 @@
+#listar objetos do kubernetes
+kubectl api-resources
+
+#aplicando deployment do banco de dados mongodb
+kubectl apply -f ./deploy-aplicacao-pedelogo/mongo-db/deployment.yaml
+
+#aplicando o service para gerenciar o mongodb
+kubectl apply -f ./deploy-aplicacao-pedelogo/mongo-db/service.yaml
+
+#aplicando deployment da api pedelogo catalogo
+kubectl apply -f ./deploy-aplicacao-pedelogo/api/deployment.yaml
+
+#aplicando o service para expor a api
+kubectl apply -f ./deploy-aplicacao-pedelogo/api/service.yaml
