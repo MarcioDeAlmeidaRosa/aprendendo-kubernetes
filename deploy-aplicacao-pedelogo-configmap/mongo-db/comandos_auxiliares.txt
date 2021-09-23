@@ -1,0 +1,11 @@
+#listar objetos do kubernetes
+kubectl api-resources
+
+#aplicando configuração de configmap para armazenar as variáveis de ambiente do mongodb
+kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/mongo-db/mongo-db-configmap.yaml
+
+#listando configmap do namespace default
+kubectl get configmap
+
+#consultando describe de um configmap
+kubectl describe configmap mongo-db-configmap

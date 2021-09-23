@@ -480,13 +480,21 @@ Semana 02
 	
 	Deploy de uma aplicação: Do GitHub ao Kubernetes
 		* Subindo a aplicação
-		
+		  Aplicando mais configurações nos manifestos de deployment e service
+
 		* Exercícios
+		  -> https://github.com/MarcioDeAlmeidaRosa/aprendendo-kubernetes/tree/master/comunicacao-diferentes-namespace
 
 	Gerenciamento de Configuração
-	ConfigMap e Secret
-	ConfigMap e Secrets com linha de comando
-	Exercícios
+		* ConfigMap e Secret
+		  -> Elementos para auxiliar a separação de variáveis e seus valores dos manifestos para criação de um deployment
+		  -> Reaproveitamento dos arquivos de manifestos em diferentes ambientes sem ter que ficar editando as particularidades conforme ambiente
+		    -> ConfigMap: Controle por chave/valor com seu conteúdo público, qualquer pessoa consegue executar um describe e saber seus valores.
+			-> Secret: Controle por chave/valor, porém seu valor é armazenado em base64, garantidno assim um pouco de segurança, porém caso seja recuperado o conteúdo, nada impede de converter para string novamente para ser revelado seu valor.
+
+		* ConfigMap e Secrets com linha de comando
+
+		* Exercícios
 
 
 Semana 03
