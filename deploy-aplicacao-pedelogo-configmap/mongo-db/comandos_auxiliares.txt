@@ -9,3 +9,6 @@ kubectl get configmap
 
 #consultando describe de um configmap
 kubectl describe configmap mongo-db-configmap
+
+#aplicando deployment alterado para utilizar o configmap por referência
+kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/mongo-db/deployment.yaml
