@@ -12,3 +12,12 @@ kubectl describe configmap mongo-db-configmap
 
 #aplicando deployment alterado para utilizar o configmap por referência
 kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/mongo-db/deployment.yaml
+
+#aplicando configmap da api
+kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/api/api-configmap.yaml
+
+#aplicando deployment alterado parte 1
+kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/api/deployment.yaml
+
+#aplicando o service para testar a execução da api
+kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/api/service.yaml

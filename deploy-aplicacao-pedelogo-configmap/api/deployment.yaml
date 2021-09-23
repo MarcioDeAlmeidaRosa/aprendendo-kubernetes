@@ -20,14 +20,17 @@ spec:
           - containerPort: 443
             name: https
           imagePullPolicy: Always
+          envFrom:
+          - configMapRef:
+              name: api-pedelogo-catalogo-configmap
           env:
-          - name: Mongo__Host
-            value: "mongo-db-service"
+          #- name: Mongo__Host
+          #  value: "mongo-db-service"
           - name: Mongo__User
             value: "mongouserroot"
           - name: Mongo__Password
             value: "mongopwdrroot"
-          - name: Mongo__Port
-            value: "27017"
-          - name: Mongo__DataBase
-            value: "admin"
+          #- name: Mongo__Port
+          #  value: "27017"
+          #- name: Mongo__DataBase
+          #  value: "admin"
