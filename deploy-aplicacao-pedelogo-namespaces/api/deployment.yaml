@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-pede-logo-deployment
+  namespace: api
+spec:
+  selector:
+    matchLabels:
+      app: api-pede-logo
+  template:
+    metadata:
+      labels:
+        app: api-pede-logo
+    spec:
+      containers:
+        - name: api-pede-logo
+          image: kubedevio/pedelogo-catalogo:v1.0.0
+          ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+          imagePullPolicy: Always
+          env:
+          - name: Mongo__Host
+            value: "mongo-db-service"
+          - name: Mongo__User
+            value: "mongouserroot"
+          - name: Mongo__Password
+            value: "mongopwdrroot"
+          - name: Mongo__Port
+            value: "27017"
+          - name: Mongo__DataBase
+            value: "admin"

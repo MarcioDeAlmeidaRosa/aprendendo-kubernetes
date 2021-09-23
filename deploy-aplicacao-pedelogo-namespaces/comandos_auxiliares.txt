@@ -1,0 +1,31 @@
+#criação do namespace de banco de dados
+kubectl create namespace db
+
+#criação do namespace da api
+kubectl create namespace api
+
+#aplicando deployment do mongodb
+kubectl apply -f ./deploy-aplicacao-pedelogo-namespaces/mongo/deployment.yaml
+
+#aplicando service do mongodb
+kubectl apply -f ./deploy-aplicacao-pedelogo-namespaces/mongo/service.yaml
+
+#filtrando todos objetos do namespace db
+kubectl get all -n db
+
+#aplicando service no namespace default
+kubectl apply -f ./deploy-aplicacao-pedelogo-namespaces/api/service-db.yaml
+
+#aplicando deployment da api no namespace api
+kubectl apply -f ./deploy-aplicacao-pedelogo-namespaces/api/deployment.yaml
+
+#aplicando service da api para expor o serviço 
+kubectl apply -f ./deploy-aplicacao-pedelogo-namespaces/api/service.yaml
+
+
+#usado para debug
+kubectl run -i --tty --image=kubedevio/ubuntu-curl teste-curl --restart='Never' --rm -- /bin/bash
+
+#deletando todos os objetos de um namespace
+kubectl delete all --all -n db
+kubectl delete all --all -n api
