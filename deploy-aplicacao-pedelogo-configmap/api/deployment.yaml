@@ -27,9 +27,17 @@ spec:
           #- name: Mongo__Host
           #  value: "mongo-db-service"
           - name: Mongo__User
-            value: "mongouserroot"
+            valueFrom:
+              configMapKeyRef:
+                key: MONGO_INITDB_ROOT_USERNAME
+                name: mongo-db-configmap
+            #value: "mongouserroot"
           - name: Mongo__Password
-            value: "mongopwdrroot"
+            valueFrom:
+              configMapKeyRef:
+                key: MONGO_INITDB_ROOT_PASSWORD
+                name: mongo-db-configmap
+            #value: "mongopwdrroot"
           #- name: Mongo__Port
           #  value: "27017"
           #- name: Mongo__DataBase

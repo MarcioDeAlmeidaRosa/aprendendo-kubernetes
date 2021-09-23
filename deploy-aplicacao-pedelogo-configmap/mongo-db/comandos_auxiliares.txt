@@ -21,3 +21,6 @@ kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/api/deployment.yaml
 
 #aplicando o service para testar a execução da api
 kubectl apply -f ./deploy-aplicacao-pedelogo-configmap/api/service.yaml
+
+#validando do histórico de atualização do objeto deployment
+ kubectl rollout history deployment api-pedelogo-catalogo-deployment
