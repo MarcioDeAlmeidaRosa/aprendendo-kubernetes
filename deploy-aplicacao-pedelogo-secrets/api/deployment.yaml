@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-pedelogo-catalogo-secret-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api-pedelogo-catalogo-secret
+  template:
+    metadata:
+      labels:
+        app: api-pedelogo-catalogo-secret
+    spec:
+      containers:
+        - name: api-pedelogo-catalogo-secret
+          image: kubedevio/pedelogo-catalogo:v1.0.0
+          ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+          imagePullPolicy: Always
+          envFrom:
+           - configMapRef:
+               name: api-pedelogo-configmap
+          env:
+          - name: Mongo__Host
+            valueFrom:
+              configMapKeyRef:
+                key: Mongo__Host
+                name: api-pedelogo-configmap
+          #  value: "mongo-db-service"
+          - name: Mongo__User
+            valueFrom:
+              secretKeyRef:
+                key: MONGO_INITDB_ROOT_USERNAME
+                name: mongodb-secret
+            #value: "mongouserroot"
+          - name: Mongo__Password
+            valueFrom:
+              secretKeyRef:
+                key: MONGO_INITDB_ROOT_PASSWORD
+                name: mongodb-secret
+            #value: "mongopwdrroot"
+          - name: Mongo__Port
+            valueFrom:
+              configMapKeyRef:
+                key: Mongo__Port
+                name: api-pedelogo-configmap
+            #value: "27017"
+          - name: Mongo__DataBase
+            valueFrom:
+              configMapKeyRef:
+                key: Mongo__DataBase
+                name: api-pedelogo-configmap
+            #value: "admin"

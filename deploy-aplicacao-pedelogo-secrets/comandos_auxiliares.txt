@@ -1,0 +1,39 @@
+#gerando o valor de usuário em base 64 para colocar no arquivo secret
+echo -n "mongouserroot" | base64
+
+#gerando o valor de senha em base 64 para colocar no arquivo secret
+echo -n "mongopwdrroot" | base64
+
+#aplicando arquivo secret
+kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/mongo-db/mogodb-secret.yaml
+
+#listando os secrets
+kubectl get secret
+
+#visualizando conteúdo do secret
+kubectl describe secret mongodb-secret
+
+#aplicand deploy do banco com a alteração para recuperar valores da secret
+kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/mongo-db/deployment.yaml
+
+#aplicando service do banco
+kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/mongo-db/service.yaml
+
+#aplicando configmap
+kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/api/api-configmap.yaml
+
+#describe do configmap
+kubectl describe configmap api-pedelogo-configmap
+
+#listando os configMap
+kubectl get configMap
+
+#aplicando deploy da api utilizando o configmap
+kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/api/deployment.yaml
+
+#aplicando service da api
+kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/api/service.yaml
+
+
+#visualizando conteúdo do configMap
+kubectl describe configmap api-pedelogo-configmap

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-db-secret-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongo-db-secret
+  template:
+    metadata:
+      labels:
+        app: mongo-db-secret
+    spec:
+      containers:
+        - name: mongo-db-secret
+          image: mongo:5.0.3
+          ports:
+            - containerPort: 27017
+          envFrom:
+            - secretRef:
+                name: mongodb-secret
+          #env:
+          #- name: MONGO_INITDB_ROOT_USERNAME
+          #  value: mongouserroot
+          #- name: MONGO_INITDB_ROOT_PASSWORD
+          #  value: mongopwdrroot
+            
