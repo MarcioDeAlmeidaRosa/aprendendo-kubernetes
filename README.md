@@ -493,6 +493,15 @@ Semana 02
 			-> Secret: Controle por chave/valor, porém seu valor é armazenado em base64, garantidno assim um pouco de segurança, porém caso seja recuperado o conteúdo, nada impede de converter para string novamente para ser revelado seu valor.
 
 		* ConfigMap e Secrets com linha de comando
+		  -> Bastante utilizando, pois é possível criar ConfigMap/Secrets com base em arquivos 
+
+			-> ConfigMap
+			  * kubectl create configmap literal-configmap --from-literal=Mongo__Host=mongo-service
+			  * kubectl create configmap file-configmap --from-file=./configmap-secret-linha-de-comando/prometheus.yaml
+
+			-> Secrets
+			  * kubectl create secret generic literal-secret --from-literal=MONGO_PWD=mongopassword
+			  * kubectl create secret generic file-secret --from-file=./configmap-secret-linha-de-comando/password.txt
 
 		* Exercícios
 

@@ -34,6 +34,5 @@ kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/api/deployment.yaml
 #aplicando service da api
 kubectl apply -f ./deploy-aplicacao-pedelogo-secrets/api/service.yaml
 
-
 #visualizando conteúdo do configMap
 kubectl describe configmap api-pedelogo-configmap
