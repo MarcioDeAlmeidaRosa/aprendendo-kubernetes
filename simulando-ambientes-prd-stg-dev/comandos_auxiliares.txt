@@ -1,0 +1,9 @@
+#criando ambiente produção
+kubectl create namespace prd
+
+#criando ambiente stage
+kubectl create namespace stg
+
+#criando ambiente desenvolvimento
+kubectl create namespace dev
+
