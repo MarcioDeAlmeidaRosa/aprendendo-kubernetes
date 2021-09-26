@@ -52,3 +52,18 @@ echo -n "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveR
 kubectl apply -f ./simulando-ambientes-prd-stg-dev/desenvolvimento/database-secret.yaml
 kubectl apply -f ./simulando-ambientes-prd-stg-dev/desenvolvimento/database-config-map.yaml
 kubectl apply -f ./simulando-ambientes-prd-stg-dev/desenvolvimento/api-secret.yaml
+
+#aplicando manifesto de deployment do banco de dados no ambiente de desenvolvimento
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/deployment.yaml -n dev
+
+#aplicando manifesto de service do banco de dados no ambiente de desenvolvimento
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/service.yaml -n dev
+
+#aplicando o manifesto de deployment da api de agenda em ambiente de desenvolvimento
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/deployment.yaml -n dev
+
+#aplicando o manifesto de service da api de agenda em ambiente de desenvolvimento
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/service.yaml -n dev
+
+#executando teste ambiente desenvolvimento
+http://52.170.170.187/swagger/index.html
