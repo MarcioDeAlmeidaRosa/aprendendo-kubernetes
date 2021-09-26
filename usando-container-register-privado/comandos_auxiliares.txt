@@ -9,3 +9,6 @@ kubectl apply -f ./usando-container-register-privado/api/deployment.yaml
 
 #aplicando o service da api
 kubectl apply -f ./usando-container-register-privado/api/service.yaml
+
+#ambiente executando com register publico
+http://52.224.199.231/swagger/index.html
