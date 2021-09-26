@@ -96,3 +96,13 @@ kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/service.yaml -n stg
 
 #executando teste ambiente desenvolvimento
 http://52.188.92.115/swagger/index.html
+
+#deletando todos os recursos de um namespace com um único comando
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=api-agenda -n prd
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=sql-server -n prd
+
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=api-agenda -n dev
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=sql-server -n dev
+
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=api-agenda -n stg
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=sql-server -n stg
