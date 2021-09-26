@@ -25,3 +25,18 @@ kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/deployment.yam
 
 #aplicando manifesto de service do banco de dados no ambiente de produção
 kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/service.yaml -n prd
+
+#gerando secret para a api com dados do banco
+echo -n "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=SenhaAmbiente@Produtivo" | base64
+
+#aplicando scret da api em ambiente de produção
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/producao/api-secret.yaml
+
+#aplicando o manifesto de deployment da api de agenda em ambiente de produção
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/deployment.yaml -n prd
+
+#aplicando o manifesto de service da api de agenda em ambiente de produção
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/service.yaml -n prd
+
+#executando teste ambiente produção
+http://52.186.108.9/swagger/index.html

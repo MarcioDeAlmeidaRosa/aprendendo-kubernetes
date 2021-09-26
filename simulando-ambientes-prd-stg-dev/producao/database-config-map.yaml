@@ -7,3 +7,4 @@ metadata:
   namespace: prd
 data:
   ACCEPT_EULA: "Y"
+  Ambiente: Produtivo

@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-agenda-deployment
+  labels:
+    app: api-agenda
 spec:
   selector:
     matchLabels:
@@ -20,6 +22,14 @@ spec:
           - containerPort: 443
             name: https
           imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: api-agenda-secret
+            - configMapRef:
+                name: database-sql-configmap
           env:
-          - name: CONNECTION__CONNECTIONSTRINGS
-            value: "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word"
+          - name: Ambiente
+            valueFrom:
+              configMapKeyRef:
+                key: Ambiente
+                name: database-sql-configmap
