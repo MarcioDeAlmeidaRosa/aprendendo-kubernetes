@@ -1,0 +1,11 @@
+#criando configmap de forma literal
+kubectl create configmap literal-configmap --from-literal=Mongo__Host=mongo-service
+
+#criando configmap por linha de comando com base em umm arquivo
+kubectl create configmap file-configmap --from-file=./configmap-secret-linha-de-comando/prometheus.yaml
+
+#criando secret de forma literal
+kubectl create secret generic literal-secret --from-literal=MONGO_PWD=mongopassword
+
+#criando secret por linha de comando com base em umm arquivo
+kubectl create secret generic file-secret --from-file=./configmap-secret-linha-de-comando/password.txt
