@@ -42,6 +42,7 @@ kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/service.yaml -n prd
 http://52.186.108.9/swagger/index.html
 
 
+
 #gerando senha para ambiente de desenvolvimento
 echo -n "Desenvolvimento@SenhaAmbiente" | base64
 
@@ -67,3 +68,31 @@ kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/service.yaml -n dev
 
 #executando teste ambiente desenvolvimento
 http://52.170.170.187/swagger/index.html
+
+
+
+#gerando senha para ambiente de stage
+echo -n "Senha@Stage$Ambiente" | base64
+
+#gerando secret para a api com dados do banco
+echo -n "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Senha@Stage$Ambiente" | base64
+
+#aplicando o scret e config map no ambiente de stage
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/stage/database-secret.yaml
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/stage/database-config-map.yaml
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/stage/api-secret.yaml
+
+#aplicando manifesto de deployment do banco de dados no ambiente de stage
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/deployment.yaml -n stg
+
+#aplicando manifesto de service do banco de dados no ambiente de stage
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/service.yaml -n stg
+
+#aplicando o manifesto de deployment da api de agenda em ambiente de stage
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/deployment.yaml -n stg
+
+#aplicando o manifesto de service da api de agenda em ambiente de stage
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/api/service.yaml -n stg
+
+#executando teste ambiente desenvolvimento
+http://52.188.92.115/swagger/index.html

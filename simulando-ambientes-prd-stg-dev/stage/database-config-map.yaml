@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-sql-configmap
+  labels:
+    app: api-agenda
+  namespace: stg
+data:
+  ACCEPT_EULA: "Y"
+  Ambiente: Stage
