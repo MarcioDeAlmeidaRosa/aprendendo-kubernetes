@@ -12,3 +12,21 @@ kubectl apply -f ./usando-container-register-privado/api/service.yaml
 
 #ambiente executando com register publico
 http://52.224.199.231/swagger/index.html
+
+#register privado criado
+marctirepository.azurecr.io
+
+#gerando as tags para envio ao azure
+docker tag marcioalmeidarosa/api_agenda:1.0 marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:1.0
+docker tag marcioalmeidarosa/api_agenda:2.0 marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:2.0
+docker tag marcioalmeidarosa/api_agenda:latest marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest
+
+#efetuado login para envio
+docker login marctirepository.azurecr.io
+#digitado usuário
+#digitado senha
+
+#enviado as imagems para o repositório da azure
+docker marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:1.0
+docker marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:2.0
+docker marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest
