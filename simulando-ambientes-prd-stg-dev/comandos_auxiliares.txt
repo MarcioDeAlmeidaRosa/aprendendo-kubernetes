@@ -13,3 +13,15 @@ echo -n "SenhaAmbiente@Produtivo" | base64
 #aplicando o scret e config map no ambiente de produção
 kubectl apply -f ./simulando-ambientes-prd-stg-dev/producao/database-secret.yaml
 kubectl apply -f ./simulando-ambientes-prd-stg-dev/producao/database-config-map.yaml
+
+#listando secret do namespace de produção
+kubectl get secret -n prd
+
+#listando configmap do namespace de produção
+kubectl get configmap -n prd
+
+#aplicando manifesto de deployment do banco de dados no ambiente de produção
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/deployment.yaml -n prd
+
+#aplicando manifesto de service do banco de dados no ambiente de produção
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/src/sql-server/service.yaml -n prd

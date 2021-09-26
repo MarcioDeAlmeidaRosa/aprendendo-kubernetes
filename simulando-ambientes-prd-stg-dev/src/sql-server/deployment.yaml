@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sql-server-deployment
+  labels:
+    app: sql-server
 spec:
   selector:
     matchLabels:
@@ -12,21 +14,23 @@ spec:
         app: sql-server
     spec:
       containers:
-      - name: ql-server
+      - name: sql-server
         image: mcr.microsoft.com/mssql/server:2019-latest
         ports:
         - containerPort: 1433
         envFrom:
+          - secretRef:
+              name: database-sql-secret
           - configMapRef:
               name: database-sql-configmap
         env:
-        - name: SA_PASSWORD
-          valueFrom:
-            secretKey:
-              key: SA_PASSWORD
-              name: database-sql-secret
+        #- name: SA_PASSWORD
+        #  valueFrom:
+        #    secretKey:
+        #      key: SA_PASSWORD
+        #      name: database-sql-secret
         - name: ACCEPT_EULA
           valueFrom:
-            configMapRefKey:
+            configMapKeyRef:
               key: ACCEPT_EULA
               name: database-sql-configmap
