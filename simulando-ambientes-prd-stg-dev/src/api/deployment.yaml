@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-agenda-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api-agenda
+  template:
+    metadata: 
+      labels:
+        app: api-agenda
+    spec:
+      containers:
+        - name: api-agenda
+          image: marcioalmeidarosa/api_agenda:latest
+          ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+          imagePullPolicy: Always
+          env:
+          - name: CONNECTION__CONNECTIONSTRINGS
+            value: "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word"

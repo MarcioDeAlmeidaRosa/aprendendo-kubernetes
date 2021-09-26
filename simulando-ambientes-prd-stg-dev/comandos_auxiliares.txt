@@ -7,3 +7,9 @@ kubectl create namespace stg
 #criando ambiente desenvolvimento
 kubectl create namespace dev
 
+#gerando senha para ambiente de produção
+echo -n "SenhaAmbiente@Produtivo" | base64
+
+#aplicando o scret e config map no ambiente de produção
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/producao/database-secret.yaml
+kubectl apply -f ./simulando-ambientes-prd-stg-dev/producao/database-config-map.yaml
