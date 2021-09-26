@@ -1,0 +1,11 @@
+#aplicando deploy do sql server
+kubectl apply -f ./usando-container-register-privado/sql-server/deployment.yaml
+
+#aplicando service do sql server
+kubectl apply -f ./usando-container-register-privado/sql-server/service.yaml
+
+#aplicando o deployment da aplicacao
+kubectl apply -f ./usando-container-register-privado/api/deployment.yaml
+
+#aplicando o service da api
+kubectl apply -f ./usando-container-register-privado/api/service.yaml
