@@ -39,3 +39,14 @@ kubectl describe pod api-agenda-deployment-6c564996b5-sjjwr
 
 #erro gerado pela tentativa
 Warning  Failed     42s (x3 over 87s)  kubelet            Failed to pull image "marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest": rpc error: code = Unknown desc = failed to pull and unpack image "marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest": failed to resolve reference "marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest": failed to authorize: failed to fetch anonymous token: unexpected status: 401 Unauthorized
+
+
+#criando secret para autenticação do cluster para usar a imagem do register privado
+kubectl create secret docker-registry arc-azure --docker-server=marctirepository.azurecr.io --docker-username=marctirepository --docker-password=XuxaXuxaXuxaXuxaXuxaXuxa --docker-email=marcio.almeida.rosa@gmail.com
+
+#aplico noavamente após configurar imagePullSecrets no manifesto de deployment
+kubectl apply -f ./usando-container-register-privado/api/deployment.yaml
+
+#api executando novamente 
+http://52.224.199.231/swagger/index.html
+

@@ -26,3 +26,5 @@ spec:
           env:
           - name: CONNECTION__CONNECTIONSTRINGS
             value: "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word"
+      imagePullSecrets:
+        - name: arc-azure

@@ -509,6 +509,8 @@ Semana 02
 Semana 03
 	Trabalhando com repositórios privados
 		* Utilizando o Azure Container Registry como repositório privado no Kubernetes
+		  -> permite utilizar outros register privados ou não para executar container 
+		  
 		* Exercícios
 
 	Self Healing em seus Pods
