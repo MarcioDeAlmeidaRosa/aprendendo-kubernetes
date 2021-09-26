@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-sql-configmap
+  labels:
+    app: api-agenda
+  namespace: dev
+data:
+  ACCEPT_EULA: "Y"
+  Ambiente: Desenvolvimento
