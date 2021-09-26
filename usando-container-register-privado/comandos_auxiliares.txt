@@ -30,3 +30,12 @@ docker login marctirepository.azurecr.io
 docker marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:1.0
 docker marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:2.0
 docker marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest
+
+#trocando o endereço da imagem para usar o azure register e reaplicando o deployment da api
+kubectl apply -f ./usando-container-register-privado/api/deployment.yaml
+
+#acessando o pod para verificar erro
+kubectl describe pod api-agenda-deployment-6c564996b5-sjjwr
+
+#erro gerado pela tentativa
+Warning  Failed     42s (x3 over 87s)  kubelet            Failed to pull image "marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest": rpc error: code = Unknown desc = failed to pull and unpack image "marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest": failed to resolve reference "marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest": failed to authorize: failed to fetch anonymous token: unexpected status: 401 Unauthorized

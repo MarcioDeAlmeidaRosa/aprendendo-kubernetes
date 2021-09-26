@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: api-agenda
-          image: marcioalmeidarosa/api_agenda:latest
+          #image: marcioalmeidarosa/api_agenda:latest
+          image: marctirepository.azurecr.io/marcioalmeidarosa/api_agenda:latest
           ports:
           - containerPort: 80
             name: http
