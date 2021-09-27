@@ -510,11 +510,21 @@ Semana 03
 	Trabalhando com repositórios privados
 		* Utilizando o Azure Container Registry como repositório privado no Kubernetes
 		  -> permite utilizar outros register privados ou não para executar container 
-		  
+
 		* Exercícios
 
 	Self Healing em seus Pods
-	Startup, Readiness, Liveness Probes
+		* Startup, Readiness, Liveness Probes
+		  -> Eecursos para evitar downtime na aplicação
+
+		  -> Startup Probes: utilizado em container que demoram mais para inicializar, evita do "Liveness" executar no momento de subida da aplicação. Importante ter esta configuração para não gerar o problema onde o kubernetes ao executar "Liveness" e receber que a aplicação não esta OK, reestartar o container, causando assim a situação deste container nunca subir.
+
+		  -> Readiness Probes: verifica se o container esta pronto para receber requisições, não necessariamente o container não está saudável, remove o bind do service "via endpoints" até retornar que esta pronto para chamada.
+		  Se api estiver no gargalo dela, aqui que informa que ela não esta pronta, desta forma o conteiner continua ativo processando a carga de trabalho que já esta sendo processada nele, e o kubernetes aguarda a aplicação dizer que esta pronta para novas requisições novamente.
+
+		  -> Liveness Probes: verificar sempre a saúde do container -> endpoint de healthcheck -> reestarta quando não saudável.
+
+
 	Gerenciamento de Recursos da sua Aplicação e dos Ambientes
 	Resource Request e Resource Limits
 	Horizontal Pod Autoscaler
