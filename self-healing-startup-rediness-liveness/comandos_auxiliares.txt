@@ -1,0 +1,14 @@
+#criando secret no scaleway
+kubectl create secret docker-registry arc-scw-marc-suporte-ti --docker-server=rg.fr-par.scw.cloud/marc-suporte-ti --docker-password=XuxaXuxaXuxaXuxaXuxaXuxa --docker-email=marcio.almeida.rosa@gmail.com
+
+#criando namespace
+kubectl create namespace testando-health
+
+#gerando senha base 64 para o secret do banco
+echo -n "Pass@word" | base64
+
+#executando deploy do meu deployment, service e secret de sql server
+kubectl apply -f ./self-healing-startup-rediness-liveness/sql-server/.
+
+#executando deploy do meu deployment, service e secret da api
+kubectl apply -f ./self-healing-startup-rediness-liveness/api/.
