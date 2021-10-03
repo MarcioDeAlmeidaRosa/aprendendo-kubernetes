@@ -3,3 +3,6 @@ kubectl apply -f ./self-healing-startup-rediness-liveness-2/. -R
 
 #acessando seagger
 http://51.159.115.10/swagger/index.html
+
+#deletando todos os recursos de uma vez
+kubectl delete -f ./self-healing-startup-rediness-liveness-2/. -R
