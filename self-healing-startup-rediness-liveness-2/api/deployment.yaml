@@ -22,6 +22,15 @@ spec:
         envFrom:
           - configMapRef:
               name: api-configmap
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 80
+            scheme: HTTP
+          failureThreshold: 5
+          successThreshold: 1
+          periodSeconds: 3
+          initialDelaySeconds: 0
         env:
           - name: Mongo__User
             valueFrom:
