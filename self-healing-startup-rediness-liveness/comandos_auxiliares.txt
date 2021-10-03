@@ -16,3 +16,8 @@ kubectl apply -f ./self-healing-startup-rediness-liveness/api/.
 
 #reaplicando todos os manifestos de forma recursiva
 kubectl apply -f ./self-healing-startup-rediness-liveness/. -R
+
+
+#deletando todos os recursos de um namespace com um único comando
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=api-agenda -n testando-health
+kubectl delete pods,rs,deploy,svc,cm,ing -l app=sql-server -n testando-health
