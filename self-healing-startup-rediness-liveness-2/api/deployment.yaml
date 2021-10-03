@@ -18,7 +18,7 @@ spec:
         image: kubedevio/pedelogo-catalogo:v1.0.0
         ports:
         - containerPort: 80
-        imagePullPolicy: Always        
+        imagePullPolicy: Always
         envFrom:
           - configMapRef:
               name: api-configmap
@@ -31,6 +31,24 @@ spec:
           successThreshold: 1
           periodSeconds: 3
           initialDelaySeconds: 0
+        readinessProbe:
+          httpGet:
+            path: /read
+            port: 80
+            scheme: HTTP
+          failureThreshold: 2
+          successThreshold: 1
+          periodSeconds: 2
+          initialDelaySeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+            scheme: HTTP
+          failureThreshold: 3
+          successThreshold: 1
+          periodSeconds: 5
+          initialDelaySeconds: 3
         env:
           - name: Mongo__User
             valueFrom:
