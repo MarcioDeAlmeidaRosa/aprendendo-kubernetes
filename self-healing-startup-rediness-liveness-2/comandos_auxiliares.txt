@@ -1,0 +1,2 @@
+#reaplicando todos os manifestos de forma recursiva
+kubectl apply -f ./self-healing-startup-rediness-liveness-2/. -R
