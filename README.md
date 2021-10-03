@@ -515,7 +515,7 @@ Semana 03
 
 	Self Healing em seus Pods
 		* Startup, Readiness, Liveness Probes
-		  -> Eecursos para evitar downtime na aplicação
+		  -> Recursos para evitar downtime na aplicação
 
 		  -> Startup Probes: utilizado em container que demoram mais para inicializar, evita do "Liveness" executar no momento de subida da aplicação. Importante ter esta configuração para não gerar o problema onde o kubernetes ao executar "Liveness" e receber que a aplicação não esta OK, reestartar o container, causando assim a situação deste container nunca subir.
 

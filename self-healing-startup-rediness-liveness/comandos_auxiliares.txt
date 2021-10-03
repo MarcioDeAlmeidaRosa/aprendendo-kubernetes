@@ -8,7 +8,11 @@ echo -n "Pass@word" | base64
 kubectl apply -f ./self-healing-startup-rediness-liveness/sql-server/.
 
 #criando secret no scaleway
+https://www.scaleway.com/en/docs/compute/kubernetes/how-to/deploy-image-from-container-registry/
 kubectl create secret docker-registry arc-scw-marc-suporte-ti --docker-server=rg.fr-par.scw.cloud/marc-suporte-ti --docker-username="Marcio de Almeida Rosa" --docker-password=XuxaXuxaXuxaXuxaXuxaXuxa --docker-email=marcio.almeida.rosa@gmail.com -n testando-health
 
 #executando deploy do meu deployment, service e secret da api
 kubectl apply -f ./self-healing-startup-rediness-liveness/api/.
+
+#reaplicando todos os manifestos de forma recursiva
+kubectl apply -f ./self-healing-startup-rediness-liveness/. -R

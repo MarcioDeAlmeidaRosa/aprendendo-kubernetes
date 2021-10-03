@@ -24,6 +24,22 @@ spec:
           - containerPort: 443
             name: https
           imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 2
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10
+            timeoutSeconds: 1            
+            
+          #livenessProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: 80
+          #    scheme: HTTP
           env:
           - name: CONNECTION__CONNECTIONSTRINGS
             value: "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word"
