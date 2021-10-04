@@ -6,7 +6,7 @@ metadata:
     app: api-agenda
   namespace: testando-health
 spec:
-  replicas: 10
+  replicas: 3
   selector:
     matchLabels:
       app: api-agenda
@@ -42,10 +42,10 @@ spec:
               path: /health/ready
               port: 80
               scheme: HTTP
-            initialDelaySeconds: 2
-            failureThreshold: 3
+            initialDelaySeconds: 1
+            failureThreshold: 2
             successThreshold: 1
-            periodSeconds: 2
+            periodSeconds: 1
             timeoutSeconds: 1
           startupProbe:
             httpGet:
@@ -61,6 +61,6 @@ spec:
           - name: CONNECTION__CONNECTIONSTRINGS
             value: "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word"
           - name: MemoryCheckOptions__Threshold
-            value: "24452864"
+            value: "84217728"
       imagePullSecrets:
         - name: arc-scw-marc-suporte-ti
