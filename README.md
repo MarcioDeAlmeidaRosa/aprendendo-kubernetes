@@ -526,12 +526,20 @@ Semana 03
 
 
 	Gerenciamento de Recursos da sua Aplicação e dos Ambientes
-	Resource Request e Resource Limits
-	Horizontal Pod Autoscaler
-	Kubernetes Quality of Service (QoS)
-	Resources na nossa Aplicação
-	LimitRange
-	Resource Quota
+		* Resource Request e Resource Limits
+		  -> ajuda a proteger nossa aplicação e o cluster kubernetes, pois nos possibilita utilizar 
+		     consumo de recurso mínimo (Resource Request) e máximo para a aplicação (Resource Limits)
+
+		* Horizontal Pod Autoscaler
+
+		* Kubernetes Quality of Service (QoS)
+
+		* Resources na nossa Aplicação
+
+		* LimitRange
+
+		* Resource Quota
+
 	O Ciclo de Vida de um Pod
 	Introdução
 	Signal SIGTERM e Signal SIGKILL

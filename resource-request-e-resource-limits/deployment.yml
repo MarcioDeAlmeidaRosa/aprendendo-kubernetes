@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulacao-consumo-deployment
+  labels:
+    app: simulador-consumo
+  namespace: teste-recurso
+spec:
+  selector:
+    matchLabels:
+      app: simulador-consumo
+  template:
+    metadata:
+      labels:
+        app: simulador-consumo
+    spec:
+      containers:
+        - name: simulador-consumo
+          image: gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          command:
+            - "/consumer"
+            - "-port"
+            - "8080"
+          ports:
+          - containerPort: 8080
