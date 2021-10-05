@@ -1,9 +1,17 @@
 #comando para verificar consumo de memória e cpu de um pod
 kubectl top pods -n testando-health --use-protocol-buffers
 
+#criando namespace para aplicar os testes
 kubectl create namespace teste-recurso
 
 #comando para rodar aplicação para simular consumo de recurso
 kubectl apply -f ./resource-request-e-resource-limits/. -R
 
+#repositório da imagem
 https://github-com.translate.goog/kubernetes/kubernetes/tree/master/test/images/resource-consumer?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt-BR&_x_tr_pto=nui,sc
+
+#subindo consumo de cpu da aplicação
+curl --data "millicores=501&durationSec=60" http://51.159.9.173/ConsumeCPU
+
+#subindo consumo de memória da aplicação
+curl --data "megabytes=30&durationSec=600" http://51.159.9.173/ConsumeMem

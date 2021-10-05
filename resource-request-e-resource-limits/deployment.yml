@@ -18,9 +18,12 @@ spec:
         - name: simulador-consumo
           image: gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4
           resources:
+            requests:
+              memory: "10Mi"   # 10MB
+              cpu: "100m"      # 1000m = 1 core de cpu | 100m = 10% de 1 core de cpu
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "100Mi"  # 100MB
+              cpu: "500m"      # 1000m = 1 core de cpu | 100m = 50% de 1 core de cpu
           command:
             - "/consumer"
             - "-port"
