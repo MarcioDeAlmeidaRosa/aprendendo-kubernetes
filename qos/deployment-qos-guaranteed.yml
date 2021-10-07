@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-qos-guaranteed
+  labels:
+    app: qos-guaranteed
+  namespace: teste-qos
+spec:
+  selector:
+    matchLabels:
+      app: qos-guaranteed
+  template:
+    metadata:
+      labels:
+        app: qos-guaranteed
+    spec:
+      containers:
+        - name: qos-guaranteed
+          image: gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4
+          resources:
+            requests:
+              memory: "100Mi"  # 100MB
+              cpu: "500m"      # 1000m = 1 core de cpu | 100m = 50% de 1 core de cpu
+            limits:
+              memory: "100Mi"  # 100MB
+              cpu: "500m"      # 1000m = 1 core de cpu | 100m = 50% de 1 core de cpu
+          command:
+            - "/consumer"
+            - "-port"
+            - "8080"
+          ports:
+          - containerPort: 8080

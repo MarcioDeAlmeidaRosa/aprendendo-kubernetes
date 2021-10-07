@@ -534,6 +534,22 @@ Semana 03
 		  -> recurso para escalar um alvo (deployment entre outros) de acordo com o critério informa
 
 		* Kubernetes Quality of Service (QoS)
+		  -> determina a prioridade para o kubernetes na hora de eliminar pods em execução para garantir a estabilidade do ambiente.
+		  -> temos as seguintes prioridade (ordem de prioridade) e como configura-las:
+		    -> Guaranteed: 
+			               * de maior prioridade para o kubernetes, em caso de necessidade, pods configurado com este QoS serão os últimos
+			                 a ser eliminados.
+						   * para configurar um pod neste QoS, basta configurar seu (Resource Request e Resource Limits) com os mesmos valores.
+			-> Burstable:
+			               * de prioridade intermediária para o kubernetes, em caso de necessidade, pods configurado com este QoS serão de segunda prioridade para ser eliminados
+						   * para configurar um pod neste QoS, basta configurar seu (Resource Request e Resource Limits) com a valores de request inferiores aos valores de limite.
+			-> Best-Effort
+			               * de menor prioridade para o kubernetes, em caso de necessidade, pods configurado com este QoS serão os primeiros a ser eliminados.
+						   * para configurar um pod neste QoS, basta não configurar seu (Resource Request e Resource Limits).
+
+			Materia para auxilar entendimento:
+			https://medium.com/google-cloud/quality-of-service-class-qos-in-kubernetes-bb76a89eb2c6#:~:text=For%20each%20resource%2C%20Kubernetes%20divide,in%20decreasing%20order%20of%20priority.
+
 
 		* Resources na nossa Aplicação
 

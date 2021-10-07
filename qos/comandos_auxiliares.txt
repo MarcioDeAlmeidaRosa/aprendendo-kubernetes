@@ -1,0 +1,6 @@
+#criando namespace
+kubectl create namespace teste-qos
+
+#aplicando os manifestos para teste de Quality of Service (QoS)
+kubectl apply -f ./qos/. -R
+
