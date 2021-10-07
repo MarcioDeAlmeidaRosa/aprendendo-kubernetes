@@ -4,8 +4,11 @@ kubectl create namespace teste-hpa
 #aplicando os manifestos para este teste
 kubectl apply -f ./hpa/. -R
 
-#subindo o consumo de CPU para teste
-curl --data "millicores=501&durationSec=60" http://51.159.26.133/ConsumeCPU
+#verifica consumo dos pods
+kubectl top pods -n teste-hpa
 
 #consulta hpa em execução
-kubectl get hpa
+kubectl get hpa -n teste-hpa
+
+#subindo o consumo de CPU para teste
+curl --data "millicores=10&durationSec=120" http://51.159.8.37/ConsumeCPU
