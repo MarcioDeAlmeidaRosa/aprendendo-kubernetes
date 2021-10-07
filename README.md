@@ -531,6 +531,7 @@ Semana 03
 		     consumo de recurso mínimo (Resource Request) e máximo para a aplicação (Resource Limits)
 
 		* Horizontal Pod Autoscaler
+		  -> recurso para escalar um alvo (deployment entre outros) de acordo com o critério informa
 
 		* Kubernetes Quality of Service (QoS)
 

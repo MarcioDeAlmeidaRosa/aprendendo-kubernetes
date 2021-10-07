@@ -1,0 +1,8 @@
+#criando namespace
+kubectl create namespace teste-hpa
+
+#aplicando os manifestos para este teste
+kubectl apply -f ./hpa/. -R
+
+#consulta hpa em execução
+kubectl get hpa
