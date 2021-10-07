@@ -1,0 +1,12 @@
+#gerando chaves para banco de dados
+echo -n "Pass@word" | base64
+echo -n "Y" | base64
+
+#criando namespace
+kubectl create namespace agenda
+
+#aplicando serviços
+kubectl apply -f ./self-healing-com-qos/sql-server/. -R
+
+
+kubectl apply -f ./self-healing-com-qos/sql-server/. -R

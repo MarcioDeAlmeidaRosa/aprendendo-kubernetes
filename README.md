@@ -550,7 +550,6 @@ Semana 03
 			Materia para auxilar entendimento:
 			https://medium.com/google-cloud/quality-of-service-class-qos-in-kubernetes-bb76a89eb2c6#:~:text=For%20each%20resource%2C%20Kubernetes%20divide,in%20decreasing%20order%20of%20priority.
 
-
 		* Resources na nossa Aplicação
 
 		* LimitRange
