@@ -6,12 +6,21 @@ echo -n "Y" | base64
 kubectl create namespace agenda
 
 #aplicando serviços
-kubectl apply -f ./self-healing-com-qos/api/. -R
+kubectl apply -f ./self-healing-com-qos/. -R
 
 #comando para verificar consumo de um pode
-kubectl top pod db-api-agenda-deployment-75d69b8f54-lmhjs -n agenda --use-protocol-buffers
+kubectl top pod -n agenda --use-protocol-buffers
 
 kubectl delete pods,rs,deploy,svc,cm,ing,secret -n agenda -l "app=api-agenda"
 
 #criando secret para api
 echo -n "Server=db-api-agenda-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=AquiVai-MinhaSenha" | base64
+
+#verificando hpa para namespace agenda
+kubectl get hpa -n agenda
+
+#loop de execução para monitorar consumo de recurso do pod
+sh -c 'for run in $(seq 1 1000); do kubectl top pod -n agenda --use-protocol-buffers; done'
+
+#monitorando hpa
+sh -c 'for run in $(seq 1 1000); do kubectl get hpa -n agenda; done'
