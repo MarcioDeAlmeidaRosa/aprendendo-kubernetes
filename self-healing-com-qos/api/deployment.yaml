@@ -23,6 +23,13 @@ spec:
           - containerPort: 443
             name: https
           imagePullPolicy: Always
-
-        
-  
+          envFrom:
+            - secretRef:
+                name: secret-api-agenda
+          resources:
+            requests:
+              memory: "10Mi"   # 10MB
+              cpu: "100m"      # 1000m = 1 core de cpu | 100m = 10% de 1 core de cpu
+            limits:
+              memory: "100Mi"  # 100MB
+              cpu: "500m"      # 1000m = 1 core de cpu | 100m = 50% de 1 core de cpu

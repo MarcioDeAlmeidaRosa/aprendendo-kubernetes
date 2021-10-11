@@ -1,12 +1,17 @@
 #gerando chaves para banco de dados
-echo -n "Pass@word" | base64
+echo -n "AquiVai-MinhaSenha" | base64
 echo -n "Y" | base64
 
 #criando namespace
 kubectl create namespace agenda
 
 #aplicando serviços
-kubectl apply -f ./self-healing-com-qos/sql-server/. -R
+kubectl apply -f ./self-healing-com-qos/api/. -R
 
+#comando para verificar consumo de um pode
+kubectl top pod db-api-agenda-deployment-75d69b8f54-lmhjs -n agenda --use-protocol-buffers
 
-kubectl apply -f ./self-healing-com-qos/sql-server/. -R
+kubectl delete pods,rs,deploy,svc,cm,ing,secret -n agenda -l "app=api-agenda"
+
+#criando secret para api
+echo -n "Server=db-api-agenda-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=AquiVai-MinhaSenha" | base64

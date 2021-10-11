@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-api-agenda-service
+  labels:
+    app: api-agenda
+  namespace: agenda
+spec:
+  selector:
+    app: db-api-agenda
+  ports:
+    - port: 1433
+      targetPort: 1433
+      name: tcp
+  type: ClusterIP
+  #type: LoadBalancer
