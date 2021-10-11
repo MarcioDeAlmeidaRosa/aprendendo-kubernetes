@@ -24,3 +24,9 @@ sh -c 'for run in $(seq 1 1000); do kubectl top pod -n agenda --use-protocol-buf
 
 #monitorando hpa
 sh -c 'for run in $(seq 1 1000); do kubectl get hpa -n agenda; done'
+
+#acessando o container do pod
+kubectl -n agenda exec -it pod/api-agenda-deployment-846b575956-fxzld  -- ../../bin/sh
+
+#acompanhando aplicação de deployment
+sh -c 'for run in $(seq 1 1000); do kubectl get deployment api-agenda-deployment -n agenda; done'

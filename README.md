@@ -551,6 +551,7 @@ Semana 03
 			https://medium.com/google-cloud/quality-of-service-class-qos-in-kubernetes-bb76a89eb2c6#:~:text=For%20each%20resource%2C%20Kubernetes%20divide,in%20decreasing%20order%20of%20priority.
 
 		* Resources na nossa Aplicação
+		  -> conforme configuramos os recursos em nossos manifestos e aplicamos no ambiente, o recurso configurado é reservado na máquina e quando a somatória de todos os recursos reservados de todos os manifestos aplicado no kubernetes atinge o limite físico da máquina, os containers que não foram iniciados ficam com o status de pendente, pois não há recurso para ser fornecido aos novos containers.
 
 		* LimitRange
 

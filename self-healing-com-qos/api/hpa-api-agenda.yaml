@@ -6,8 +6,8 @@ metadata:
     app: api-agenda
   namespace: agenda
 spec:
-  minReplicas: 1
-  maxReplicas: 10
+  minReplicas: 2
+  maxReplicas: 6 #máquina de 4 cores (1core para banco, e 6 api consumindo 0,5 core cada uma)
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
