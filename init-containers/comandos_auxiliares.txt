@@ -1,2 +1,5 @@
 #aplicando deployment com init container com sucesso
 kubectl apply -f ./init-containers/deployment-initcontainers-sucesso-exec.yaml
+
+#aplicando deployment com init container com erro
+kubectl apply -f ./init-containers/deployment-initcontainers-erro-exec.yaml
