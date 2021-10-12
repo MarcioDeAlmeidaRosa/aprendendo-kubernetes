@@ -561,10 +561,40 @@ Semana 03
 		  -> permite configuração máxima de recurso por namespace (ambiente), não permitindo assim roubo de recurso de um ambiente do outro
 
 	O Ciclo de Vida de um Pod
-	Introdução
-	Signal SIGTERM e Signal SIGKILL
-	Post Start e Pré Stop
-	Init Container
+
+		* Introdução
+
+		  Estados de um pod: (https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
+		    
+			-> Pending   -> O pod foi aceito pelo cluster do Kubernetes, mas um ou mais dos contêineres não foram configurados e preparados para execução. Isso inclui o tempo que um pod gasta esperando para ser agendado, bem como o tempo gasto no download de imagens de contêiner pela rede.
+
+		    -> Running   -> O pod foi vinculado a um nó e todos os contêineres foram criados. Pelo menos um contêiner ainda está em execução ou está em processo de inicialização ou reinicialização.
+
+		    -> Succeeded -> Todos os contêineres no pod foram encerrados com sucesso e não serão reiniciados.
+
+		    -> Failed    -> Todos os contêineres no pod foram encerrados e pelo menos um contêiner encerrou com falha. Ou seja, o contêiner saiu com status diferente de zero ou foi encerrado pelo sistema.
+
+		    -> Unknown   -> Por algum motivo, o estado do pod não pôde ser obtido. Essa fase normalmente ocorre devido a um erro na comunicação com o nó em que o pod deve estar em execução.
+
+		  Estado de um container
+		    -> Waiting    -> Se um contêiner não estiver no estado Running ou Terminated, ele está Waiting. Um contêiner no estado Waiting ainda está executando as operações necessárias para concluir a inicialização: por exemplo, puxar a imagem do contêiner de um registro de imagem do contêiner ou aplicar Segredo dados. Quando você usa kubectl para consultar um pod com um contêiner ou seja Waiting, também vê um campo Motivo para resumir por que o contêiner está nesse estado.
+
+		    -> Running    -> O status Running indica que um contêiner está executando sem problemas. Se houver um hook postStart configurado, ele já foi executado e finalizado. Ao consultar kubectl um pod com um contêiner, ou seja Running, você também vê informações sobre quando o contêiner entrou no estado Running.
+
+		    -> Terminated -> Um contêiner no estado Terminated começou a ser executado e foi executado até a conclusão ou falhou por algum motivo. Ao consultar kubectl um pod com um contêiner, isto é Terminated, você vê um motivo, um código de saída e o horário de início e término do período de execução desse contêiner.
+
+			Se um contêiner tiver um hook preStop configurado, ele será executado antes de o contêiner entrar no estado Terminated.
+
+		  Todos esses estados é possível ver com o kubectl describe pod
+
+
+		* Signal SIGTERM e Signal SIGKILL
+
+		* Post Start e Pré Stop
+
+		* Init Container
+
+
 	Lidando com volumes no Kubernetes
 	Introdução
 	Criando um Volume HostPath
