@@ -3,3 +3,15 @@ kubectl apply -f ./limit-range/deployment-nginx.yaml
 
 #aplicando limit rang
 kubectl apply -f ./limit-range/limit-range.yaml
+
+#deletando deployment para aplicar com os valores default acima do máquimo permitido
+kubectl delete -f ./limit-range/deployment-nginx.yaml
+
+#verificar que foi criado o deployment, porém não esta em execução
+kubectl get deployment
+
+#verificando deployment
+ kubectl describe deployment nginx
+
+ #verificando erro na criação do replicaset
+ kubectl describe replicaset nginx
