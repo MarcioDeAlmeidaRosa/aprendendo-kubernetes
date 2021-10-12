@@ -1,0 +1,8 @@
+#aplicando api para ver o problema com a falta de conexão com o banco acontecendo
+kubectl apply -f ./init-containers-dependencia/api/
+
+#verificando log do container principal do pod
+kubectl logs api-deployment-84c76dcc8b-s6xnt
+
+#verificando o log do container específico de inicialização do pod
+kubectl logs api-deployment-686c86475f-cbcgv -c init-pod
