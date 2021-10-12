@@ -13,5 +13,8 @@ kubectl apply -f ./resource-quota/. -R
 #validando o motivo de não aumentar o número de pods
 kubectl describe replicaset nginx
 
+#aplicando controle de quantidade de pods no ambiente
+kubectl apply -f ./resource-quota/resource-quota-pods-limit.yaml
+
 #deletando estrutura criada
 kubectl delete pods,rs,deploy,svc,cm,ing,secret,hpa,limits,quota -l "app=nginx"
