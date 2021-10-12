@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: condicao-inicial
+          image: kubedevio/ubuntu-curl:v1
+          command:
+            - "curl"
+            - "-X"
+            - "POST"
+            - "http://pruu.herokuapp.com/dump/initcontainer"
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              cpu: "1000m"
+              memory: "1Gi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "curl"
+                  - "-X"
+                  - "POST"
+                  - "http://pruu.herokuapp.com/dump/lifecyclestart"
+            preStop:
+              exec:
+                command:
+                  - "curl"
+                  - "-X"
+                  - "POST"
+                  - "https://pruu.herokuapp.com/dump/lifecyclestop"

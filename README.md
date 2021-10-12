@@ -613,6 +613,10 @@ Semana 03
 			   -> http get
 
 		* Init Container
+		    -> Permite adicionar execução de outros container (somente) na inicialização do pod, todos devem ter sua conclusão com suceosso para que o pod seja iniciado com sucesso, usado para fazer um pré-processamento/verificação necessário antes do início do Pod principal.
+		      -> Duas formas de disparar este evento:
+			   -> comando exec
+			   -> http get
 
 
 	Lidando com volumes no Kubernetes
