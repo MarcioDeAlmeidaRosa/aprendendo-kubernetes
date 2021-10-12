@@ -1,0 +1,2 @@
+#aplicando deployment
+kubectl apply -f ./post-start-e-pre-stop/deployment-lifecycle-exec.yaml
