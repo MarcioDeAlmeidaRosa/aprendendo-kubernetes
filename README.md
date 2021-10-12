@@ -590,7 +590,15 @@ Semana 03
 
 		* Signal SIGTERM e Signal SIGKILL
 
-		* Post Start e Pré Stop
+		  -> Eventos de comandos disparados pelo sistema operacional/orquestrador para encerrar o processo/pod. (https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-terminating-with-grace)
+
+		    -> Signal SIGTERM (kill / kill all): avisa o container para que ele se prepare para ser encerrado, o tempo padrão entre Signal SIGTERM e Signal SIGKILL é de 30 segundos, isso pode ser configurado na sua aplicação ("terminationGracePeriodSeconds" configuração no pod).
+
+			-> Signal SIGKILL (kill -9): termina imediatamente a execução de um pod/container em execução
+
+			-> Linguagens de programação possuem eventos para tratar o Signal SIGTERM e Signal SIGKILL
+
+		* Post Start e Pré Stop hooks
 
 		* Init Container
 
