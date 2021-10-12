@@ -600,6 +600,18 @@ Semana 03
 
 		* Post Start e Pré Stop hooks
 
+		  -> Eventos para melhorar o tratamento do ciclo de vida de um container.
+
+		    -> Post Start hook: disparado em paralelo a inicialização do container, é preciso um código de execução de sucesso para sair do estado Waiting, ou se não, irá encerrar o container por erro.
+			 -> Duas formas de disparar este evento:
+			   -> comando exec
+			   -> http get
+
+			-> Stop hooks hook: disparado no momento antes do (Signal SIGTERM), pode usar ele caso a linguagem não tenta tratamento para o evento (Signal SIGTERM).
+			 -> Duas formas de disparar este evento:
+			   -> comando exec
+			   -> http get
+
 		* Init Container
 
 
