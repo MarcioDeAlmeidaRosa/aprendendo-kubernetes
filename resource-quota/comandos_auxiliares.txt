@@ -1,0 +1,17 @@
+#aplicando manifesto de deployment do nginx
+kubectl apply -f ./resource-quota/deployment-nginx.yaml
+
+#aumentando replicas do deployment sem ter um limte para resgrardar o ambiente
+kubectl scale deployment nginx --replicas 10
+
+#aplicando controle de consumo no ambiente
+kubectl apply -f ./resource-quota/resource-quota.yaml
+
+#aplicando todos os recursos atualizados
+kubectl apply -f ./resource-quota/. -R
+
+#validando o motivo de não aumentar o número de pods
+kubectl describe replicaset nginx
+
+#deletando estrutura criada
+kubectl delete pods,rs,deploy,svc,cm,ing,secret,hpa,limits,quota -l "app=nginx"

@@ -558,6 +558,7 @@ Semana 03
 		  -> Só afeta validações executadas depois da sua aplicação, não valida apply anteriores a aplicação deste recurso.
 
 		* Resource Quota
+		  -> permite configuração máxima de recurso por namespace (ambiente), não permitindo assim roubo de recurso de um ambiente do outro
 
 	O Ciclo de Vida de um Pod
 	Introdução

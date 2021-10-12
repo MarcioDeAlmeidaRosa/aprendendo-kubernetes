@@ -15,3 +15,6 @@ kubectl get deployment
 
  #verificando erro na criação do replicaset
  kubectl describe replicaset nginx
+
+#deletando estrutura criada
+ kubectl delete pods,rs,deploy,svc,cm,ing,secret,hpa,limits -l "app=nginx"
