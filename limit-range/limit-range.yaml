@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limit-range-containers
+  labels:
+    app: nginx
+spec:
+  limits:
+    - max: #valida configuração máxima aceitável nos manifestos quando for configurado
+        cpu: "800m"
+        memory: "900Mi"
+      min: #valida configuração mínima aceitável nos manifestos quando for configurado
+        cpu: "150m"
+        memory: "99Mi"
+      default: #atribui valores padrão nos manifestos que não tem resource (limit) configurado
+        cpu: "250m"
+        memory: "128Mi" #não pode ser menor que o mínimo de memória configurado
+      defaultRequest: #atribui valores padrão nos manifestos que não tem resource (request) configurado
+        cpu: "150m"
+        memory: "100Mi" #não pode ser menor que o mínimo de memória configurado
+      type: Container #limitação a nível de containers dentro de um pod
+        #Pod -> limita o pod independente da quantidade de container existe debaixo do pod
+        #PersistentVolumeClaim -> limita recurso de utilização de volume

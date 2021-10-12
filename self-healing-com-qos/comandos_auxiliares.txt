@@ -11,7 +11,7 @@ kubectl apply -f ./self-healing-com-qos/. -R
 #comando para verificar consumo de um pode
 kubectl top pod -n agenda --use-protocol-buffers
 
-kubectl delete pods,rs,deploy,svc,cm,ing,secret -n agenda -l "app=api-agenda"
+kubectl delete pods,rs,deploy,svc,cm,ing,secret,hpa -n agenda -l "app=api-agenda"
 
 #criando secret para api
 echo -n "Server=db-api-agenda-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=AquiVai-MinhaSenha" | base64

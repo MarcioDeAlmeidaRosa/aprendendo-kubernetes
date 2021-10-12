@@ -554,6 +554,8 @@ Semana 03
 		  -> conforme configuramos os recursos em nossos manifestos e aplicamos no ambiente, o recurso configurado é reservado na máquina e quando a somatória de todos os recursos reservados de todos os manifestos aplicado no kubernetes atinge o limite físico da máquina, os containers que não foram iniciados ficam com o status de pendente, pois não há recurso para ser fornecido aos novos containers.
 
 		* LimitRange
+		  -> Configuração para validar o manifesto antes de aplicar no cluster Kubernetes, define critérios de aceitação de resource request/limit. Permite também configurar recurso default caso não tenha configuração no manifesto sendo aplicado no cluster.
+		  -> Só afeta validações executadas depois da sua aplicação, não valida apply anteriores a aplicação deste recurso.
 
 		* Resource Quota
 

@@ -1,0 +1,5 @@
+#aplicando manifesto de deployment do nginx
+kubectl apply -f ./limit-range/deployment-nginx.yaml
+
+#aplicando limit rang
+kubectl apply -f ./limit-range/limit-range.yaml
