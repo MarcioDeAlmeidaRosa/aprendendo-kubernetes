@@ -648,48 +648,53 @@ Semana 03
 
 Semana 04
 	Gerenciando a distribuição dos Pods
-	Introdução
-	Node Selector
-	Node Affinity
-	Pod Affinity e Pod Antiaffinity
-	Taint e Tolerations
+		* Introdução
+		* Node Selector
+		* Node Affinity
+		* Pod Affinity e Pod Antiaffinity
+		* Taint e Tolerations
+
 	Falando sobre Segurança
-	Introdução
-	WaveNet no Kind
-	NetworkPolicy
-	ServiceAccount e RBAC
+		* Introdução
+		* WaveNet no Kind
+		* NetworkPolicy
+		* ServiceAccount e RBAC
+	
 	Expondo a sua aplicação com Ingress Controller
-	Introduçao
-	Instalando o Ingress Controller
-	Configurando Host Localmente
-	Ingress
+		* Introduçao
+		* Instalando o Ingress Controller
+		* Configurando Host Localmente
+		* Ingress
+	
 	Helm
-	Introdução
-	Instalação
-	Manipulando repositórios
-	Instalando aplicações
-	Primeiro Helm Chart
-	Estrutura If/Else
-	Estrutura de Loop
-	Named Templates
-	Dependência de Charts
-	Notes
+		* Introdução
+		* Instalação
+		* Manipulando repositórios
+		* Instalando aplicações
+		* Primeiro Helm Chart
+		* Estrutura If/Else
+		* Estrutura de Loop
+		* Named Templates
+		* Dependência de Charts
+		* Notes
 
 
 Semana 05
 	Entendendo alguns padrões
-	Introdução
-	SideCar
-	Adapter
-	Ambassador
-	Controllers
-	Operators
+		* Introdução
+		* SideCar
+		* Adapter
+		* Ambassador
+		* Controllers
+		* Operators
+	
 	Estratégias de Deploy
-	Introdução
-	Recreate
-	Ramped
-	Blue / Green
-	Canary
+		* Introdução
+		* Recreate
+		* Ramped
+		* Blue / Green
+		* Canary
+	
 	Prometheus e Grafana
 	Introdução
 	Arquitetura

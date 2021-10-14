@@ -1,0 +1,2 @@
+#aplicando os manifestos para começar a configuração de volume
+kubectl apply -f ./volume-hostpath/. -R
