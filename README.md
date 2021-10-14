@@ -618,11 +618,28 @@ Semana 03
 			   -> comando exec
 			   -> http get
 
+		Lembrete: o nome completo de um service -> mongo-service  .default    .svc.cluster.local
+		                                           nome serviço | namespace | sulfixo de serviço
+
 
 	Lidando com volumes no Kubernetes
-	Introdução
-	Criando um Volume HostPath
-	Utilizando volume do seu provedor de nuvem
+		* Introdução: (https://www.redhat.com/pt-br/topics/cloud-native-apps/stateful-vs-stateless)
+		    -> (Aplicações Stateful) os volumes são usado em situações onde não temos pods efêmeros "Eles são executados com base no contexto das transações anteriores, por isso o stado precisa ser mantido.".
+			-> (Aplicações Stateless) não há necessidade de volumes, onde temos pod efêmeros "Se a transação for interrompida ou encerrada sem querer, você precisará começar outra sem afetar o comportamento da aplicação".
+
+			-> Objetos para permitir o uso do volume:
+			  -> Pod -> PersistentvolumeClaim -> Persistentvolume -> Volumes (nfs/host path, etc...)
+
+			-> É possível trabalhar com volumes no kubernetes de 2 formas
+			  -> Stática: administrador do cluste kubernetes cria o Persistentvolume para um volume específico.
+			     -> Pod -> PersistentvolumeClaim -> Persistentvolume -> Volumes (nfs/host path, etc...)
+			  -> Dinâmica: algum serviço de alocação dinâmica de storage (StorageClass).
+			     -> Pod -> PersistentvolumeClaim -> Storage Class -> Persistentvolume -> Volumes (nfs/host path, etc...)
+
+		* Criando um Volume HostPath
+
+		* Utilizando volume do seu provedor de nuvem
+
 	Outros modos de deploy
 	StatefulSet
 	DaemonSet
