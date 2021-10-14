@@ -43,4 +43,13 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 1
             initialDelaySeconds: 1
-            
+          readinessProbe:
+            httpGet:
+              path: "/health/heady"
+              port: 80
+              scheme: HTTP
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 3
+            timeoutSeconds: 1
+            initialDelaySeconds: 1
