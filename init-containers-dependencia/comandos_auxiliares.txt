@@ -6,3 +6,6 @@ kubectl logs api-deployment-84c76dcc8b-s6xnt
 
 #verificando o log do container específico de inicialização do pod
 kubectl logs api-deployment-686c86475f-cbcgv -c init-pod
+
+#aplicando todos os recursos para ver solução funcionando
+kubectl apply -f ./init-containers-dependencia/. -R

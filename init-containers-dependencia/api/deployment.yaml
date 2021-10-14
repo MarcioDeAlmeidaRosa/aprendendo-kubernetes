@@ -13,11 +13,11 @@ spec:
     spec:
       initContainers:
         - name: init-pod
-          image: busybox:1.34.0
-          command: ["sh", "-c", "until nslookup mongo-service.default.svc.cluester.local; do echo Aguardando banco de dados mongo...; sleep 2; done"]
+          image: busybox:1.28
+          command: ["sh", "-c", "until nslookup mongo-service.default.svc.cluster.local; do echo Aguardando banco de dados mongo...; sleep 2; done"]
       containers:
       - name: api
-        image: fabricioveronez/pedelogo-catalogo:v1.0.0
+        image: fabricioveronez/pedelogo-catalogo:1.0.0
         ports:
         - containerPort: 80
         imagePullPolicy: Always
