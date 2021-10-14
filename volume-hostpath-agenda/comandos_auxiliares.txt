@@ -1,0 +1,5 @@
+#criando namespace
+kubectl create namespace agenda
+
+#aplicando deployment da api
+kubectl apply -f ./volume-hostpath-agenda/api/deployment.yaml
