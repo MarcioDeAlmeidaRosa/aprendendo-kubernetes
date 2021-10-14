@@ -33,3 +33,14 @@ spec:
             limits:
               memory: "300Mi"
               cpu: "500m"
+          startupProbe:
+            httpGet:
+              path: "/health/live"
+              port: 80
+              scheme: HTTP
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 5
+            timeoutSeconds: 1
+            initialDelaySeconds: 1
+            
