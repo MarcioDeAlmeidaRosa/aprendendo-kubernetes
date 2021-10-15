@@ -9,3 +9,6 @@ kubectl apply -f ./volume-hostpath-agenda/sql-server/deployment.yaml
 
 #aplicando serviço de banco de dados
 kubectl apply -f ./volume-hostpath-agenda/sql-server/service.yaml
+
+#testando resolução do serviço de sql via nslookup
+kubectl run -i --tty --image busybox:1.28 busybox --restart=Never --rm
