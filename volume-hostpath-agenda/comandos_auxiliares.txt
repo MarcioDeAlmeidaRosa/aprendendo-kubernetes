@@ -3,3 +3,9 @@ kubectl create namespace agenda
 
 #aplicando deployment da api
 kubectl apply -f ./volume-hostpath-agenda/api/deployment.yaml
+
+#aplicando deployment de banco de dados
+kubectl apply -f ./volume-hostpath-agenda/sql-server/deployment.yaml
+
+#aplicando serviço de banco de dados
+kubectl apply -f ./volume-hostpath-agenda/sql-server/service.yaml

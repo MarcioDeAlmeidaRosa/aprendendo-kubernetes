@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver-db-service
+  labels:
+    app: sqlserver-db
+  namespace: agenda
+spec:
+  selector:
+    app: sqlserver-db
+  ports:
+    - port: 1433
+      targetPort: 1433
+      name: tcp
+  type: LoadBalancer
