@@ -12,3 +12,8 @@ kubectl apply -f ./volume-hostpath-agenda/sql-server/service.yaml
 
 #testando resolução do serviço de sql via nslookup
 kubectl run -i --tty --image busybox:1.28 busybox --restart=Never --rm
+
+kubectl run -i --tty --image kubedevio/ubuntu-curl ubuntu-curl --restart=Never --rm
+
+#veriricar a saída do testes de chamada do serviço para criação do banco de dados
+curl -o /dev/null -s -w "%{http_code}\n" http://api-agenda-service.agenda.svc.cluster.local:80/api/v1/migrations

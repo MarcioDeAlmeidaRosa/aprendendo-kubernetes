@@ -14,6 +14,17 @@ spec:
       labels:
         app: api-agenda
     spec:
+      initContainers:
+        - name: verificacao-db
+          image: busybox:1.28
+          command: ["sh", "-c", "until nslookup sqlserver-db-service.agenda.svc.cluster.local; do echo Aguardando banco de dados sql server...; sleep 2; done"]
+        - name: inicializacao-container
+          image: kubedevio/ubuntu-curl
+          command:
+            - "curl"
+            - "-X"
+            - "POST"
+            - "http://pruu.herokuapp.com/dump/docker-agenda-init-containers"
       containers:
         - name: api-agenda
           image: marcioalmeidarosa/api_agenda:latest
@@ -24,7 +35,7 @@ spec:
               name: https
           env:
           - name: CONNECTION__CONNECTIONSTRINGS
-            value: "Server=sql-server-service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word"
+            value: "Server=sqlserver-db-service.agenda.svc.cluster.local,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=NovaSenhaParaSQLSErveR!"
           imagePullPolicy: Always
           resources:
             requests:
@@ -35,7 +46,7 @@ spec:
               cpu: "500m"
           startupProbe:
             httpGet:
-              path: "/health/live"
+              path: /health/live
               port: 80
               scheme: HTTP
             failureThreshold: 3
@@ -45,7 +56,7 @@ spec:
             initialDelaySeconds: 1
           readinessProbe:
             httpGet:
-              path: "/health/ready"
+              path: /health/ready
               port: 80
               scheme: HTTP
             failureThreshold: 3
@@ -55,7 +66,7 @@ spec:
             initialDelaySeconds: 1
           livenessProbe:
             httpGet:
-              path: "/health"
+              path: /health
               port: 80
               scheme: HTTP
             failureThreshold: 3
@@ -63,3 +74,18 @@ spec:
             periodSeconds: 3
             timeoutSeconds: 1
             initialDelaySeconds: 1
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "curl"
+                  - "-X"
+                  - "POST"
+                  - "http://pruu.herokuapp.com/dump/docker-agenda-life-cycle-start"
+            preStop:
+              exec:
+                command:
+                  - "curl"
+                  - "-X"
+                  - "POST"
+                  - "http://pruu.herokuapp.com/dump/docker-agenda-life-cycle-stop"

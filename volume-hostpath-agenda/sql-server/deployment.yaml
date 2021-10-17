@@ -21,13 +21,13 @@ spec:
             - containerPort: 1433
           env:
             - name: SA_PASSWORD
-              value: "Pass@word"
+              value: "NovaSenhaParaSQLSErveR!"
             - name: ACCEPT_EULA
               value: "Y"
           resources:
             requests:
-              cpu: "1000m"
-              memory: "500Mi"
+              cpu: "2000m"
+              memory: "3Gi"
             limits:
-              cpu: "1000m"
-              memory: "1024Mi"
+              cpu: "2000m"
+              memory: "3Gi"
