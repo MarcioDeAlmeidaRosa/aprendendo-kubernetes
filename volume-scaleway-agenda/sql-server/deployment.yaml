@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver-db-deployment
+  labels:
+    app: sqlserver-db
+  namespace: agenda
+spec:
+  selector:
+    matchLabels:
+      app: sqlserver-db
+  template:
+    metadata:
+      labels: 
+        app: sqlserver-db
+    spec:
+      containers:
+        - name: sqlserver-db
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          ports:
+          - containerPort: 1433
+          env:
+            - name: SA_PASSWORD
+              value: "NovaSenhaParaSQLSErveR!"
+            - name: ACCEPT_EULA
+              value: "Y"
+          resources:
+            requests:
+              cpu: "2000m"
+              memory: "3Gi"
+            limits:
+              cpu: "2000m"
+              memory: "3Gi"

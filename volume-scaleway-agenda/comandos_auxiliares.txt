@@ -1,0 +1,34 @@
+#criando namespace
+kubectl create namespace agenda
+
+#aplicando deployment da api
+kubectl apply -f ./volume-hostpath-agenda/api/deployment.yaml
+
+#aplicando deployment de banco de dados
+kubectl apply -f ./volume-hostpath-agenda/sql-server/deployment.yaml
+
+#aplicando serviço de banco de dados
+kubectl apply -f ./volume-hostpath-agenda/sql-server/service.yaml
+
+#testando resolução do serviço de sql via nslookup
+kubectl run -i --tty --image busybox:1.28 busybox --restart=Never --rm
+
+kubectl run -i --tty --image kubedevio/ubuntu-curl ubuntu-curl --restart=Never --rm
+
+#veriricar a saída do testes de chamada do serviço para criação do banco de dados
+curl -o /dev/null -s -w "%{http_code}\n" http://api-agenda-service.agenda.svc.cluster.local:80/api/v1/migrations
+
+#aplicando persistente volume
+kubectl apply -f ./volume-hostpath-agenda/sql-server/sqlserver-persistent-volume.yaml
+
+#verificando Persistent Volume criado
+kubectl get pv -n agenda
+
+#aplicando persistente volume claim
+kubectl apply -f ./volume-hostpath-agenda/sql-server/sqlserver-persistent-volume-clain.yaml
+
+#verificando Persistent Volume claim criado
+kubectl get pvc -n agenda
+
+#aplicando alterações no manifesto de deployment para testar utilização de volume do tipo HostPath
+kubectl apply -f ./volume-hostpath-agenda/. -R
