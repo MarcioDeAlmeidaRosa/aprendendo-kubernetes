@@ -1,2 +1,8 @@
 #aplicando manifestos 
 kubectl apply -f ./volume-scaleway-agenda/. -R
+
+#verificando os storageclass do provedor de nuvem
+kubectl get storageclass
+
+#depois de criado o manifesto e executado
+kubectl get pvc -n agenda

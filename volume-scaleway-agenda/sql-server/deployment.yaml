@@ -19,6 +19,9 @@ spec:
           image: mcr.microsoft.com/mssql/server:2019-latest
           ports:
           - containerPort: 1433
+          volumeMounts:
+            - mountPath:  /var/opt/mssql/data
+              name: volume-sqlserver-db
           env:
             - name: SA_PASSWORD
               value: "NovaSenhaParaSQLSErveR!"
@@ -31,3 +34,7 @@ spec:
             limits:
               cpu: "2000m"
               memory: "3Gi"
+      volumes:
+        - name: volume-sqlserver-db
+          persistentVolumeClaim:
+              claimName: scw-pvc-sqlserver-db

@@ -640,6 +640,7 @@ Semana 03
 			-> Utiliza um volume mapeano no sistema de arquivo do nó que esta sendo executado o POD.
 
 		* Utilizando volume do seu provedor de nuvem
+			-> Permite escalar recurso de disco conforme necessidade
 
 	Outros modos de deploy
 	StatefulSet
