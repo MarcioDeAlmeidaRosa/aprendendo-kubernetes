@@ -643,9 +643,12 @@ Semana 03
 			-> Permite escalar recurso de disco conforme necessidade
 
 	Outros modos de deploy
-	StatefulSet
-	DaemonSet
-	Job e CronJob
+		* StatefulSet
+			-> te permite um processo de scala sequencial "escalabilidade progressiva", permitindo também a identidade bem definida. Permite garantir que cada réplica tenha seu volume.
+
+		* DaemonSet
+
+		* Job e CronJob
 
 
 Semana 04

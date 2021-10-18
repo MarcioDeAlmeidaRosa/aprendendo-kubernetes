@@ -1,0 +1,33 @@
+#aplicando o StatefulSet
+kubectl apply -f ./statefulset-scw-bssd-retain/statefulset.yaml
+
+#executando port forward para verificar a alteração feita no html do container
+kubectl port-forward pod/nginx-state-0 80:80
+
+#acessando página
+http://localhost/
+
+#listando os StatefulSet
+kubectl get statefulset
+
+#acessando o describe do statefulset
+kubectl describe statefulset nginx-state
+
+#escalando o número de réplicas do statefulset
+kubectl scale statefulset nginx-state --replicas 5
+
+#acessando modo iterativo para ver o conteúdo da página
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-teste --restart=Never --rm -- /bin/bash
+
+#acessando a instância sintaxe (NOME_INSTANCIA.NOME_SERVICO.NAMESPACE.svc.cluster.local)
+#--> neste momento não é possível resolver por que não existe serviço criado para resolver o dns/apontamento
+curl nginx-state-0.nginx-state.default.svc.cluster.local
+
+#podemos verificar que não há endpoits criado
+kubectl get endpoints nginx-state
+
+#aplicando o service para criar resolução de dns
+kubectl apply -f ./statefulset-scw-bssd-retain/service-statefulset.yaml
+
+#depois de criado o serviço, é possível resolver a chamada abaixo
+curl nginx-state-0.nginx-state.default.svc.cluster.local
