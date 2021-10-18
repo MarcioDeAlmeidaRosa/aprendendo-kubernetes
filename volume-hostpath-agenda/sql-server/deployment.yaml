@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: sqlserver-db
-          image: mcr.microsoft.com/mssql/server:2019-latest
+          image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04 #mcr.microsoft.com/mssql/server:2019-latest
           ports:
-            - containerPort: 1433
+          - containerPort: 1433
           volumeMounts:
-            - mountPath: /var/opt/mssql
-              name: "sqlserver-volume-dados"
+            - mountPath: /var/opt/mssql/data
+              name: sqlserver-volume-dados
           env:
             - name: SA_PASSWORD
               value: "NovaSenhaParaSQLSErveR!"
@@ -37,4 +37,4 @@ spec:
       volumes:
         - name: sqlserver-volume-dados
           persistentVolumeClaim:
-              claimName: sqlserver-db-pvc
+            claimName: sqlserver-db-pvc

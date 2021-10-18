@@ -6,11 +6,12 @@ metadata:
     type: sqlserver-db
   namespace: agenda
 spec:
-  storageClassName: stg-sql-volumes-manual
   capacity:
-    storage: 10Gi
+    storage: 40Gi
+  volumeMode: Filesystem
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
   hostPath:
-    path: "/volumes/sqlserver"
+    path: /vol/mssql

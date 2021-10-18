@@ -29,3 +29,6 @@ kubectl apply -f ./volume-hostpath-agenda/sql-server/sqlserver-persistent-volume
 
 #verificando Persistent Volume claim criado
 kubectl get pvc -n agenda
+
+#aplicando alterações no manifesto de deployment para testar utilização de volume do tipo HostPath
+kubectl apply -f ./volume-hostpath-agenda/. -R
