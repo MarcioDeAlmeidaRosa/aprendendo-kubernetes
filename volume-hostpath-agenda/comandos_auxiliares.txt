@@ -26,3 +26,6 @@ kubectl get pv -n agenda
 
 #aplicando persistente volume claim
 kubectl apply -f ./volume-hostpath-agenda/sql-server/sqlserver-persistent-volume-clain.yaml
+
+#verificando Persistent Volume claim criado
+kubectl get pvc -n agenda
