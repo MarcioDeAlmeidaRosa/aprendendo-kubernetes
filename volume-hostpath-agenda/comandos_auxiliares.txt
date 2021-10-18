@@ -17,3 +17,12 @@ kubectl run -i --tty --image kubedevio/ubuntu-curl ubuntu-curl --restart=Never -
 
 #veriricar a saída do testes de chamada do serviço para criação do banco de dados
 curl -o /dev/null -s -w "%{http_code}\n" http://api-agenda-service.agenda.svc.cluster.local:80/api/v1/migrations
+
+#aplicando persistente volume
+kubectl apply -f ./volume-hostpath-agenda/sql-server/sqlserver-persistent-volume.yaml
+
+#verificando Persistent Volume criado
+kubectl get pv -n agenda
+
+#aplicando persistente volume claim
+kubectl apply -f ./volume-hostpath-agenda/sql-server/sqlserver-persistent-volume-clain.yaml

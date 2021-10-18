@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sqlserver-db-pv
+  labels:
+    type: sqlserver-db
+  namespace: agenda
+spec:
+  storageClassName: stg-sql-volumes-manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/volumes/sqlserver"

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqlserver-db-pvc
+  labels:
+    app: sqlserver-db
+  namespace: agenda
+spec:
+  selector:
+    matchLabels:
+      type: sqlserver-db
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: stg-sql-volumes-manual
+  resources:
+    requests:
+      storage: 5Gi #atribuir até o limite declarado no PersistentVolume

@@ -637,6 +637,7 @@ Semana 03
 			     -> Pod -> PersistentvolumeClaim -> Storage Class -> Persistentvolume -> Volumes (nfs/host path, etc...)
 
 		* Criando um Volume HostPath
+			-> Utiliza um volume mapeano no sistema de arquivo do nó que esta sendo executado o POD.
 
 		* Utilizando volume do seu provedor de nuvem
 
