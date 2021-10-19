@@ -647,6 +647,8 @@ Semana 03
 			-> te permite um processo de scala sequencial "escalabilidade progressiva", permitindo também a identidade bem definida. Permite garantir que cada réplica tenha seu volume.
 
 		* DaemonSet
+			-> outra forma de fazer deploy no kubernetes, ele garante o número de nó sendo o mesmo número de cluster, caso exista 3 máquinsa no clustes, terá 3 réplicas da aplicação XPTO sendo executada, sendo 1 em cada nó.
+			-> muito utilizado em processos auxiliares em processos auxiliáres de coleta de dados de infra/métrica/logs.
 
 		* Job e CronJob
 
