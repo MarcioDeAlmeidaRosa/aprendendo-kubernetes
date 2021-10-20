@@ -14,3 +14,7 @@ kubectl describe jobs
 
 #recuperando o log de execução
 kubectl logs roleta-job--1-cqgfr
+
+----------------------------------
+#aplicando cronjob
+kubectl apply -f ./job_e_cronJob/cron-job.yaml

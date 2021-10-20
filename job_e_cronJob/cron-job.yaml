@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: roleta-cron-job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    metadata:
+      name: roleta-job
+    spec:
+      backoffLimit: 10
+      parallelism: 2
+      completions: 3
+      template:
+        spec:
+          containers:
+          - name: job
+            image: kubedevio/roleta
+            args:
+              - "-w"
+              - "5"
+              - "-c"
+              - "2"
+              - "-m"
+              - "5"
+          restartPolicy: Never      #não reestartar
+                        #OnFailure  #somente quando falhar
+                        #Always     #sempre que terminar a execução

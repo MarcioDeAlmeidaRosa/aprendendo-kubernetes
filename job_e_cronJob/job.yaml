@@ -3,6 +3,9 @@ kind: Job
 metadata:
   name: roleta-job
 spec:
+  backoffLimit: 10
+  parallelism: 2
+  completions: 3
   template:
     spec:
       containers:
