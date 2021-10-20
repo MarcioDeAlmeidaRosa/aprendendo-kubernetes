@@ -1,0 +1,16 @@
+#execução via docker para simular a execução de um job - argumentos passado, (tempo de espera de processamento -> -w | número escolhido -> -c | range de número possível -> -m)
+docker run kubedevio/roleta -w 5 -c 2 -m 5
+
+#aplicando manifesto de Job no cluster
+kubectl apply -f ./job_e_cronJob/job.yaml
+
+#listando jobs e quantidade de vez executado com sucesso
+kubectl get jobs
+
+#detalhando execução do job
+kubectl describe jobs
+
+#máximo de tentativas por padrão são 6 para execução do job
+
+#recuperando o log de execução
+kubectl logs roleta-job--1-cqgfr

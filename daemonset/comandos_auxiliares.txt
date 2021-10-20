@@ -1,0 +1,11 @@
+#aplicando o manifesto do DaemonSet para o prometheus
+kubectl apply -f ./daemonset/prometheus-node.yaml
+
+#testando aplicação do manifesto
+kubectl port-forward pod/prometheus-node-exporter-8gl5d 8080:9100
+
+#acessando página para verificar rota de métricas
+http://localhost:8080/
+
+#acessando página de métricas
+http://localhost:8080/metrics

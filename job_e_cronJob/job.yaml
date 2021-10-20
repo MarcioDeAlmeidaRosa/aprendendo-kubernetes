@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: roleta-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: job
+        image: kubedevio/roleta
+        args:
+          - "-w"
+          - "5"
+          - "-c"
+          - "2"
+          - "-m"
+          - "5"
+      restartPolicy: Never      #não reestartar
+                    #OnFailure  #somente quando falhar
+                    #Always     #sempre que terminar a execução

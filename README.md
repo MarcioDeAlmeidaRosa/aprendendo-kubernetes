@@ -649,9 +649,12 @@ Semana 03
 		* DaemonSet
 			-> outra forma de fazer deploy no kubernetes, ele garante o número de nó sendo o mesmo número de cluster, caso exista 3 máquinsa no clustes, terá 3 réplicas da aplicação XPTO sendo executada, sendo 1 em cada nó.
 			-> muito utilizado em processos auxiliares em processos auxiliáres de coleta de dados de infra/métrica/logs.
+			-> mais interessante quando precisa coletar/interegir com a infraestrutura de um cluster.
 
 		* Job e CronJob
-
+			-> aplicando para starts de rotina batch, que precisa ser schedulado.
+			 --> CronJob -> objeto responsál por configurar a frequencia de tempo que a rotina vai ser executada
+			 --> Job -> objeto que executa a rotina configurada
 
 Semana 04
 	Gerenciando a distribuição dos Pods
