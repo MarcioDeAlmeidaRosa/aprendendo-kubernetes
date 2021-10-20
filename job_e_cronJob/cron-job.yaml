@@ -4,6 +4,8 @@ metadata:
   name: roleta-cron-job
 spec:
   schedule: "*/1 * * * *"
+  concurrencyPolicy: Replace #encerra os jobs que ainda estão sendo executados e invadiram a janela do próximo job
+                   # Forbid -> se ainda existir job sendo executados e der o tempo para o próximo job, ele não executa o próximo e ignora a sua vez.
   jobTemplate:
     metadata:
       name: roleta-job

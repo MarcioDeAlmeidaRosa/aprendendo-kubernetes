@@ -18,3 +18,9 @@ kubectl logs roleta-job--1-cqgfr
 ----------------------------------
 #aplicando cronjob
 kubectl apply -f ./job_e_cronJob/cron-job.yaml
+
+#site para auxiliar a montar a configuração do cron
+https://crontab-generator.org/
+
+#acompanhando execução dos jobs
+sh -c 'for run in $(seq 1 1000); do kubectl get jobs; done'
