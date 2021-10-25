@@ -1,0 +1,2 @@
+#aplicando mongodb
+kubectl apply -f ./node-selector/mongo/
