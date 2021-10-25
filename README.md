@@ -659,6 +659,11 @@ Semana 03
 Semana 04
 	Gerenciando a distribuição dos Pods
 		* Introdução
+		  -> assim que é solicito a execução de um processo no kubernetes, a solicitação é processada pelo kube scheduler, este por sua vez olha a especificação do pod e analisa qual nó vai executar este pod.
+		    --> existe 2 processos para isso:
+			  --> processo de filtragem: filtra os nós que tem a especificação necessária hardware/ regra de agendamento de nó específico.
+			  --> regra de classificação: classifica os requisitos não obrigatórios para definir o nó preferencial para executar o pod. Esse processo pode ser alterado executando alguns ferramentais disponibilizados pelo kubernetes como (Node Selector, Node Affinity,Pod Affinity, Pod Antiaffinity e Taint e Tolerations)
+
 		* Node Selector
 		* Node Affinity
 		* Pod Affinity e Pod Antiaffinity
