@@ -1,2 +1,5 @@
 #aplicando mongodb
 kubectl apply -f ./node-selector/mongo/
+
+#aplicando api
+kubectl apply -f ./node-selector/api
