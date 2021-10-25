@@ -664,10 +664,18 @@ Semana 04
 			  --> processo de filtragem: filtra os nós que tem a especificação necessária hardware/ regra de agendamento de nó específico.
 			  --> regra de classificação: classifica os requisitos não obrigatórios para definir o nó preferencial para executar o pod. Esse processo pode ser alterado executando alguns ferramentais disponibilizados pelo kubernetes como (Node Selector, Node Affinity,Pod Affinity, Pod Antiaffinity e Taint e Tolerations)
 
-		* Node Selector
+		* Node Selector:
+		    --> utilizamos labels no nó do cluster kubernetes e seletores na especificação do pod para exigir que este pod seja endereçado em algúm nó que tenha essa label.
+		    --> usado para especificar que um tipo de nó específico execute o pod.
+
 		* Node Affinity
+		    --> 
+
 		* Pod Affinity e Pod Antiaffinity
+		    --> 
+
 		* Taint e Tolerations
+		    --> 
 
 	Falando sobre Segurança
 		* Introdução
