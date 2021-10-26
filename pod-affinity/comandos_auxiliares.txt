@@ -373,6 +373,15 @@ nginx-deployment-5cc999d745-w6tm5   1/1     Running   0          9s      100.64.
 $ kubectl get pods  -o wide
 NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
 nginx-deployment-64564cc79-225c8   1/1     Running   0          9s    100.64.1.61    scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
-nginx-deployment-64564cc79-25txc   1/1     Running   0          5s    100.64.0.184   scw-k8s-pedantic-haibt-default-       <none>           <none>
+nginx-deployment-64564cc79-25txc   1/1     Running   0          5s    100.64.0.184   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
 nginx-deployment-64564cc79-4788b   1/1     Running   0          9s    100.64.1.128   scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
 nginx-deployment-64564cc79-w52pm   1/1     Running   0          7s    100.64.0.78    scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+
+#adicionando nova regra onde obriga a necessidade da key prioridade, porém define como preferível prioridade = 1
+
+$ kubectl get pods  -o wide
+NAME                                READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7cf867b87d-c8bp4   1/1     Running   0          11s   100.64.0.13    scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-7cf867b87d-hzftw   1/1     Running   0          7s    100.64.1.60    scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-7cf867b87d-v2nz5   1/1     Running   0          7s    100.64.0.209   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-7cf867b87d-vs9jt   1/1     Running   0          11s   100.64.0.193   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
