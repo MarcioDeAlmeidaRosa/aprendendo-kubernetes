@@ -30,4 +30,5 @@ spec:
                   operator: In
                   values:
                     - "1"
+                    - "2"
           

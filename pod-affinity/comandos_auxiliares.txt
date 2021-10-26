@@ -24,3 +24,296 @@ kubectl delete nginx-deployment-7bdc6b55d8-v2jgx
 kubectl get pod -o wide
 
 nginx-deployment-7bdc6b55d8-v2jgx   1/1     Running   0          2m39s   100.64.0.27   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+
+#Aumentando no número de replicas até não consegurir rodar todas no mesmo nó do cluster
+
+nginx-deployment-7bdc6b55d8-6rhmq   1/1     Running   0          2m33s   100.64.0.68   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-7bdc6b55d8-7cg2n   1/1     Running   0          2m2s    100.64.0.76   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-7bdc6b55d8-8pbc2   0/1     Pending   0          2m2s    <none>        <none>                                           <none>           <none>
+nginx-deployment-7bdc6b55d8-g2d4m   1/1     Running   0          2m33s   100.64.0.74   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-7bdc6b55d8-vnsdq   1/1     Running   0          2m33s   100.64.0.61   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+
+#verificando o motivo
+kubectl describe pod nginx-deployment-7bdc6b55d8-8pbc2
+
+Name:           nginx-deployment-7bdc6b55d8-8pbc2
+Namespace:      default
+Priority:       0
+Node:           <none>
+Labels:         app=nginx
+                pod-template-hash=7bdc6b55d8
+Annotations:    <none>
+Status:         Pending
+IP:
+IPs:            <none>
+Controlled By:  ReplicaSet/nginx-deployment-7bdc6b55d8
+Containers:
+  nginx:
+    Image:      nginx
+    Port:       80/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  256Mi
+    Requests:
+      cpu:        500m
+      memory:     256Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rs4kp (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False
+Volumes:
+  kube-api-access-rs4kp:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Guaranteed
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason             Age    From                Message
+  ----     ------             ----   ----                -------
+  Warning  FailedScheduling   3m16s  default-scheduler   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) didn't match Pod's node affinity/selector.
+  Warning  FailedScheduling   2m8s   default-scheduler   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) didn't match Pod's node affinity/selector.
+  Normal   NotTriggerScaleUp  3m7s   cluster-autoscaler  pod didn't trigger scale-up:
+
+
+#validando o nó
+kubectl describe node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+
+Name:               scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+Roles:              <none>
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=DEV1-M
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=fr-par
+                    failure-domain.beta.kubernetes.io/zone=fr-par-1
+                    k8s.scaleway.com/kapsule=95c12a00-0058-4e4e-ba2f-227b413ddfc5
+                    k8s.scaleway.com/managed=true
+                    k8s.scaleway.com/node=085c7a0c-ce8b-43ff-bcd8-b98674975778
+                    k8s.scaleway.com/pool=906d83e5-14e7-4e51-a190-5f3f1aa10736
+                    k8s.scaleway.com/pool-name=default
+                    k8s.scaleway.com/runtime=containerd
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+                    kubernetes.io/os=linux
+                    node.kubernetes.io/instance-type=DEV1-M
+                    prioridade=1
+                    topology.csi.scaleway.com/zone=fr-par-1
+                    topology.kubernetes.io/region=fr-par
+                    topology.kubernetes.io/zone=fr-par-1
+Annotations:        csi.volume.kubernetes.io/nodeid: {"csi.scaleway.com":"fr-par-1/ce16e63b-743a-4665-b5cc-32e932309a2b"}
+                    io.cilium.network.ipv4-cilium-host: 100.64.0.229
+                    io.cilium.network.ipv4-health-ip: 100.64.0.141
+                    io.cilium.network.ipv4-pod-cidr: 100.64.0.0/24
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Mon, 25 Oct 2021 22:04:50 -0300
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+  AcquireTime:     <unset>
+  RenewTime:       Mon, 25 Oct 2021 22:57:24 -0300
+Conditions:
+  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----                 ------  -----------------                 ------------------                ------                       -------
+  ReadonlyFilesystem   False   Mon, 25 Oct 2021 22:56:53 -0300   Mon, 25 Oct 2021 22:06:46 -0300   FilesystemIsNotReadOnly      Filesystem is not read-only
+  KernelDeadlock       False   Mon, 25 Oct 2021 22:56:53 -0300   Mon, 25 Oct 2021 22:06:46 -0300   KernelHasNoDeadlock          kernel has no deadlock
+  NetworkUnavailable   False   Mon, 25 Oct 2021 22:05:58 -0300   Mon, 25 Oct 2021 22:05:58 -0300   CiliumIsUp                   Cilium is running on this node
+  MemoryPressure       False   Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:04:50 -0300   KubeletHasSufficientMemory   kubelet has sufficient memory available
+
+  DiskPressure         False   Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:04:50 -0300   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure          False   Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:04:50 -0300   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready                True    Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:05:40 -0300   KubeletReady                 kubelet is posting ready status. AppArmor enabled
+Addresses:
+  Hostname:     scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+  InternalIP:   10.70.130.39
+  InternalDNS:  ce16e63b-743a-4665-b5cc-32e932309a2b.priv.instances.scw.cloud
+  ExternalIP:   51.158.114.23
+  ExternalDNS:  ce16e63b-743a-4665-b5cc-32e932309a2b.pub.instances.scw.cloud
+Capacity:
+  cpu:                3
+  ephemeral-storage:  37679072Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             4026676Ki
+  pods:               110
+Allocatable:
+  cpu:                2800m
+  ephemeral-storage:  37679072Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             2978100Ki
+  pods:               110
+System Info:
+  Machine ID:                 373021a4d2852d64d1a75d0261492134
+  System UUID:                ce16e63b-743a-4665-b5cc-32e932309a2b
+  Boot ID:                    32bab0b6-9ff2-4452-9dd2-12f92068d7a8
+  Kernel Version:             5.4.0-80-generic
+  OS Image:                   Ubuntu 20.04.1 LTS ad6f5e262f
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.5.5
+  Kubelet Version:            v1.22.2
+  Kube-Proxy Version:         v1.22.2
+PodCIDR:                      100.64.0.0/24
+PodCIDRs:                     100.64.0.0/24
+ProviderID:                   scaleway://instance/fr-par-1/ce16e63b-743a-4665-b5cc-32e932309a2b
+Non-terminated Pods:          (12 in total)
+  Namespace                   Name                                 CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                 ------------  ----------  ---------------  -------------  ---
+  default                     nginx-deployment-7bdc6b55d8-6rhmq    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     5m26s
+  default                     nginx-deployment-7bdc6b55d8-7cg2n    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     4m55s
+  default                     nginx-deployment-7bdc6b55d8-g2d4m    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     5m26s
+  default                     nginx-deployment-7bdc6b55d8-vnsdq    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     5m26s
+  kube-system                 cilium-operator-78df699746-bdz9b     0 (0%)        0 (0%)      0 (0%)           0 (0%)         56m
+  kube-system                 cilium-xn9ht                         100m (3%)     0 (0%)      100Mi (3%)       0 (0%)         52m
+  kube-system                 coredns-56bf5f7789-h254p             100m (3%)     0 (0%)      70Mi (2%)        170Mi (5%)     56m
+  kube-system                 csi-node-w6rvk                       0 (0%)        0 (0%)      0 (0%)           0 (0%)         52m
+  kube-system                 konnectivity-agent-vmblp             0 (0%)        0 (0%)      0 (0%)           0 (0%)         52m
+  kube-system                 kube-proxy-ssd5l                     0 (0%)        0 (0%)      0 (0%)           0 (0%)         52m
+  kube-system                 metrics-server-d97959999-mkhr9       100m (3%)     0 (0%)      300Mi (10%)      0 (0%)         56m
+  kube-system                 node-problem-detector-f7dmz          10m (0%)      10m (0%)    80Mi (2%)        80Mi (2%)      52m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests      Limits
+  --------           --------      ------
+  cpu                2310m (82%)   2010m (71%)
+  memory             1574Mi (54%)  1274Mi (43%)
+  ephemeral-storage  0 (0%)        0 (0%)
+  hugepages-1Gi      0 (0%)        0 (0%)
+  hugepages-2Mi      0 (0%)        0 (0%)
+Events:
+  Type     Reason                   Age   From     Message
+  ----     ------                   ----  ----     -------
+  Normal   Starting                 52m   kubelet  Starting kubelet.
+  Warning  InvalidDiskCapacity      52m   kubelet  invalid capacity 0 on image filesystem
+  Normal   NodeHasSufficientMemory  52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasSufficientMemory
+  Normal   NodeHasNoDiskPressure    52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasNoDiskPressure
+  Normal   NodeHasSufficientPID     52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasSufficientPID
+  Normal   NodeAllocatableEnforced  52m   kubelet  Updated Node Allocatable limit across pods
+  Normal   NodeReady                51m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeReady
+
+#adicionando mais um valor no values do affinity, com isso foi liberado mais processamento na primeira máquina, permitindo assim executar as 5 réplicas
+
+kubectl describe node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+
+Name:               scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+Roles:              <none>
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=DEV1-M
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=fr-par
+                    failure-domain.beta.kubernetes.io/zone=fr-par-1
+                    k8s.scaleway.com/kapsule=95c12a00-0058-4e4e-ba2f-227b413ddfc5
+                    k8s.scaleway.com/managed=true
+                    k8s.scaleway.com/node=085c7a0c-ce8b-43ff-bcd8-b98674975778
+                    k8s.scaleway.com/pool=906d83e5-14e7-4e51-a190-5f3f1aa10736
+                    k8s.scaleway.com/pool-name=default
+                    k8s.scaleway.com/runtime=containerd
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+                    kubernetes.io/os=linux
+                    node.kubernetes.io/instance-type=DEV1-M
+                    prioridade=1
+                    topology.csi.scaleway.com/zone=fr-par-1
+                    topology.kubernetes.io/region=fr-par
+                    topology.kubernetes.io/zone=fr-par-1
+Annotations:        csi.volume.kubernetes.io/nodeid: {"csi.scaleway.com":"fr-par-1/ce16e63b-743a-4665-b5cc-32e932309a2b"}
+                    io.cilium.network.ipv4-cilium-host: 100.64.0.229
+                    io.cilium.network.ipv4-health-ip: 100.64.0.141
+                    io.cilium.network.ipv4-pod-cidr: 100.64.0.0/24
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Mon, 25 Oct 2021 22:04:50 -0300
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+  AcquireTime:     <unset>
+  RenewTime:       Mon, 25 Oct 2021 22:57:24 -0300
+Conditions:
+  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----                 ------  -----------------                 ------------------                ------                       -------
+  ReadonlyFilesystem   False   Mon, 25 Oct 2021 22:56:53 -0300   Mon, 25 Oct 2021 22:06:46 -0300   FilesystemIsNotReadOnly      Filesystem is not read-only
+  KernelDeadlock       False   Mon, 25 Oct 2021 22:56:53 -0300   Mon, 25 Oct 2021 22:06:46 -0300   KernelHasNoDeadlock          kernel has no deadlock
+  NetworkUnavailable   False   Mon, 25 Oct 2021 22:05:58 -0300   Mon, 25 Oct 2021 22:05:58 -0300   CiliumIsUp                   Cilium is running on this node
+  MemoryPressure       False   Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:04:50 -0300   KubeletHasSufficientMemory   kubelet has sufficient memory available
+
+  DiskPressure         False   Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:04:50 -0300   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure          False   Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:04:50 -0300   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready                True    Mon, 25 Oct 2021 22:52:56 -0300   Mon, 25 Oct 2021 22:05:40 -0300   KubeletReady                 kubelet is posting ready status. AppArmor enabled
+Addresses:
+  Hostname:     scw-k8s-pedantic-haibt-default-085c7a0cce8b43f
+  InternalIP:   10.70.130.39
+  InternalDNS:  ce16e63b-743a-4665-b5cc-32e932309a2b.priv.instances.scw.cloud
+  ExternalIP:   51.158.114.23
+  ExternalDNS:  ce16e63b-743a-4665-b5cc-32e932309a2b.pub.instances.scw.cloud
+Capacity:
+  cpu:                3
+  ephemeral-storage:  37679072Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             4026676Ki
+  pods:               110
+Allocatable:
+  cpu:                2800m
+  ephemeral-storage:  37679072Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             2978100Ki
+  pods:               110
+System Info:
+  Machine ID:                 373021a4d2852d64d1a75d0261492134
+  System UUID:                ce16e63b-743a-4665-b5cc-32e932309a2b
+  Boot ID:                    32bab0b6-9ff2-4452-9dd2-12f92068d7a8
+  Kernel Version:             5.4.0-80-generic
+  OS Image:                   Ubuntu 20.04.1 LTS ad6f5e262f
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.5.5
+  Kubelet Version:            v1.22.2
+  Kube-Proxy Version:         v1.22.2
+PodCIDR:                      100.64.0.0/24
+PodCIDRs:                     100.64.0.0/24
+ProviderID:                   scaleway://instance/fr-par-1/ce16e63b-743a-4665-b5cc-32e932309a2b
+Non-terminated Pods:          (12 in total)
+  Namespace                   Name                                 CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                 ------------  ----------  ---------------  -------------  ---
+  default                     nginx-deployment-7bdc6b55d8-6rhmq    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     5m26s
+  default                     nginx-deployment-7bdc6b55d8-7cg2n    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     4m55s
+  default                     nginx-deployment-7bdc6b55d8-g2d4m    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     5m26s
+  default                     nginx-deployment-7bdc6b55d8-vnsdq    500m (17%)    500m (17%)  256Mi (8%)       256Mi (8%)     5m26s
+  kube-system                 cilium-operator-78df699746-bdz9b     0 (0%)        0 (0%)      0 (0%)           0 (0%)         56m
+  kube-system                 cilium-xn9ht                         100m (3%)     0 (0%)      100Mi (3%)       0 (0%)         52m
+  kube-system                 coredns-56bf5f7789-h254p             100m (3%)     0 (0%)      70Mi (2%)        170Mi (5%)     56m
+  kube-system                 csi-node-w6rvk                       0 (0%)        0 (0%)      0 (0%)           0 (0%)         52m
+  kube-system                 konnectivity-agent-vmblp             0 (0%)        0 (0%)      0 (0%)           0 (0%)         52m
+  kube-system                 kube-proxy-ssd5l                     0 (0%)        0 (0%)      0 (0%)           0 (0%)         52m
+  kube-system                 metrics-server-d97959999-mkhr9       100m (3%)     0 (0%)      300Mi (10%)      0 (0%)         56m
+  kube-system                 node-problem-detector-f7dmz          10m (0%)      10m (0%)    80Mi (2%)        80Mi (2%)      52m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests      Limits
+  --------           --------      ------
+  cpu                2310m (82%)   2010m (71%)
+  memory             1574Mi (54%)  1274Mi (43%)
+  ephemeral-storage  0 (0%)        0 (0%)
+  hugepages-1Gi      0 (0%)        0 (0%)
+  hugepages-2Mi      0 (0%)        0 (0%)
+Events:
+  Type     Reason                   Age   From     Message
+  ----     ------                   ----  ----     -------
+  Normal   Starting                 52m   kubelet  Starting kubelet.
+  Warning  InvalidDiskCapacity      52m   kubelet  invalid capacity 0 on image filesystem
+  Normal   NodeHasSufficientMemory  52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasSufficientMemory
+  Normal   NodeHasNoDiskPressure    52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasNoDiskPressure
+  Normal   NodeHasSufficientPID     52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasSufficientPID
+  Normal   NodeAllocatableEnforced  52m   kubelet  Updated Node Allocatable limit across pods
+  Normal   NodeReady                51m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeReady
