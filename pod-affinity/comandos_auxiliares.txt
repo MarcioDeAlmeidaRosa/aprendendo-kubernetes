@@ -342,3 +342,10 @@ scw-k8s-pedantic-haibt-default-fae3d53db9344b7   Ready    <none>   60s   v1.22.2
 #aplicando nova configuração (operator: DoesNotExist) selecionar máquinas que não existe a key (prioridade)
 
 kubectl get pods -o wide
+
+nginx-deployment-564d4bf7db-4wrbd   1/1     Running   0          30s   100.64.2.21    scw-k8s-pedantic-haibt-default-fae3d53db9344b7   <none>           <none>
+nginx-deployment-564d4bf7db-6g85p   1/1     Running   0          27s   100.64.3.122   scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   <none>           <none>
+nginx-deployment-564d4bf7db-9bz5j   1/1     Running   0          41s   100.64.2.71    scw-k8s-pedantic-haibt-default-fae3d53db9344b7   <none>           <none>
+nginx-deployment-564d4bf7db-bb2tc   1/1     Running   0          31s   100.64.3.4     scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   <none>           <none>
+nginx-deployment-564d4bf7db-ftnrt   1/1     Running   0          41s   100.64.2.30    scw-k8s-pedantic-haibt-default-fae3d53db9344b7   <none>           <none>
+nginx-deployment-564d4bf7db-v9xtz   1/1     Running   0          41s   100.64.3.246   scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   <none>           <none>
