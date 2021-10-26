@@ -26,3 +26,55 @@ mongodb-deployment-56b6b5c745-sfwts   1/1     Running   0          7m12s   100.6
 kubectl get pod -o wide
 
 mongodb-deployment-6f96c8c6cc-pnv6t   1/1     Running   0          58s   100.64.0.107   scw-k8s-upbeat-lederberg-default-54cbf93cb5a44   <none>           <none>
+
+#removendo label do nó
+kubectl label node scw-k8s-upbeat-lederberg-default-54cbf93cb5a44 database-
+
+#depois de removido a label, como existe um seletor no manifesto, o mongo não sobe em mais nenhúm nó pois não existe mais label configurado
+
+Name:           mongodb-deployment-6f96c8c6cc-b9chh
+Namespace:      default
+Priority:       0
+Node:           <none>
+Labels:         app=mongodb
+                pod-template-hash=6f96c8c6cc
+Annotations:    <none>
+Status:         Pending
+IP:             
+IPs:            <none>
+Controlled By:  ReplicaSet/mongodb-deployment-6f96c8c6cc
+Containers:
+  mongodb:
+    Image:      mongo:4.2.8
+    Port:       27017/TCP
+    Host Port:  0/TCP
+    Environment Variables from:
+      mongodb-secret  Secret  Optional: false
+    Environment:      <none>
+    Mounts:
+      /data/db from mongodb-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pdzrg (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False 
+Volumes:
+  mongodb-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /valumes/mongodb
+    HostPathType:  
+  kube-api-access-pdzrg:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              database=mongo
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason             Age   From                Message
+  ----     ------             ----  ----                -------
+  Warning  FailedScheduling   100s  default-scheduler   0/3 nodes are available: 3 node(s) didn't match Pod's node affinity/selector.
+  Warning  FailedScheduling   30s   default-scheduler   0/3 nodes are available: 3 node(s) didn't match Pod's node affinity/selector.
+  Normal   NotTriggerScaleUp  91s   cluster-autoscaler  pod didn't trigger scale-up:
