@@ -3,3 +3,12 @@ kubectl apply -f ./node-selector/mongo/
 
 #aplicando api
 kubectl apply -f ./node-selector/api
+
+#listando nodes do cluster kubernetes
+kubectl get nodes
+
+scw-k8s-upbeat-lederberg-default-54cbf93cb5a44   Ready    <none>   49m   v1.22.2 -> não executado mongo
+scw-k8s-upbeat-lederberg-default-83ff6e93bd554   Ready    <none>   48m   v1.22.2 -> executado mongo
+scw-k8s-upbeat-lederberg-default-dfa92d5ed0dc4   Ready    <none>   48m   v1.22.2 -> executado mongo
+
+#adicionando uma labels no nó scw-k8s-upbeat-lederberg-default-54cbf93cb5a44

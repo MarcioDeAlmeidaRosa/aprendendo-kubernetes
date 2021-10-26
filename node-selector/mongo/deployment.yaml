@@ -20,3 +20,10 @@ spec:
           envFrom:
             - secretRef:
                 name: mongodb-secret
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongodb-data
+      volumes:
+        - name: mongodb-data
+          hostPath:
+              path: /valumes/mongodb
