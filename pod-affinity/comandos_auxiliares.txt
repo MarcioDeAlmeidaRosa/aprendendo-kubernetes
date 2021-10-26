@@ -367,3 +367,12 @@ nginx-deployment-5cc999d745-7wpkm   1/1     Running   0          2m27s   100.64.
 nginx-deployment-5cc999d745-rcb9t   1/1     Running   0          9s      100.64.0.54    scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
 nginx-deployment-5cc999d745-txszq   1/1     Running   0          9s      100.64.2.128   scw-k8s-pedantic-haibt-default-fae3d53db9344b7   <none>           <none>
 nginx-deployment-5cc999d745-w6tm5   1/1     Running   0          9s      100.64.0.249   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+
+#adicionando novo item no operador para dar prioridade na escolha do node
+
+$ kubectl get pods  -o wide
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-64564cc79-225c8   1/1     Running   0          9s    100.64.1.61    scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-64564cc79-25txc   1/1     Running   0          5s    100.64.0.184   scw-k8s-pedantic-haibt-default-       <none>           <none>
+nginx-deployment-64564cc79-4788b   1/1     Running   0          9s    100.64.1.128   scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-64564cc79-w52pm   1/1     Running   0          7s    100.64.0.78    scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>

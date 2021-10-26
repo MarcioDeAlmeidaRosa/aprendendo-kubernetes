@@ -38,6 +38,16 @@ spec:
       #         - matchExpressions:
       #           - key: prioridade
       #             operator: DoesNotExist
+      # affinity:
+      #   nodeAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 1
+      #         preference:
+      #           matchExpressions:
+      #             - key: prioridade
+      #               operator: In
+      #               values:
+      #                 - "1"
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -48,4 +58,4 @@ spec:
                     operator: In
                     values:
                       - "1"
-                  
+                      - "2"
