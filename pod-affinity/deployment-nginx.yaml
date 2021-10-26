@@ -27,8 +27,9 @@ spec:
             nodeSelectorTerms:
               - matchExpressions:
                 - key: prioridade
-                  operator: In
-                  values:
-                    - "1"
-                    - "2"
+                  operator: DoesNotExist
+                  # operator: In
+                  # values:
+                  #   - "1"
+                  #   - "2"
           

@@ -338,3 +338,7 @@ scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   Ready    <none>   70m   v1.22.2
 scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   Ready    <none>   45m   v1.22.2
 scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   Ready    <none>   41s   v1.22.2
 scw-k8s-pedantic-haibt-default-fae3d53db9344b7   Ready    <none>   60s   v1.22.2
+
+#aplicando nova configuração (operator: DoesNotExist) selecionar máquinas que não existe a key (prioridade)
+
+kubectl get pods -o wide
