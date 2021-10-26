@@ -317,3 +317,15 @@ Events:
   Normal   NodeHasSufficientPID     52m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeHasSufficientPID
   Normal   NodeAllocatableEnforced  52m   kubelet  Updated Node Allocatable limit across pods
   Normal   NodeReady                51m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeReady
+
+  #subindo réplica para 6, desta forma o próximo pod entrou no segundo nó para processamento
+
+  kubectl get pods -o wide
+
+  NAME                             READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-9475866-c2psb   1/1     Running   0          5m56s   100.64.1.12    scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-9475866-l9zrv   1/1     Running   0          5m57s   100.64.1.128   scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-9475866-lmwfp   1/1     Running   0          6m4s    100.64.1.127   scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-9475866-lp9z4   1/1     Running   0          19s     100.64.0.119   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-9475866-w9qfv   1/1     Running   0          6m4s    100.64.1.98    scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
+nginx-deployment-9475866-znr78   1/1     Running   0          6m4s    100.64.1.7     scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
