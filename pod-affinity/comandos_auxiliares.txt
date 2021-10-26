@@ -318,11 +318,11 @@ Events:
   Normal   NodeAllocatableEnforced  52m   kubelet  Updated Node Allocatable limit across pods
   Normal   NodeReady                51m   kubelet  Node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f status is now: NodeReady
 
-  #subindo réplica para 6, desta forma o próximo pod entrou no segundo nó para processamento
+#subindo réplica para 6, desta forma o próximo pod entrou no segundo nó para processamento
 
-  kubectl get pods -o wide
+kubectl get pods -o wide
 
-  NAME                             READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+NAME                             READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
 nginx-deployment-9475866-c2psb   1/1     Running   0          5m56s   100.64.1.12    scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
 nginx-deployment-9475866-l9zrv   1/1     Running   0          5m57s   100.64.1.128   scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
 nginx-deployment-9475866-lmwfp   1/1     Running   0          6m4s    100.64.1.127   scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   <none>           <none>
@@ -334,8 +334,8 @@ nginx-deployment-9475866-znr78   1/1     Running   0          6m4s    100.64.1.7
 
 kubectl get nodes
 
-scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   Ready    <none>   70m   v1.22.2
-scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   Ready    <none>   45m   v1.22.2
+scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   Ready    <none>   70m   v1.22.2 --> antiga
+scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   Ready    <none>   45m   v1.22.2 --> antiga
 scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   Ready    <none>   41s   v1.22.2
 scw-k8s-pedantic-haibt-default-fae3d53db9344b7   Ready    <none>   60s   v1.22.2
 
@@ -349,3 +349,21 @@ nginx-deployment-564d4bf7db-9bz5j   1/1     Running   0          41s   100.64.2.
 nginx-deployment-564d4bf7db-bb2tc   1/1     Running   0          31s   100.64.3.4     scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   <none>           <none>
 nginx-deployment-564d4bf7db-ftnrt   1/1     Running   0          41s   100.64.2.30    scw-k8s-pedantic-haibt-default-fae3d53db9344b7   <none>           <none>
 nginx-deployment-564d4bf7db-v9xtz   1/1     Running   0          41s   100.64.3.246   scw-k8s-pedantic-haibt-default-f1bb35ed3e7645c   <none>           <none>
+
+
+#adicionando regra de preferência usando peso, listando pods para conferir nó de deployment e aplicando 1 réplica para ver a prioridade de máquina que é selecionada
+
+kubectl get pods  -o wide
+
+NAME                                READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+
+nginx-deployment-5cc999d745-7wpkm   1/1     Running   0          26s   100.64.0.216   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+
+#aumentando quantidade de réplicas para 4
+
+$ kubectl get pods  -o wide
+NAME                                READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-5cc999d745-7wpkm   1/1     Running   0          2m27s   100.64.0.216   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-5cc999d745-rcb9t   1/1     Running   0          9s      100.64.0.54    scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+nginx-deployment-5cc999d745-txszq   1/1     Running   0          9s      100.64.2.128   scw-k8s-pedantic-haibt-default-fae3d53db9344b7   <none>           <none>
+nginx-deployment-5cc999d745-w6tm5   1/1     Running   0          9s      100.64.0.249   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>

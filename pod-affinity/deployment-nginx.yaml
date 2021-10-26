@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  replicas: 6
+  replicas: 4 #6
   selector:
     matchLabels:
       app: nginx
@@ -31,10 +31,21 @@ spec:
       #             values:
       #               - "1"
       #               - "2"
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #           - key: prioridade
+      #             operator: DoesNotExist
       affinity:
         nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: prioridade
-                  operator: DoesNotExist
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: prioridade
+                    operator: In
+                    values:
+                      - "1"
+                  
