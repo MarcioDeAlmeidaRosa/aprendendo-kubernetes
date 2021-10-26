@@ -1,0 +1,26 @@
+#listando so nós do cluster
+kubectl get nodes
+
+scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   Ready    <none>   26m   v1.22.2
+scw-k8s-pedantic-haibt-default-1438ff3fc4be43f   Ready    <none>   81s   v1.22.2
+
+#atribuindo um labels representando prioridade nos nodes 
+kubectl label node scw-k8s-pedantic-haibt-default-085c7a0cce8b43f prioridade=1
+
+kubectl label node scw-k8s-pedantic-haibt-default-1438ff3fc4be43f prioridade=2
+
+#aplicando deployment depois da configuração de affinity
+kubectl apply -f ./pod-affinity/deployment-nginx.yaml
+
+#verificando o nó que o pod esta executando
+kubectl get pod -o wide
+
+nginx-deployment-7bdc6b55d8-v2jgx   1/1     Running   0          10s   100.64.0.27   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
+
+#deletando pod para conferir que o próximo continua no mesmo nó
+kubectl delete nginx-deployment-7bdc6b55d8-v2jgx
+
+#verificando pod
+kubectl get pod -o wide
+
+nginx-deployment-7bdc6b55d8-v2jgx   1/1     Running   0          2m39s   100.64.0.27   scw-k8s-pedantic-haibt-default-085c7a0cce8b43f   <none>           <none>
