@@ -21,6 +21,16 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 80
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #           - key: prioridade
+      #             operator: In
+      #             values:
+      #               - "1"
+      #               - "2"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -28,8 +38,3 @@ spec:
               - matchExpressions:
                 - key: prioridade
                   operator: DoesNotExist
-                  # operator: In
-                  # values:
-                  #   - "1"
-                  #   - "2"
-          
