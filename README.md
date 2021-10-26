@@ -669,7 +669,7 @@ Semana 04
 		    --> usado para especificar que um tipo de nó específico execute o pod.
 
 		* Node Affinity
-		    --> 
+		    --> permite criação de regra de obrigatoriedade ou criar regra de preferência, caso exista node que atenda a preferência, este será priorizado, caso não exista, o pod é executado em outro node mesmo que não atenda a preferência para permitir execução do mesmo.
 
 		* Pod Affinity e Pod Antiaffinity
 		    --> 
