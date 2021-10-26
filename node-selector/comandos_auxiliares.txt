@@ -12,3 +12,17 @@ scw-k8s-upbeat-lederberg-default-83ff6e93bd554   Ready    <none>   48m   v1.22.2
 scw-k8s-upbeat-lederberg-default-dfa92d5ed0dc4   Ready    <none>   48m   v1.22.2 -> executado mongo
 
 #adicionando uma labels no nó scw-k8s-upbeat-lederberg-default-54cbf93cb5a44
+kubectl label node scw-k8s-upbeat-lederberg-default-54cbf93cb5a44 database=mongo
+
+#validando a inclusão do label no node
+kubectl describe node scw-k8s-upbeat-lederberg-default-54cbf93cb5a44
+
+#verificando nó de execução do pod mongodb antes de alterar o manifesto de deployment
+kubectl get pod -o wide
+
+mongodb-deployment-56b6b5c745-sfwts   1/1     Running   0          7m12s   100.64.1.241   scw-k8s-upbeat-lederberg-default-83ff6e93bd554   <none>           <none>
+
+#validando node de execução aplós aplicar manifesto
+kubectl get pod -o wide
+
+mongodb-deployment-6f96c8c6cc-pnv6t   1/1     Running   0          58s   100.64.0.107   scw-k8s-upbeat-lederberg-default-54cbf93cb5a44   <none>           <none>

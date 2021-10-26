@@ -27,3 +27,5 @@ spec:
         - name: mongodb-data
           hostPath:
               path: /valumes/mongodb
+      nodeSelector:
+        database: mongo
