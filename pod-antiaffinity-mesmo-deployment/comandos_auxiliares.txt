@@ -8,3 +8,14 @@ kubectl get pods -o wide
 NAME                                    READY   STATUS              RESTARTS   AGE   IP            NODE                                             NOMINATED NODE   READINESS GATES
 nginx-aaa-deployment-55d6b89579-n8x65   0/1     ContainerCreating   0          2s    <none>        scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
 nginx-aaa-deployment-55d6b89579-rwjjq   1/1     Running             0          12s   100.64.0.43   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+
+
+#aplicando regra antiaffinity com ele mesmo, desta forma não existirá o mesmo pode rodando no mesmo node
+kubectl apply -f ./pod-antiaffinity-mesmo-deployment/deployment-nginx-aaa.yaml
+
+#verificando como ficou distribuídos
+kubectl get pods -o wide
+
+NAME                                   READY   STATUS    RESTARTS   AGE    IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-58b7fb4ff-7ntl5   1/1     Running   0          10s    100.64.1.227   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-58b7fb4ff-8zlvs   1/1     Running   0          106s   100.64.0.238   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
