@@ -20,4 +20,14 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 80
-     
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - "nginx-bbb"
+            topologyKey: kubernetes.io/hostname
+                  
