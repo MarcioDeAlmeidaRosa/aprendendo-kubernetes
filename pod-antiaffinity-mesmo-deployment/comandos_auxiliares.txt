@@ -1,0 +1,10 @@
+#aplicando deployment sem ainda sem regras de afinidade determinada
+kubectl apply -f ./pod-antiaffinity-mesmo-deployment/
+
+
+#verificando criação dos pods - já esta separando nos nodes, porém não é por regra determinada
+kubectl get pods -o wide
+
+NAME                                    READY   STATUS              RESTARTS   AGE   IP            NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-55d6b89579-n8x65   0/1     ContainerCreating   0          2s    <none>        scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-55d6b89579-rwjjq   1/1     Running             0          12s   100.64.0.43   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
