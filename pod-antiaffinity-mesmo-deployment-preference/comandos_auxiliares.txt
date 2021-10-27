@@ -1,7 +1,7 @@
 #aplicando deployment sem ainda sem regras de antiaffinity determinada
 kubectl apply -f ./pod-antiaffinity-mesmo-deployment-preference/
 
-#listandp pods
+#listando pods
 kubectl get pods -o wide
 
 NAME                                    READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
@@ -14,3 +14,39 @@ kubectl get nodes
 NAME                                             STATUS   ROLES    AGE   VERSION
 scw-k8s-hopeful-banzai-default-04b847544545450   Ready    <none>   76m   v1.22.2
 scw-k8s-hopeful-banzai-default-481cf7d85b0347f   Ready    <none>   76m   v1.22.2
+
+
+#verificando key do node
+kubectl describe node scw-k8s-hopeful-banzai-default-481cf7d85b0347f
+
+
+Name:               scw-k8s-hopeful-banzai-default-481cf7d85b0347f
+Roles:              <none>
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=DEV1-M
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=fr-par
+                    failure-domain.beta.kubernetes.io/zone=fr-par-1
+                    k8s.scaleway.com/kapsule=90e7a210-9f94-4994-bff0-5e6605724466
+                    k8s.scaleway.com/managed=true
+                    k8s.scaleway.com/node=481cf7d8-5b03-47fb-9bdd-84c874ba6adf
+                    k8s.scaleway.com/pool=2ee0c52d-3f3d-4f3c-9b11-38d6dc5ec278
+                    k8s.scaleway.com/pool-name=default
+                    k8s.scaleway.com/runtime=containerd
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=scw-k8s-hopeful-banzai-default-481cf7d85b0347f
+                    kubernetes.io/os=linux
+                    node.kubernetes.io/instance-type=DEV1-M
+                    topology.csi.scaleway.com/zone=fr-par-1
+                    topology.kubernetes.io/region=fr-par
+                    topology.kubernetes.io/zone=fr-par-1
+
+#aplicando regra podAntiAffinity com preferred
+kubectl apply -f ./pod-antiaffinity-mesmo-deployment-preference/deployment-nginx-aaa.yaml
+
+#verificando resultado
+kubectl get pods -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-7cc8bb968c-27bqs   1/1     Running   0          50s   100.64.0.227   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-7cc8bb968c-k78mx   1/1     Running   0          53s   100.64.1.94    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
