@@ -1,0 +1,17 @@
+#aplicando deployment sem ainda sem regras de afinidade determinada
+kubectl apply -f ./pod-affinity/
+
+#listando nós do cluster
+kubectl get nodes
+
+NAME                                             STATUS   ROLES    AGE     VERSION
+scw-k8s-hopeful-banzai-default-04b847544545450   Ready    <none>   3m48s   v1.22.2
+scw-k8s-hopeful-banzai-default-481cf7d85b0347f   Ready    <none>   3m20s   v1.22.2
+
+
+#listando pods com detalhe do nó de execução
+kubectl get pod -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-55d6b89579-d8xxv   1/1     Running   0          39s   100.64.1.92    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-jfsbh   1/1     Running   0          39s   100.64.1.130   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
