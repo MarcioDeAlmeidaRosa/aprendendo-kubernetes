@@ -1,0 +1,2 @@
+#aplicando deployment sem ainda sem regras de afinidade determinada
+kubectl apply -f ./pod-antiaffinity/
