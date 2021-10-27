@@ -1,4 +1,4 @@
-#aplicando deployment sem ainda sem regras de afinidade determinada
+#aplicando deployment sem ainda sem regras de antiaffinity determinada
 kubectl apply -f ./pod-antiaffinity-mesmo-deployment/
 
 
