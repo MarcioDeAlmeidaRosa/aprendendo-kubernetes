@@ -71,3 +71,21 @@ nginx-aaa-deployment-6b9f5786bb-d2hvc   1/1     Running   0          4m35s   100
 nginx-aaa-deployment-6b9f5786bb-qrd29   1/1     Running   0          31s     100.64.1.44    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
 nginx-aaa-deployment-6b9f5786bb-zkwbz   1/1     Running   0          31s     100.64.1.85    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
 nginx-bbb-deployment-55d9655cd9-g62sb   1/1     Running   0          11m     100.64.1.140   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+
+
+#subindo número de replicas de deployment-nginx-bbb.yaml para 2, pois na situação atual será criado pod dele no segundo node e os pods pendentes no primeiro node deployment-nginx-aaa.yaml passarão a rodar junto com o deployment-nginx-bbb.yaml mo outro node
+kubectl apply -f ./pod-affinity/deployment-nginx-bbb.yaml
+
+
+#verificando a migração dos dois pods poendentes no node que não existia mais recurso para execução para o nome node
+kubectl get pod -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-6b9f5786bb-5xcl7   1/1     Running   0          4m31s   100.64.1.56    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-6b9f5786bb-8nlcr   1/1     Running   0          4m7s    100.64.0.139   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-6b9f5786bb-9f74t   1/1     Running   0          4m7s    100.64.0.54    scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-6b9f5786bb-d2hvc   1/1     Running   0          8m35s   100.64.1.53    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-6b9f5786bb-qrd29   1/1     Running   0          4m31s   100.64.1.44    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-6b9f5786bb-zkwbz   1/1     Running   0          4m31s   100.64.1.85    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-c4dds   1/1     Running   0          5s      100.64.0.109   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-g62sb   1/1     Running   0          15m     100.64.1.140   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
