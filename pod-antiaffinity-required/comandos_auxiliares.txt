@@ -1,5 +1,5 @@
 #aplicando deployment sem ainda sem regras de afinidade determinada
-kubectl apply -f ./pod-antiaffinity/
+kubectl apply -f ./pod-antiaffinity-required/
 
 #verificando execução dos manifestos aplicados
 kubectl get pod -o wide
@@ -45,7 +45,7 @@ Labels:             beta.kubernetes.io/arch=amd64
 
 
 #aplicando manifesto deployment-nginx-aaa.yaml para configurar a podAntiAffinity
-kubectl apply -f ./pod-antiaffinity/deployment-nginx-aaa.yaml
+kubectl apply -f ./pod-antiaffinity-required/deployment-nginx-aaa.yaml
 
 
 #verificando como ficou distribuído os pods nos nodes disponíveis
@@ -57,7 +57,7 @@ nginx-bbb-deployment-55d9655cd9-gnlfh   1/1     Running   0          2m33s   100
 
 
 #aplicando 6 replicas no manifesto deployment-nginx-aaa.yaml para que fique pod no estado de pendente
-kubectl apply -f ./pod-antiaffinity/deployment-nginx-aaa.yaml
+kubectl apply -f ./pod-antiaffinity-required/deployment-nginx-aaa.yaml
 
 #verificando pod no esta de pendente
 kubectl get pod -o wide
@@ -73,7 +73,7 @@ nginx-bbb-deployment-55d9655cd9-gnlfh   1/1     Running   0          4m40s   100
 
 
 #aplicando 6 replicas no manifesto deployment-nginx-bbb.yaml para verificar o comportamento
-kubectl apply -f ./pod-antiaffinity/deployment-nginx-bbb.yaml
+kubectl apply -f ./pod-antiaffinity-required/deployment-nginx-bbb.yaml
 
 
 #verificando resultado

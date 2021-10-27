@@ -1,5 +1,5 @@
 #aplicando deployment sem ainda sem regras de afinidade determinada
-kubectl apply -f ./pod-affinity/
+kubectl apply -f ./pod-affinity-required/
 
 #listando nós do cluster
 kubectl get nodes
@@ -46,7 +46,7 @@ Annotations:        csi.volume.kubernetes.io/nodeid: {"csi.scaleway.com":"fr-par
                     io.cilium.network.ipv4-pod-cidr: 100.64.0.0/24
 
 #após alterar o manifesto de deployment aaa, para colocar regra de podAffinity para que o nginx-aaa execute obrigatoriamente próximo ao nginx-bbb
-kubectl apply -f ./pod-affinity/deployment-nginx-aaa.yaml
+kubectl apply -f ./pod-affinity-required/deployment-nginx-aaa.yaml
 
 
 #após aplicar regra, pod nginx-aaa foi movido de nó para rodar junto com nginx-bbb
@@ -58,7 +58,7 @@ nginx-bbb-deployment-55d9655cd9-g62sb   1/1     Running   0          7m13s   100
 
 
 #aplicando replicas = 6 para o deployment-nginx-aaa.yaml para ver o ponto que ele deixa pods na situação de pendentes pois não há recurso na máqina para que possa executar os novos pods
-kubectl apply -f ./pod-affinity/deployment-nginx-aaa.yaml
+kubectl apply -f ./pod-affinity-required/deployment-nginx-aaa.yaml
 
 #verificando status dos pods, existe 2 pendentes pois não há mais recurso no node em execução
 kubectl get pod -o wide
@@ -74,7 +74,7 @@ nginx-bbb-deployment-55d9655cd9-g62sb   1/1     Running   0          11m     100
 
 
 #subindo número de replicas de deployment-nginx-bbb.yaml para 2, pois na situação atual será criado pod dele no segundo node e os pods pendentes no primeiro node deployment-nginx-aaa.yaml passarão a rodar junto com o deployment-nginx-bbb.yaml mo outro node
-kubectl apply -f ./pod-affinity/deployment-nginx-bbb.yaml
+kubectl apply -f ./pod-affinity-required/deployment-nginx-bbb.yaml
 
 
 #verificando a migração dos dois pods poendentes no node que não existia mais recurso para execução para o nome node
