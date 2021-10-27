@@ -70,3 +70,25 @@ nginx-aaa-deployment-bd696c858-q892w    1/1     Running   0          29s     100
 nginx-aaa-deployment-bd696c858-ss2wx    0/1     Pending   0          29s     <none>         <none>                                           <none>           <none>
 nginx-aaa-deployment-bd696c858-zjscg    1/1     Running   0          29s     100.64.0.106   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
 nginx-bbb-deployment-55d9655cd9-gnlfh   1/1     Running   0          4m40s   100.64.1.168   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+
+
+#aplicando 6 replicas no manifesto deployment-nginx-bbb.yaml para verificar o comportamento
+kubectl apply -f ./pod-antiaffinity/deployment-nginx-bbb.yaml
+
+
+#verificando resultado
+kubectl get pod -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-bd696c858-d7nls    1/1     Running   0          3m36s   100.64.0.90    scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-bd696c858-m6lb7    1/1     Running   0          5m53s   100.64.0.109   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-bd696c858-m9gdk    0/1     Pending   0          3m36s   <none>         <none>                                           <none>           <none>
+nginx-aaa-deployment-bd696c858-q892w    1/1     Running   0          3m36s   100.64.0.70    scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-bd696c858-ss2wx    0/1     Pending   0          3m36s   <none>         <none>                                           <none>           <none>
+nginx-aaa-deployment-bd696c858-zjscg    1/1     Running   0          3m36s   100.64.0.106   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-4wtzh   1/1     Running   0          89s     100.64.1.162   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-56zh4   1/1     Running   0          89s     100.64.1.105   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-5vdqq   1/1     Running   0          89s     100.64.1.10    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-6xt8c   0/1     Pending   0          7s      <none>         <none>                                           <none>           <none>
+nginx-bbb-deployment-55d9655cd9-cfkj8   1/1     Running   0          89s     100.64.1.74    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-gnlfh   1/1     Running   0          7m47s   100.64.1.168   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
