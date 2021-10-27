@@ -1,0 +1,16 @@
+#aplicando deployment sem ainda sem regras de antiaffinity determinada
+kubectl apply -f ./pod-antiaffinity-mesmo-deployment-preference/
+
+#listandp pods
+kubectl get pods -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-55d6b89579-rx929   1/1     Running   0          41s   100.64.1.78    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-55d6b89579-t5jms   1/1     Running   0          41s   100.64.0.234   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+
+#listando os nós do cluster
+kubectl get nodes
+
+NAME                                             STATUS   ROLES    AGE   VERSION
+scw-k8s-hopeful-banzai-default-04b847544545450   Ready    <none>   76m   v1.22.2
+scw-k8s-hopeful-banzai-default-481cf7d85b0347f   Ready    <none>   76m   v1.22.2
