@@ -19,3 +19,4 @@ kubectl get pods -o wide
 NAME                                   READY   STATUS    RESTARTS   AGE    IP             NODE                                             NOMINATED NODE   READINESS GATES
 nginx-aaa-deployment-58b7fb4ff-7ntl5   1/1     Running   0          10s    100.64.1.227   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
 nginx-aaa-deployment-58b7fb4ff-8zlvs   1/1     Running   0          106s   100.64.0.238   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+
