@@ -20,3 +20,14 @@ NAME                                   READY   STATUS    RESTARTS   AGE    IP   
 nginx-aaa-deployment-58b7fb4ff-7ntl5   1/1     Running   0          10s    100.64.1.227   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
 nginx-aaa-deployment-58b7fb4ff-8zlvs   1/1     Running   0          106s   100.64.0.238   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
 
+#subindo o número de réplicas para 4 para verificar o comportamento em 2 nodes no cluster
+kubectl apply -f ./pod-antiaffinity-mesmo-deployment/deployment-nginx-aaa.yaml
+
+#listando pods, como é regra o mesmo manifesto não dividir node, ficam 2 pendentes
+kubectl get pods -o wide
+
+AME                                   READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-58b7fb4ff-78gdq   0/1     Pending   0          9s      <none>         <none>                                           <none>           <none>
+nginx-aaa-deployment-58b7fb4ff-7ntl5   1/1     Running   0          3m21s   100.64.1.227   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-58b7fb4ff-8zlvs   1/1     Running   0          4m57s   100.64.0.238   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-58b7fb4ff-kt5nw   0/1     Pending   0          10s     <none>         <none>                                           <none>           <none>
