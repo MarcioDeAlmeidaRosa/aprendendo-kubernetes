@@ -1,2 +1,48 @@
 #aplicando deployment sem ainda sem regras de afinidade determinada
 kubectl apply -f ./pod-antiaffinity/
+
+#verificando execução dos manifestos aplicados
+kubectl get pod -o wide
+
+NAME                                    READY   STATUS              RESTARTS   AGE   IP            NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-55d6b89579-4xzqs   1/1     Running             0          10s   100.64.1.68   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-gnlfh   0/1     ContainerCreating   0          2s    <none>        scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+
+
+#listando os nodes do cluster em execução
+kubectl get nodes
+
+
+
+NAME                                             STATUS   ROLES    AGE   VERSION
+scw-k8s-hopeful-banzai-default-04b847544545450   Ready    <none>   32m   v1.22.2
+scw-k8s-hopeful-banzai-default-481cf7d85b0347f   Ready    <none>   32m   v1.22.2
+
+#pegando uma key do de um no nodes para configuração como topologyKey
+kubectl describe node scw-k8s-hopeful-banzai-default-04b847544545450
+
+Name:               scw-k8s-hopeful-banzai-default-04b847544545450
+Roles:              <none>
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=DEV1-M
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=fr-par
+                    failure-domain.beta.kubernetes.io/zone=fr-par-1
+                    k8s.scaleway.com/kapsule=90e7a210-9f94-4994-bff0-5e6605724466
+                    k8s.scaleway.com/managed=true
+                    k8s.scaleway.com/node=04b84754-4545-4500-814d-4c96b9b21f84
+                    k8s.scaleway.com/pool=2ee0c52d-3f3d-4f3c-9b11-38d6dc5ec278
+                    k8s.scaleway.com/pool-name=default
+                    k8s.scaleway.com/runtime=containerd
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=scw-k8s-hopeful-banzai-default-04b847544545450
+                    kubernetes.io/os=linux
+                    node.kubernetes.io/instance-type=DEV1-M
+                    topology.csi.scaleway.com/zone=fr-par-1
+                    topology.kubernetes.io/region=fr-par
+                    topology.kubernetes.io/zone=fr-par-1
+
+
+
+#aplicando manifesto deployment-nginx-aaa.yaml para configurar a podAntiAffinity
+kubectl apply -f ./pod-antiaffinity/deployment-nginx-aaa.yaml
