@@ -50,3 +50,16 @@ kubectl get pods -o wide
 NAME                                    READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
 nginx-aaa-deployment-7cc8bb968c-27bqs   1/1     Running   0          50s   100.64.0.227   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
 nginx-aaa-deployment-7cc8bb968c-k78mx   1/1     Running   0          53s   100.64.1.94    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+
+
+#subindo o número de réplicas para 4 esperando que as 4 executem tentando espalha-las, como só tem 2 nós, serão dividias as aplicações entre elas
+kubectl apply -f ./pod-antiaffinity-mesmo-deployment-preference/deployment-nginx-aaa.yaml
+
+#verificando resultado
+kubectl get pods -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-7cc8bb968c-27bqs   1/1     Running   0          3m18s   100.64.0.227   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-7cc8bb968c-k78mx   1/1     Running   0          3m21s   100.64.1.94    scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+nginx-aaa-deployment-7cc8bb968c-s5ngk   1/1     Running   0          10s     100.64.0.200   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-7cc8bb968c-th866   1/1     Running   0          10s     100.64.1.241   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
