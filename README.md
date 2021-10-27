@@ -673,7 +673,7 @@ Semana 04
 
 		* Pod Affinity e Pod Antiaffinity
 		    --> Pod Affinity -> pensando em um cenáro onde existe um pod de uma api que precisa usar cache, por conta de ter menos latência em sua utilização é sugerido deixar sempre os 2 no mesmo nó.
-			--> Pod Antiaffinity -> pensando em um cenário onde você quer ter alta disponibilidade, então você sobe a quantidade de réplicas, porém se todas elas estiverem no mesmo nó, e este nó cai, acaba a alta disponibilidade da sua aplicação, então este recurso vem para que possibilite ao escalar, você consiga orientar que as instâncias fiquem em nós diferentes. Recomendado a configuração como uma regra preferencial
+			--> Pod Antiaffinity -> pensando em um cenário onde você quer ter alta disponibilidade, então você sobe a quantidade de réplicas, porém se todas elas estiverem no mesmo nó, e este nó cai, acaba a alta disponibilidade da sua aplicação, então este recurso vem para que possibilite ao escalar, você consiga orientar que as instâncias fiquem em nós diferentes. Recomendado a configuração como uma regra preferencial;
 
 		* Taint e Tolerations
 		    --> 
