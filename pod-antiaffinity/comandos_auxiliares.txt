@@ -54,3 +54,19 @@ kubectl get pod -o wide
 NAME                                    READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
 nginx-aaa-deployment-bd696c858-m6lb7    1/1     Running   0          39s     100.64.0.109   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
 nginx-bbb-deployment-55d9655cd9-gnlfh   1/1     Running   0          2m33s   100.64.1.168   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
+
+
+#aplicando 6 replicas no manifesto deployment-nginx-aaa.yaml para que fique pod no estado de pendente
+kubectl apply -f ./pod-antiaffinity/deployment-nginx-aaa.yaml
+
+#verificando pod no esta de pendente
+kubectl get pod -o wide
+
+NAME                                    READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-aaa-deployment-bd696c858-d7nls    1/1     Running   0          29s     100.64.0.90    scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-bd696c858-m6lb7    1/1     Running   0          2m46s   100.64.0.109   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-bd696c858-m9gdk    0/1     Pending   0          29s     <none>         <none>                                           <none>           <none>
+nginx-aaa-deployment-bd696c858-q892w    1/1     Running   0          29s     100.64.0.70    scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-aaa-deployment-bd696c858-ss2wx    0/1     Pending   0          29s     <none>         <none>                                           <none>           <none>
+nginx-aaa-deployment-bd696c858-zjscg    1/1     Running   0          29s     100.64.0.106   scw-k8s-hopeful-banzai-default-04b847544545450   <none>           <none>
+nginx-bbb-deployment-55d9655cd9-gnlfh   1/1     Running   0          4m40s   100.64.1.168   scw-k8s-hopeful-banzai-default-481cf7d85b0347f   <none>           <none>
