@@ -11,6 +11,10 @@ spec:
     - Egress  #política de saída
   ingress:
     - from:
+      # - ipBlock:
+      #     cidr: 172.17.0.0/16
+      #     except:
+      #       - "172.17.10.223"
       - podSelector:
           matchLabels:
             app: ubuntu
