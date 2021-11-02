@@ -698,6 +698,7 @@ Semana 04
 		  -> https://kubedev.club.hotmart.com/lesson/o4E0L99dOz/wavenet-no-kind
 
 		* NetworkPolicy
+		  --> por padrão toda a comunicação entre pods e namespaces é liberada com o default do kubernetes, porém isso não é seguro, em um cenário que alguém ao invadir sua aplicação consegue acessar os outros serviços do cluster kubernetes sem nenhuma dificuldade, somente sabendo o endereço dos serviços. O NetworkPolicy permite criar regra de comunicação entre os pods, bloqueando quem não pode ser acessado, e libera quem precisa acessar algum recurso.
 
 		* ServiceAccount e RBAC
 	
