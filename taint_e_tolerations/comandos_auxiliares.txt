@@ -255,3 +255,34 @@ nginx-deployment-7796b7557-rkfrs   1/1     Running   0          11s   100.64.0.2
 nginx-deployment-7796b7557-xzrns   1/1     Running   0          11s   100.64.1.11    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
 
 #diminuindo a quantidade de réplicas deixando somente 6, foi possível alocar preferencialmente os pods nos dois nós do cluster evitando o nó scw-k8s-angry-lovelace-default-104ea93176284d6 onde foi configurado o PreferNoSchedule
+
+#iniciando alteração para testar o tolerations, aplicando novamente o Taints de NoExecute
+kubectl taint nodes scw-k8s-angry-lovelace-default-104ea93176284d6 especial=valor1:NoExecute
+
+#verificando deployment em execução
+kubectl get pods -o wide
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7796b7557-6gkhd   1/1     Running   0          22m   100.64.1.237   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-6tkq9   1/1     Running   0          22m   100.64.0.200   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-hxl66   1/1     Running   0          22m   100.64.0.103   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-qvg98   1/1     Running   0          22m   100.64.1.50    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-rkfrs   1/1     Running   0          22m   100.64.0.228   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-xzrns   1/1     Running   0          22m   100.64.1.11    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#aplicando as configurações de tolerations no pod para que permita execução no nó (scw-k8s-angry-lovelace-default-104ea93176284d6) onde foi aplicado o NoExecute
+kubectl apply -f ./taint_e_tolerations/deployment.yaml
+
+#verificando redistribuição do deployment depois da configuração do tolerations no pod
+kubectl get pods -o wide
+
+NAME                                READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+
+nginx-deployment-5956f54fcc-8mzf6   1/1     Running   0          58s   100.64.0.165   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-5956f54fcc-brp92   1/1     Running   0          56s   100.64.1.70    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-5956f54fcc-h2xxx   1/1     Running   0          53s   100.64.2.175   scw-k8s-angry-lovelace-default-104ea93176284d6   <none>           <none>
+nginx-deployment-5956f54fcc-l4vd8   1/1     Running   0          54s   100.64.0.213   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-5956f54fcc-nxsfq   1/1     Running   0          53s   100.64.1.149   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-5956f54fcc-qvgbj   1/1     Running   0          58s   100.64.1.10    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#nova redistribuição feita, e agora o pod (nginx-deployment-5956f54fcc-h2xxx) esta rodando no nó (scw-k8s-angry-lovelace-default-104ea93176284d6) que tem o Taints NoExecute configurado
