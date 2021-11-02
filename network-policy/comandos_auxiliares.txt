@@ -175,8 +175,56 @@ pod "ping-test" deleted
 kubectl create namespace curl
 
 #agora executamos o mesmo container só que de um namespace diferente, como não esta liberado a regra, a comunicação não será feita.
-kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service.default.svc.cluester.local
+kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service.default.svc.cluster.local
 
 curl: (6) Could not resolve host: nginx-service.default.svc.cluester.local
 pod "ping-test" deleted
 pod curl/ping-test terminated (Error)
+
+
+#agora precisamos colocar a label no namespace criando
+kubectl label namespace curl ns=nginx
+
+#verificando a configuração atribuída ao namespace
+kubectl describe namespace curl
+
+Name:         curl
+Labels:       kubernetes.io/metadata.name=curl
+              ns=nginx
+Annotations:  <none>
+Status:       Active
+
+No resource quota.
+
+No LimitRange resource.
+
+#aplicando as alterações no network police criado
+kubectl apply -f ./network-policy/network-police.yaml
+
+#com isso conseguiremos fazer a chamada abaixo funcionar
+kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service.default.svc.cluster.local
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+pod "ping-test" deleted
