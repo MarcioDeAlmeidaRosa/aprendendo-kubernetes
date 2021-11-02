@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-api-pedelogo-service
+  labels:
+    app: api-pedelogo
+spec:
+  selector:
+    app: mongodb-api-pedelogo
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: 27017
+      name: tcp

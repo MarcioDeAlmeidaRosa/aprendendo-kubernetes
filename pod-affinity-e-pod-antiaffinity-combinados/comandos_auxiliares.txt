@@ -1,0 +1,6 @@
+#gerando valores para o secret de banco de dados
+echo -n "administrador-usr" | base64
+echo -n "MinhaSenhaUsuarioFoRTE" | base64
+
+#aplicando deployment do banco
+kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/mongo/
