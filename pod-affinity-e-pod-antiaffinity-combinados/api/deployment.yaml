@@ -43,3 +43,15 @@ spec:
                 secretKeyRef:
                   key: MONGO_INITDB_ROOT_PASSWORD
                   name: secret-mongodb-api-pedelogo
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1 #definindo uma prioridade baixo, para que a outra regra tenha um peso maior
+              podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - "mongodb-api-pedelogo"

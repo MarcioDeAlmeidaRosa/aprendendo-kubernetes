@@ -10,3 +10,59 @@ kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/api/
 
 #aplicando todos os manifestos
 kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/. -R
+
+#intenção do exercício
+criar uma regra de (afinidade) com mongodb onde vou ter uma réplica da api no mesmo nó do mongo,
+e outra regra de (anti afinidade) para que as demais réplicas da api espalhe em outros nós quando possível
+
+#recuperando valor para o podAffinityTerm
+kubectl get node
+
+NAME                                             STATUS   ROLES    AGE   VERSION
+scw-k8s-angry-lovelace-default-104ea93176284d6   Ready    <none>   69m   v1.22.3
+scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   Ready    <none>   69m   v1.22.3
+scw-k8s-angry-lovelace-default-fe175434bbd547e   Ready    <none>   69m   v1.22.3
+
+kubectl describe node scw-k8s-angry-lovelace-default-104ea93176284d6
+
+Name:               scw-k8s-angry-lovelace-default-104ea93176284d6
+Roles:              <none>
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=DEV1-M
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=fr-par
+                    failure-domain.beta.kubernetes.io/zone=fr-par-1
+                    k8s.scaleway.com/kapsule=39713063-f994-4dd6-8b91-f0d3fec3607a
+                    k8s.scaleway.com/managed=true
+                    k8s.scaleway.com/node=104ea931-7628-4d64-b901-85d3c55d499e
+                    k8s.scaleway.com/pool=63f48a05-1ab1-49e1-916e-36aab1c39b88
+                    k8s.scaleway.com/pool-name=default
+                    k8s.scaleway.com/runtime=containerd
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=scw-k8s-angry-lovelace-default-104ea93176284d6
+                    kubernetes.io/os=linux
+                    node.kubernetes.io/instance-type=DEV1-M
+                    topology.csi.scaleway.com/zone=fr-par-1
+                    topology.kubernetes.io/region=fr-par
+                    topology.kubernetes.io/zone=fr-par-1
+
+#aplicando 1º regra de afinidade onde terei que ter 1 réplica da api no mesmo nó do mongo,
+verificando o deploy atual para comparar como ficou após a aplicação da regra
+kubectl get pods -o wide
+
+READINESS GATES
+api-pedelogo-deployment-7b89fd6956-s2cn6           1/1     Running   0          22m   100.64.2.183   scw-k8s-angry-lovelace-default-104ea93176284d6   <none>           <none>
+mongodb-api-pedelogo-deployment-79c459f585-vcq4p   1/1     Running   0          22m   100.64.1.56    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#como constatado, os pods estão rodando em nós diferentes.
+
+#aplicando a regra de afinidade
+kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/api/
+
+
+#verificando como ficou os pods apos aplicação da regra
+kubectl get pods -o wide
+
+NAME                                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+api-pedelogo-deployment-5b7b4f5cd9-shrcg           1/1     Running   0          45s   100.64.1.109   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+mongodb-api-pedelogo-deployment-79c459f585-vcq4p   1/1     Running   0          24m   100.64.1.56    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
