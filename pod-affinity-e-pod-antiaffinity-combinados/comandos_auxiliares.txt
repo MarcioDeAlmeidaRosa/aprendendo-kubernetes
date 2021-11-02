@@ -93,3 +93,20 @@ mongodb-api-pedelogo-deployment-79c459f585-bp5w9   1/1     Running   0          
 <none>
 
 #aplicando 4 réplicas da api usando anti afinidade para que as demais réplicas da api seja colocada em outros nós diferente da 1º réplica
+quando a quantidade de réplica ultrapassa a quantidade de nó, ele reaplica a regra de afinidade, colocando novo pod junto com o banco
+kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/api/
+
+#verificando como ficou os pods apos aplicação da regra
+kubectl get pods -o wide
+
+NAME                                               READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+api-pedelogo-deployment-7bbb49d8bd-6xgsk           1/1     Running   0          7m24s   100.64.2.123   scw-k8s-angry-lovelace-default-104ea93176284d6   <none>
+  <none>
+api-pedelogo-deployment-7bbb49d8bd-hnst7           1/1     Running   0          9s      100.64.0.73    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>
+  <none>
+api-pedelogo-deployment-7bbb49d8bd-x9m2m           1/1     Running   0          9s      100.64.1.221   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>
+  <none>
+api-pedelogo-deployment-7bbb49d8bd-zjnlt           1/1     Running   0          7m24s   100.64.1.179   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>
+  <none>
+mongodb-api-pedelogo-deployment-79c459f585-bp5w9   1/1     Running   0          7m23s   100.64.1.6     scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>
+  <none>
