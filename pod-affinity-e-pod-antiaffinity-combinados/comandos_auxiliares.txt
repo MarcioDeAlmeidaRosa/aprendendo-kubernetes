@@ -1,6 +1,12 @@
 #gerando valores para o secret de banco de dados
 echo -n "administrador-usr" | base64
-echo -n "MinhaSenhaUsuarioFoRTE" | base64
+echo -n "mongodbsenha-usr" | base64
 
-#aplicando deployment do banco
+#aplicando manifestos de banco
 kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/mongo/
+
+#aplicando manifestos de api
+kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/api/
+
+#aplicando todos os manifestos
+kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/. -R

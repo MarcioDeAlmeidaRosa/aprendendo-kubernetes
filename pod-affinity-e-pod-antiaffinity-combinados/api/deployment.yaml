@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-pedelogo-deployment
+  labels:
+    app: api-pedelogo
+spec:
+  selector:
+    matchLabels:
+      app: api-pedelogo
+  template:
+    metadata:
+      labels:
+        app: api-pedelogo
+    spec:
+      containers:
+        - name: api-pedelogo
+          image: kubedevio/pedelogo-catalogo:v1.0.0
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
+          envFrom:
+            - configMapRef:
+                name: configmap-mongodb-api-pedelogo
+          env:
+            - name: Mongo__User
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_INITDB_ROOT_USERNAME
+                  name: secret-mongodb-api-pedelogo
+            - name: Mongo__Password
+              valueFrom:
+                secretKeyRef:
+                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: secret-mongodb-api-pedelogo

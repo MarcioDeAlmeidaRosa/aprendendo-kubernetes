@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-mongodb-api-pedelogo
+  labels:
+    app: api-pedelogo
+data:
+  Mongo__Host: mongodb-api-pedelogo-service
+  Mongo__Port: "27017"
+  Mongo__DataBase: admin
