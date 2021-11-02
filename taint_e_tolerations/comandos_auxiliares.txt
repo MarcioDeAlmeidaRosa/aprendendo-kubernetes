@@ -189,3 +189,69 @@ Annotations:        csi.volume.kubernetes.io/nodeid: {"csi.scaleway.com":"fr-par
                     volumes.kubernetes.io/controller-managed-attach-detach: true
 CreationTimestamp:  Tue, 02 Nov 2021 09:34:42 -0300
 Taints:             especial=valor1:NoExecute
+
+#retirando taint NoExecute para testar o próximo
+kubectl taint nodes scw-k8s-angry-lovelace-default-104ea93176284d6 especial=valor1:NoExecute-
+
+#verificando deployment executado
+kubectl get pods -o wide
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7796b7557-589ph   1/1     Running   0          25m   100.64.0.218   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-7gbsq   1/1     Running   0          17m   100.64.2.20    scw-k8s-angry-lovelace-default-104ea93176284d6   <none>           <none>
+nginx-deployment-7796b7557-944wt   1/1     Running   0          25m   100.64.1.186   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-bkv6r   1/1     Running   0          25m   100.64.0.91    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-c6jfp   1/1     Running   0          25m   100.64.0.105   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lm4nf   1/1     Running   0          25m   100.64.0.44    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lv5b7   1/1     Running   0          25m   100.64.1.30    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-t7gqg   1/1     Running   0          25m   100.64.1.79    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-xbzb7   1/1     Running   0          25m   100.64.1.219   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-z6lqx   1/1     Running   0          25m   100.64.1.165   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#diminuindo o número de réplicas
+kubectl scale deployment nginx-deployment --replicas=8
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7796b7557-589ph   1/1     Running   0          26m   100.64.0.218   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-7gbsq   1/1     Running   0          19m   100.64.2.20    scw-k8s-angry-lovelace-default-104ea93176284d6   <none>           <none>
+nginx-deployment-7796b7557-944wt   1/1     Running   0          26m   100.64.1.186   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-bkv6r   1/1     Running   0          26m   100.64.0.91    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-c6jfp   1/1     Running   0          26m   100.64.0.105   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lm4nf   1/1     Running   0          26m   100.64.0.44    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lv5b7   1/1     Running   0          26m   100.64.1.30    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-t7gqg   1/1     Running   0          26m   100.64.1.79    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+
+#Adicionando Taints de PreferNoSchedule para que seja evitado a utilização do nó (scw-k8s-angry-lovelace-default-104ea93176284d6) quando possível
+kubectl taint nodes scw-k8s-angry-lovelace-default-104ea93176284d6 especial=valor1:PreferNoSchedule
+
+#verificando deployment executado
+kubectl get pods -o wide
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7796b7557-589ph   1/1     Running   0          29m   100.64.0.218   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-7gbsq   1/1     Running   0          22m   100.64.2.20    scw-k8s-angry-lovelace-default-104ea93176284d6   <none>           <none>
+nginx-deployment-7796b7557-944wt   1/1     Running   0          29m   100.64.1.186   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-bkv6r   1/1     Running   0          29m   100.64.0.91    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-c6jfp   1/1     Running   0          29m   100.64.0.105   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lm4nf   1/1     Running   0          29m   100.64.0.44    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lv5b7   1/1     Running   0          29m   100.64.1.30    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-t7gqg   1/1     Running   0          29m   100.64.1.79    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#como a configuração de Taints só afeta para os nóvos agendamentos, ainad terá pod rodando no nó, irei remover o deploy e aplicar novamente
+kubectl delete -f ./taint_e_tolerations/deployment.yaml
+kubectl apply -f ./taint_e_tolerations/deployment.yaml
+kubectl scale deployment nginx-deployment --replicas=6
+
+#verificando deployment executado
+kubectl get pods -o wide
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7796b7557-6gkhd   1/1     Running   0          16s   100.64.1.237   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-6tkq9   1/1     Running   0          11s   100.64.0.200   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-hxl66   1/1     Running   0          11s   100.64.0.103   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-qvg98   1/1     Running   0          11s   100.64.1.50    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-rkfrs   1/1     Running   0          11s   100.64.0.228   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-xzrns   1/1     Running   0          11s   100.64.1.11    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#diminuindo a quantidade de réplicas deixando somente 6, foi possível alocar preferencialmente os pods nos dois nós do cluster evitando o nó scw-k8s-angry-lovelace-default-104ea93176284d6 onde foi configurado o PreferNoSchedule
