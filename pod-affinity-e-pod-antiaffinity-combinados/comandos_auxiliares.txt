@@ -66,3 +66,14 @@ kubectl get pods -o wide
 NAME                                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
 api-pedelogo-deployment-5b7b4f5cd9-shrcg           1/1     Running   0          45s   100.64.1.109   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
 mongodb-api-pedelogo-deployment-79c459f585-vcq4p   1/1     Running   0          24m   100.64.1.56    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#aumentando o número de réplicas da api para 2 e vamos verificar como ficou a distribuição
+kubectl apply -f ./pod-affinity-e-pod-antiaffinity-combinados/api/
+
+#verificando como ficou os pods apos aplicação da regra
+kubectl get pods -o wide
+
+NAME                                               READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+api-pedelogo-deployment-5b7b4f5cd9-ppp9d           1/1     Running   0          18s     100.64.1.89    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+api-pedelogo-deployment-5b7b4f5cd9-shrcg           1/1     Running   0          3m29s   100.64.1.109   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+mongodb-api-pedelogo-deployment-79c459f585-vcq4p   1/1     Running   0          27m     100.64.1.56    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>

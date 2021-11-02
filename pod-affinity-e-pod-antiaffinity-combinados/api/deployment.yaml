@@ -5,6 +5,7 @@ metadata:
   labels:
     app: api-pedelogo
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: api-pedelogo
