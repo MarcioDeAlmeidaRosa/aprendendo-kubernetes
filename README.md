@@ -694,7 +694,11 @@ Semana 04
 		  --> por padrão não é ativado recursos de segurança ao trabalhar com uma instalação padrão do kubernetes, abaixo é descrito os objetos do kubernetes para aplicar seguração no serviço.
 
 		* WaveNet no Kind
+		  --> Repassar aula depois
+		  -> https://kubedev.club.hotmart.com/lesson/o4E0L99dOz/wavenet-no-kind
+
 		* NetworkPolicy
+
 		* ServiceAccount e RBAC
 	
 	Expondo a sua aplicação com Ingress Controller
