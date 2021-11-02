@@ -56,3 +56,14 @@ spec:
                         operator: In
                         values:
                           - "mongodb-api-pedelogo"
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 2 #definindo uma prioridade maior, para que tente ao máximo colocar as réplicas em outros nós
+              podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - "api-pedelogo"
