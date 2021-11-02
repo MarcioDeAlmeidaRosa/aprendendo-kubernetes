@@ -685,6 +685,10 @@ Semana 04
 
 			--> A configuração pode ser combinada para diversos cenários, por exemplo, quando é preciso que alguns nós precisam de um hardware especial para machine learning, ou outro cenário é de manutenção, onde não se quer que nenhum pod seja executado alí por conta de manutenção.
 
+
+			Observação: O recurso de Taint também é usado pelo Kubernetes para que não seja possível agendar execução de pods no nó master (control-plane), o kubernetes adiciona o Taint -> node-role.kubernetes.io/master:NoSchedule
+			            Se quiser tirar o bloqueio, basta tirar o Taint do master (não é recomendado fazer isso em produção)
+
 	Falando sobre Segurança
 		* Introdução
 		* WaveNet no Kind
