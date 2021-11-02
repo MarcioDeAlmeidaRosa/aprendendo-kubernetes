@@ -691,6 +691,8 @@ Semana 04
 
 	Falando sobre Segurança
 		* Introdução
+		  --> por padrão não é ativado recursos de segurança ao trabalhar com uma instalação padrão do kubernetes, abaixo é descrito os objetos do kubernetes para aplicar seguração no serviço.
+
 		* WaveNet no Kind
 		* NetworkPolicy
 		* ServiceAccount e RBAC
