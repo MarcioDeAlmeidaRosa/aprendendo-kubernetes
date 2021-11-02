@@ -160,3 +160,32 @@ kubectl taint nodes scw-k8s-angry-lovelace-default-104ea93176284d6 especial=valo
 
 #conferindo remoção
 kubectl describe nodes scw-k8s-angry-lovelace-default-104ea93176284d6
+
+Name:               scw-k8s-angry-lovelace-default-104ea93176284d6
+Roles:              <none>
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=DEV1-M
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=fr-par
+                    failure-domain.beta.kubernetes.io/zone=fr-par-1
+                    k8s.scaleway.com/kapsule=39713063-f994-4dd6-8b91-f0d3fec3607a
+                    k8s.scaleway.com/managed=true
+                    k8s.scaleway.com/node=104ea931-7628-4d64-b901-85d3c55d499e
+                    k8s.scaleway.com/pool=63f48a05-1ab1-49e1-916e-36aab1c39b88
+                    k8s.scaleway.com/pool-name=default
+                    k8s.scaleway.com/runtime=containerd
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=scw-k8s-angry-lovelace-default-104ea93176284d6
+                    kubernetes.io/os=linux
+                    node.kubernetes.io/instance-type=DEV1-M
+                    topology.csi.scaleway.com/zone=fr-par-1
+                    topology.kubernetes.io/region=fr-par
+                    topology.kubernetes.io/zone=fr-par-1
+Annotations:        csi.volume.kubernetes.io/nodeid: {"csi.scaleway.com":"fr-par-1/8e076646-d3f6-4531-915e-cdfd8b04dd28"}
+                    io.cilium.network.ipv4-cilium-host: 100.64.2.130
+                    io.cilium.network.ipv4-health-ip: 100.64.2.19
+                    io.cilium.network.ipv4-pod-cidr: 100.64.2.0/24
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Tue, 02 Nov 2021 09:34:42 -0300
+Taints:             especial=valor1:NoExecute
