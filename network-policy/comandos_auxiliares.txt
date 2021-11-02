@@ -1,0 +1,11 @@
+#aplicando manifestos para simular o deploy de uma aplicação
+kubectl apply -f ./network-policy/.
+
+#executando port-forward para testar execução do deployment
+kubectl port-forward pod/nginx-deployment-5cfbc579c-xvf68  80:80
+
+#acessando aplicação para teste
+http://localhost:80/
+
+#criando pod para conseguir comunicar com este service
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
