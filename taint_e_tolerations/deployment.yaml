@@ -5,6 +5,7 @@ metadata:
   labels:
     app: nginx
 spec:
+  replicas: 6
   selector:
     matchLabels:
       app: nginx
@@ -30,3 +31,4 @@ spec:
           operator: "Equal"
           value: "valor1"
           effect: "NoExecute"
+          tolerationSeconds: 60 #define quanto tempo de tolerância quando este Taint for adicionado

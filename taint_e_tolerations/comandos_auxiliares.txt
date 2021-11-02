@@ -286,3 +286,100 @@ nginx-deployment-5956f54fcc-nxsfq   1/1     Running   0          53s   100.64.1.
 nginx-deployment-5956f54fcc-qvgbj   1/1     Running   0          58s   100.64.1.10    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
 
 #nova redistribuição feita, e agora o pod (nginx-deployment-5956f54fcc-h2xxx) esta rodando no nó (scw-k8s-angry-lovelace-default-104ea93176284d6) que tem o Taints NoExecute configurado
+
+
+#verificando os novos nós do cluster
+kubectl get nodes
+
+NAME                                             STATUS   ROLES    AGE   VERSION
+scw-k8s-eager-haibt-default-99f1220659694ac6bb   Ready    <none>   16m   v1.22.3
+scw-k8s-eager-haibt-default-9ed6f6cbef17408391   Ready    <none>   15m   v1.22.3
+scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   Ready    <none>   15m   v1.22.3
+
+
+#Limpando Taints do nó e aplicando configuração para Taints com tolerationSeconds de 60 segundos
+kubectl taint nodes scw-k8s-eager-haibt-default-99f1220659694ac6bb especial=valor1:NoExecute-
+kubectl taint nodes scw-k8s-eager-haibt-default-99f1220659694ac6bb especial=valor1:PreferNoSchedule-
+kubectl apply -f ./taint_e_tolerations/deployment.yaml
+
+#verificando pods vs nós de execução
+kubectl get pods -o wide
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-856cb49f4-cm9kp   1/1     Running   0          8m58s   100.64.0.89    scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running   0          8m58s   100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running   0          8m58s   100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running   0          8m58s   100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running   0          8m58s   100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-w5dtf   1/1     Running   0          8m58s   100.64.0.142   scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+
+#adicionando novamente o Taints NoExecute para demonstrar que terá uma tolerância de 60 segundos para os pods rodando neste nó ser reagendado para outro nó.
+kubectl taint nodes scw-k8s-eager-haibt-default-99f1220659694ac6bb especial=valor1:NoExecute
+
+#verificando duração para novo agendamento
+kubectl get pods -o wide
+
+#Iniciando o reagendamento
+NAME                               READY   STATUS              RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-856cb49f4-4r54k   0/1     ContainerCreating   0          1s    <none>         scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-cm9kp   0/1     Terminating         0          11m   100.64.0.89    scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running             0          11m   100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running             0          11m   100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running             0          11m   100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-svbxg   0/1     ContainerCreating   0          1s    <none>         scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running             0          11m   100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-w5dtf   1/1     Terminating         0          11m   100.64.0.142   scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+
+#Reagendamento concluído, ainda existe 1 pod (nginx-deployment-856cb49f4-svbxg) rodando no nó, pois não existe taint para não agendamento 
+# (NoSchedule), então foi agendado outro no mesmo nó, porém este terá novamente um período de 60 segundos para ser reagendado.
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-856cb49f4-4r54k   1/1     Running   0          44s   100.64.1.60    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running   0          12m   100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running   0          12m   100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running   0          12m   100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-svbxg   1/1     Running   0          44s   100.64.0.104   scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running   0          12m   100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+
+#Olhando novamente depois dos 60 segundos, perceba que o pod (nginx-deployment-856cb49f4-svbxg) foi substituído por (nginx-deployment-856cb49f4-5fs2f) ainda no mesmo nó (scw-k8s-eager-haibt-default-99f1220659694ac6bb)
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-856cb49f4-4r54k   1/1     Running   0          6m    100.64.1.60    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-5fs2f   1/1     Running   0          60s   100.64.0.192   scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running   0          17m   100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running   0          17m   100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running   0          17m   100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running   0          17m   100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+
+# pod (nginx-deployment-856cb49f4-5fs2f) trocado por (nginx-deployment-856cb49f4-pv4zw) ainda no mesmo nó
+NAME                               READY   STATUS    RESTARTS   AGE    IP             NODE                                             NOMINATED NODE   READINESS GATES
+
+nginx-deployment-856cb49f4-4r54k   1/1     Running   0          9m8s   100.64.1.60    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running   0          21m    100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running   0          21m    100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running   0          21m    100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-pv4zw   1/1     Running   0          7s     100.64.0.71    scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running   0          21m    100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+
+#para que não seja mais possível cair agendamento no nó (scw-k8s-eager-haibt-default-99f1220659694ac6bb), basta adicionarmos um novo Taints de NoSchedule
+kubectl taint nodes scw-k8s-eager-haibt-default-99f1220659694ac6bb especial=valor1:NoSchedule
+
+#verificando antes da regra ser efetivamente respeitada
+kubectl get pods -o wide
+
+#pod (nginx-deployment-856cb49f4-n2482) ainda rodando no nó (scw-k8s-eager-haibt-default-99f1220659694ac6bb)
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-856cb49f4-4r54k   1/1     Running   0          12m   100.64.1.60    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running   0          24m   100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running   0          24m   100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running   0          24m   100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-n2482   1/1     Running   0          15s   100.64.0.157   scw-k8s-eager-haibt-default-99f1220659694ac6bb   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running   0          24m   100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+
+#passado 60 segundos, não deverá mais ter agendamento para o nó (scw-k8s-eager-haibt-default-99f1220659694ac6bb)
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-856cb49f4-4r54k   1/1     Running   0          13m   100.64.1.60    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-d5r7d   1/1     Running   0          25m   100.64.2.70    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-fj54q   1/1     Running   0          25m   100.64.1.67    scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-ggpjf   1/1     Running   0          25m   100.64.1.205   scw-k8s-eager-haibt-default-c59e2a1f14744e5b86   <none>           <none>
+nginx-deployment-856cb49f4-sv52n   1/1     Running   0          38s   100.64.2.71    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
+nginx-deployment-856cb49f4-vmdfr   1/1     Running   0          25m   100.64.2.29    scw-k8s-eager-haibt-default-9ed6f6cbef17408391   <none>           <none>
