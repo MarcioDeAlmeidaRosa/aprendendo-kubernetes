@@ -91,3 +91,5 @@ api-pedelogo-deployment-7bbb49d8bd-zjnlt           1/1     Running   0          
 <none>
 mongodb-api-pedelogo-deployment-79c459f585-bp5w9   1/1     Running   0          12s   100.64.1.6     scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>
 <none>
+
+#aplicando 4 réplicas da api usando anti afinidade para que as demais réplicas da api seja colocada em outros nós diferente da 1º réplica
