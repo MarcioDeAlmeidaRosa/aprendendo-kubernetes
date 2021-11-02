@@ -676,11 +676,14 @@ Semana 04
 			--> Pod Antiaffinity -> pensando em um cenário onde você quer ter alta disponibilidade, então você sobe a quantidade de réplicas, porém se todas elas estiverem no mesmo nó, e este nó cai, acaba a alta disponibilidade da sua aplicação, então este recurso vem para que possibilite ao escalar, você consiga orientar que as instâncias fiquem em nós diferentes. Recomendado a configuração como uma regra preferencial;
 
 		* Taint e Tolerations
-		    --> cria uma anti afinidade baseada no nó, com isso, é o nó que define qual pod será executado alí.
+		    --> Taint -> cria uma anti afinidade baseada no nó, com isso, é o nó que define qual pod será executado alí.
 			    Configuração composta por: chave/valor/efeito, sendo possível 3 efeitos diferentes para a configuração, sendo elas:
-				  PreferNoSchedule: para que o pod preferencialmente não seja agendado dentro do nó especificado.
-				  NoSchedule: para que o pod não seja agendado no nó especificado de forma nenhuma.
-				  NoExecute: o pod não pode ser executado no nó especificado.
+				  * PreferNoSchedule: para que o pod preferencialmente não seja agendado dentro do nó especificado.
+				  * NoSchedule: para que o pod não seja agendado no nó especificado de forma nenhuma.
+				  * NoExecute: o pod não pode ser executado no nó especificado. Quando colocamos o Taint depois que o pode foi agendado para o nó especificado, com isso o pode acaba ficando lá em execução, então ao configurar o NoExecute você garante que caso esta situação aconteça, o pode pare de executar no nó de seleção.
+			--> Tolerations -> configuração auxiliar descrita no pod, determina que aquele pod tem tolerância a um determinado Taint, "ele quebra a regra de um determinado Taint". Configuração composta por: chave/valor/efeito da mesma forma configurada no Taint.
+
+			--> A configuração pode ser combinada para diversos cenários, por exemplo, quando é preciso que alguns nós precisam de um hardware especial para machine learning, ou outro cenário é de manutenção, onde não se quer que nenhum pod seja executado alí por conta de manutenção.
 
 	Falando sobre Segurança
 		* Introdução
