@@ -48,7 +48,6 @@ CreationTimestamp:  Tue, 02 Nov 2021 09:34:42 -0300
 Taints:             <none>
 
 #aplicando Taints de NoSchedule para que não permita novos agendamento de pods novos no nó scw-k8s-angry-lovelace-default-104ea93176284d6
-
 kubectl taint nodes scw-k8s-angry-lovelace-default-104ea93176284d6 especial=valor1:NoSchedule
 
 #verificando nós do clustes
@@ -102,3 +101,23 @@ nginx-deployment-7796b7557-lv5b7   1/1     Running   0          39s   100.64.1.3
 nginx-deployment-7796b7557-t7gqg   1/1     Running   0          39s   100.64.1.79    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
 nginx-deployment-7796b7557-xbzb7   1/1     Running   0          40s   100.64.1.219   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
 nginx-deployment-7796b7557-z6lqx   1/1     Running   0          40s   100.64.1.165   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#aplicando Taints de NoExecute para que não permita mais execução de pod nenhum no nó scw-k8s-angry-lovelace-default-104ea93176284d6
+kubectl taint nodes scw-k8s-angry-lovelace-default-104ea93176284d6 especial=valor1:NoExecute
+
+#verificando deployment executado
+kubectl get pods -o wide
+
+NAME                               READY   STATUS    RESTARTS   AGE     IP             NODE                                             NOMINATED NODE   READINESS GATES
+nginx-deployment-7796b7557-589ph   1/1     Running   0          8m38s   100.64.0.218   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-7gbsq   0/1     Pending   0          61s     <none>         <none>                                           <none>           <none>
+nginx-deployment-7796b7557-944wt   1/1     Running   0          8m38s   100.64.1.186   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-bkv6r   1/1     Running   0          8m38s   100.64.0.91    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-c6jfp   1/1     Running   0          8m38s   100.64.0.105   scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lm4nf   1/1     Running   0          8m39s   100.64.0.44    scw-k8s-angry-lovelace-default-fe175434bbd547e   <none>           <none>
+nginx-deployment-7796b7557-lv5b7   1/1     Running   0          8m38s   100.64.1.30    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-t7gqg   1/1     Running   0          8m38s   100.64.1.79    scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-xbzb7   1/1     Running   0          8m39s   100.64.1.219   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+nginx-deployment-7796b7557-z6lqx   1/1     Running   0          8m39s   100.64.1.165   scw-k8s-angry-lovelace-default-4fd0f1d8c47946d   <none>           <none>
+
+#ficou pendente por que não tem mais recurso de máquina para usar, mas foi removido o pod de execução (nginx-deployment-7796b7557-7q855)
