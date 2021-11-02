@@ -7,5 +7,176 @@ kubectl port-forward pod/nginx-deployment-5cfbc579c-xvf68  80:80
 #acessando aplicação para teste
 http://localhost:80/
 
-#criando pod para conseguir comunicar com este service
+#criando pod para conseguir comunicar com este service, resultado, apresenta o HTML do nginx no console e deleta o pod após execução
 kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+pod "ping-test" deleted
+
+
+
+#verificando versão para o objeto police que irei criar
+kubectl api-resources
+
+networkpolicies                    netpol         networking.k8s.io/v1                   true         NetworkPolicy
+
+#aplicando a política de rede criada para bloquer comunicação para o pod que não esteja declarado na regra
+kubectl apply -f ./network-policy/network-police.yaml
+
+#verificando a política criada
+kubectl describe netpol nginx-network-police
+ou
+kubectl describe networkpolicies nginx-network-police
+
+
+Name:         nginx-network-police
+Namespace:    default
+Created on:   2021-11-02 19:09:30 -0300 -03
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     app=nginx
+  Allowing ingress traffic:
+    To Port: 80/TCP
+    From:
+      PodSelector: app=ubuntu
+  Allowing egress traffic:
+    To Port: 80/TCP
+    To:
+      PodSelector: app=ubuntu
+  Policy Types: Ingress, Egress
+
+
+#verificando descrição do pod, não muda as informações no pod
+kubectl describe pod nginx-deployment-5cfbc579c-xvf68
+
+
+Name:         nginx-deployment-5cfbc579c-xvf68
+Namespace:    default
+Priority:     0
+Node:         scw-k8s-eager-haibt-default-c59e2a1f14744e5b86/10.71.88.125
+Start Time:   Tue, 02 Nov 2021 18:47:34 -0300
+Labels:       app=nginx
+              pod-template-hash=5cfbc579c
+Annotations:  <none>
+Status:       Running
+IP:           100.64.1.108
+IPs:
+  IP:           100.64.1.108
+Controlled By:  ReplicaSet/nginx-deployment-5cfbc579c
+Containers:
+  nginx:
+    Container ID:   containerd://41a12ef0851efd915b8fa9eed467fc8243679222ffd78cbb63a31f44cbfddf39
+    Image:          nginx
+    Image ID:       docker.io/library/nginx@sha256:644a70516a26004c97d0d85c7fe1d0c3a67ea8ab7ddf4aff193d9f301670cf36
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 02 Nov 2021 18:47:36 -0300
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  128Mi
+    Requests:
+      cpu:        500m
+      memory:     128Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-4jtt2 (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-4jtt2:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Guaranteed
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  26m   default-scheduler  Successfully assigned default/nginx-deployment-5cfbc579c-xvf68 to scw-k8s-eager-haibt-default-c59e2a1f14744e5b86
+  Normal  Pulling    26m   kubelet            Pulling image "nginx"
+  Normal  Pulled     26m   kubelet            Successfully pulled image "nginx" in 1.033672801s
+  Normal  Created    26m   kubelet            Created container nginx
+  Normal  Started    26m   kubelet            Started container nginx
+
+
+#após aplicar regra, não é mais permitido acessar o pod sem usar a regra definida, no caso a Label app: ubuntu
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+
+If you don't see a command prompt, try pressing enter.
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+curl: (28) Failed to connect to nginx-service port 80: Connection timed out
+pod "ping-test" deleted
+pod default/ping-test terminated (Error)
+
+#agora quando adicionamos a Label, é possível acessar o conteúdo
+kubectl run -i --tty -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+pod "ping-test" deleted
+
+
+#testando a comunicação com o consumidor em outro namespace, criando namespace para rodar o consumidor por ele
+kubectl create namespace curl
+
+#agora executamos o mesmo container só que de um namespace diferente, como não esta liberado a regra, a comunicação não será feita.
+kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service.default.svc.cluester.local
+
+curl: (6) Could not resolve host: nginx-service.default.svc.cluester.local
+pod "ping-test" deleted
+pod curl/ping-test terminated (Error)
