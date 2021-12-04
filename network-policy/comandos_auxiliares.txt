@@ -8,7 +8,7 @@ kubectl port-forward pod/nginx-deployment-5cfbc579c-xvf68  80:80
 http://localhost:80/
 
 #criando pod para conseguir comunicar com este service, resultado, apresenta o HTML do nginx no console e deleta o pod após execução
-kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl --max-time 5.5 http://nginx-service
 
 <!DOCTYPE html>
 <html>
@@ -134,16 +134,16 @@ Events:
 
 
 #após aplicar regra, não é mais permitido acessar o pod sem usar a regra definida, no caso a Label app: ubuntu
-kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl --max-time 5.5 http://nginx-service
 
 If you don't see a command prompt, try pressing enter.
-kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+kubectl run -i --tty --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl --max-time 5.5 http://nginx-service
 curl: (28) Failed to connect to nginx-service port 80: Connection timed out
 pod "ping-test" deleted
 pod default/ping-test terminated (Error)
 
 #agora quando adicionamos a Label, é possível acessar o conteúdo
-kubectl run -i --tty -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service
+kubectl run -i --tty -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl --max-time 5.5 http://nginx-service
 
 <!DOCTYPE html>
 <html>
@@ -175,7 +175,7 @@ pod "ping-test" deleted
 kubectl create namespace curl
 
 #agora executamos o mesmo container só que de um namespace diferente, como não esta liberado a regra, a comunicação não será feita.
-kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service.default.svc.cluster.local
+kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl --max-time 5.5 http://nginx-service.default.svc.cluster.local
 
 curl: (6) Could not resolve host: nginx-service.default.svc.cluester.local
 pod "ping-test" deleted
@@ -202,7 +202,7 @@ No LimitRange resource.
 kubectl apply -f ./network-policy/network-police.yaml
 
 #com isso conseguiremos fazer a chamada abaixo funcionar
-kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl http://nginx-service.default.svc.cluster.local
+kubectl run -i --tty -n curl -l app=ubuntu --image kubedevio/ubuntu-curl ping-test --restart=Never --rm -- curl --max-time 5.5 http://nginx-service.default.svc.cluster.local
 
 <!DOCTYPE html>
 <html>
