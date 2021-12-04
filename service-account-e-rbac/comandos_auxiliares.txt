@@ -224,3 +224,28 @@ Containers:
       ASPNETCORE_ENVIRONMENT:  Development
     Mounts:
       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9glxn (ro)
+
+# aplicando role de consulta para depois atrelar ao service que criamos para o dashboard
+
+kubectl apply -f ./service-account-e-rbac/k8s-dashboard-service-account-role.yaml
+
+# verificando role criada
+
+kubectl get roles --namespace=k8s-dashboard
+
+$ kubectl get roles --namespace=k8s-dashboard
+NAME                             CREATED AT
+k8s-dashboard-user-role-reader   2021-12-04T17:11:24Z
+
+# verificando detalhe da role criada
+
+kubectl describe role k8s-dashboard-user-role-reader --namespace=k8s-dashboard
+
+$ kubectl describe role k8s-dashboard-user-role-reader --namespace=k8s-dashboard
+Name:         k8s-dashboard-user-role-reader
+Labels:       app=k8s-dashboard
+Annotations:  <none>
+PolicyRule:
+  Resources  Non-Resource URLs  Resource Names  Verbs
+  ---------  -----------------  --------------  -----
+  pods       []                 []              [get list watch]
