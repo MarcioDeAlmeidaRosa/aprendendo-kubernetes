@@ -1,0 +1,155 @@
+# aplicando manifestos para criação do deployment e service do serviço de dashboard do k8s
+kubectl apply -f ./service-account-e-rbac/.
+
+# verificando objetos criados
+kubectl get all --namespace=k8s-dashboard
+
+# acessando descrição do pod criado
+kubectl describe pods  --namespace=k8s-dashboard
+
+$ kubectl describe pods  --namespace=k8s-dashboard
+Name:         k8s-dashboard-deployment-68c78cbd47-6frw4
+Namespace:    k8s-dashboard
+Priority:     0
+Node:         scw-k8s-reverent-euclid-default-1414ee20edee4d/10.64.10.185
+Start Time:   Sat, 04 Dec 2021 12:33:32 -0300
+Labels:       app=k8s-dashboard
+              pod-template-hash=68c78cbd47
+Annotations:  <none>
+Status:       Running
+IP:           100.64.0.189
+IPs:
+  IP:           100.64.0.189
+Controlled By:  ReplicaSet/k8s-dashboard-deployment-68c78cbd47
+Containers:
+  k8s-dashboard:
+    Container ID:   containerd://eb462e5e276fee2edea3929a6cc665de10760c6a51dec19afc1375eb1b5e7c92
+    Image:          kubedevio/k8s-dashboard:v1
+    Image ID:       docker.io/kubedevio/k8s-dashboard@sha256:d5a79ca561fcd2b0ba1cb37f52399d759a4fe87b7b9f65d0edbc0177d67cab82
+    Ports:          80/TCP, 443/TCP
+    Host Ports:     0/TCP, 0/TCP
+    State:          Running
+      Started:      Sat, 04 Dec 2021 12:33:54 -0300
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  128Mi
+    Requests:
+      cpu:     500m
+      memory:  128Mi
+    Environment:
+      ASPNETCORE_ENVIRONMENT:  Development
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kq8gc (ro)
+
+# verificar que tem um mount criado através de um secret declarado -> from kube-api-access-kq8gc
+
+# listando os secrets do namespace
+kubectl get secrets --namespace=k8s-dashboard
+
+NAME                  TYPE                                  DATA   AGE
+default-token-44pg9   kubernetes.io/service-account-token   3      5m29s
+
+# secret criado com base no serviceaccount default do kubernetes, isto não é uma boa prática. 
+  Criar sempre um service account para cada elemento criado no cluster kubernetes colocando 
+  somente o que será preciso utilizar
+
+# acessando detalhes do secret
+kubectl describe secrets default-token-44pg9 --namespace=k8s-dashboard
+
+$ kubectl describe secrets default-token-44pg9 --namespace=k8s-dashboard
+Name:         default-token-44pg9
+Namespace:    k8s-dashboard
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name: default
+              kubernetes.io/service-account.uid: ab8cc4e1-9f53-407c-a84c-09a32cf5c19c
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1066 bytes #####----> esta informação é o certificado do meu cluster kubernetes
+namespace:  13 bytes
+(token -> chave JWT para acessar o api server do kubernetes) 
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IlBUT3BGZmJGU2k5VjdVTzVtNDV3Vk9jajBxWElWRHJiTXNoeW9tODBiVkkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrOHMtZGFzaGJvYXJkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tNDRwZzkiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImFiOGNjNGUxLTlmNTMtNDA3Yy1hODRjLTA5YTMyY2Y1YzE5YyIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprOHMtZGFzaGJvYXJkOmRlZmF1bHQifQ.MNs-ZRyh6_5y_ZdSFh50oIExO98MXFt5cIvhSwybFn5f4vn2nba_LpKcNrvX3cghG1Auxcdw2M3wB3TXG4vqeDUNaB6J-bpmBC0NTAGvkjjzW3iu62q0MtjyVePYYmFtAhycpOX4-yh0kU1TbvUFVk0YyFmwR78I6-RHLcq5fHThCZQbqqLFF2nr0fUe-uAUBl6SLMVWD3SgaFR0XYAwFJpOS-fddwKwPzKzsLrPKJaWYHzbmtC-XHQ8EdWrcM1nLt5IS6YoOVno9ZJP6oY5vpuleVIQfOrzBixBLW08irZLnJBIs4tNbT2Lw3RdHk8EkPSW3_3cbS-X2E49616-sQ
+
+#Este secret fica montado dentro do pod em execução
+
+# preparando para acessar o pod em execução
+kubectl get pods  --namespace=k8s-dashboard
+
+$ kubectl get pods  --namespace=k8s-dashboard
+NAME                                        READY   STATUS    RESTARTS   AGE
+k8s-dashboard-deployment-68c78cbd47-6frw4   1/1     Running   0          12m
+
+# acessando em mode exer no pod
+ kubectl exec -i --tty -n k8s-dashboard k8s-dashboard-deployment-68c78cbd47-6frw4  -- ../../bin/bash
+
+# verificando aplicações em execução dentro do container
+ls
+
+root@k8s-dashboard-deployment-68c78cbd47-6frw4:/app# ls
+AutoMapper.dll                           Microsoft.CodeAnalysis.CSharp.Workspaces.dll                       Newtonsoft.Json.dll                     es
+BouncyCastle.Crypto.dll                  Microsoft.CodeAnalysis.CSharp.dll                                  NuGet.Frameworks.dll                    fr
+Fractions.dll                            Microsoft.CodeAnalysis.Razor.dll                                   System.Composition.AttributedModel.dll  it
+KubernetesApi.Web                        Microsoft.CodeAnalysis.Workspaces.dll                              System.Composition.Convention.dll       ja
+KubernetesApi.Web.Views.dll              Microsoft.CodeAnalysis.dll                                         System.Composition.Hosting.dll          ko
+KubernetesApi.Web.Views.pdb              Microsoft.Rest.ClientRuntime.dll                                   System.Composition.Runtime.dll          pl
+KubernetesApi.Web.deps.json              Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll            System.Composition.TypedParts.dll       pt-BR
+KubernetesApi.Web.dll                    Microsoft.VisualStudio.Web.CodeGeneration.Core.dll                 YamlDotNet.dll                          ru
+KubernetesApi.Web.pdb                    Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll  appsettings.Development.json            tr
+KubernetesApi.Web.runtimeconfig.json     Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll           appsettings.json                        web.config
+KubernetesClient.dll                     Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll                cs                                      wwwroot
+Microsoft.AspNetCore.JsonPatch.dll       Microsoft.VisualStudio.Web.CodeGeneration.dll                      de                                      zh-Hans
+Microsoft.AspNetCore.Razor.Language.dll  Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll                  dotnet-aspnet-codegenerator-design.dll  zh-Hant
+
+#agora vamos acessar o mount para ter acesso ao secret 
+cd /var/run/secrets/kubernetes.io/serviceaccount
+
+root@k8s-dashboard-deployment-68c78cbd47-6frw4:/var/run/secrets/kubernetes.io/serviceaccount#
+
+# listando arquivos
+la -la
+
+root@k8s-dashboard-deployment-68c78cbd47-6frw4:/var/run/secrets/kubernetes.io/serviceaccount# ls -la
+total 4
+drwxrwxrwt 3 root root  140 Dec  4 15:33 .
+drwxr-xr-x 3 root root 4096 Dec  4 15:33 ..
+drwxr-xr-x 2 root root  100 Dec  4 15:33 ..2021_12_04_15_33_33.959593091
+lrwxrwxrwx 1 root root   31 Dec  4 15:33 ..data -> ..2021_12_04_15_33_33.959593091
+lrwxrwxrwx 1 root root   13 Dec  4 15:33 ca.crt -> ..data/ca.crt
+lrwxrwxrwx 1 root root   16 Dec  4 15:33 namespace -> ..data/namespace
+lrwxrwxrwx 1 root root   12 Dec  4 15:33 token -> ..data/token
+
+# é possível verificar cada arquivo
+cat ca.crt
+
+root@k8s-dashboard-deployment-68c78cbd47-6frw4:/var/run/secrets/kubernetes.io/serviceaccount# cat ca.crt
+-----BEGIN CERTIFICATE-----
+MIIC5zCCAc+gAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl
+cm5ldGVzMB4XDTIxMTIwMzEzNTAwMFoXDTMxMTIwMzEzNTAwMFowFTETMBEGA1UE
+AxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALtq
+REAm1o2WEspFrw/wviTzrcN1K9qTxHoClFH/qHjaIvq9JYqZEZRvLqA3aQh/hPvr
+KRfmQRypeav9+9k7k3nN5UE2rLnKE8PorB9nRSaCiOy54aBKklFbo+3NbyjJRFzY
+m0wa0nrYPI637wl63IKaXiGV5rKy5cDsYh/8w8mluPzFSUUmWloo3x884ZTlPU1R
+tNcuFj4Bt4WHm8H4MV9JY7uDd3UlDw7YYJXkbTbLZTmJ133sZYdHYcHCSb/VkdwJ
+U0tAhdfdYRfeDrNCVlXv/JRRAk7hhMPHFns9feRVvlkgQ53nP1xpXHioRC3LdpnY
+ioC7W+Gv3HhxXsa1B30CAwEAAaNCMEAwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB
+/wQFMAMBAf8wHQYDVR0OBBYEFDDcuYlYuBoA55IoPACXkD/KdOMwMA0GCSqGSIb3
+DQEBCwUAA4IBAQBsPaX/Um1ht9tghjfLAgE0arlEO0tG8O4dTvEYmj54mriC4poJ
+881i38AvMQvQunEFKlsYZJqlzWIZe3rxFTFIfWvyablrsO5cQ4lL+k+9XpoKd8lR
+8He8v1vxB9APiaKNh07QD5HW4iZ7tvbLQfIkQapKhWldZgJUvG9GG5pXcedyXrv8
+ATeBT11PEGGAu7DhtoIfh7AK6p7Kml6pBj8ktzcOSsVE7NEgmsesPHgRk850Mk4m
+wkLE1n+JRDF2lzMQyBm0GYJRCXthbQWiYy+eNIQ7COx7blWEPok5976qdoTEE8H2
+Kw1O0WYyJ0mIE03zGYWVLIjW0kYPbYhW/Xo9
+-----END CERTIFICATE-----
+
+cat namespace
+k8s-dashboardroot@k8s-dashboard-deployment-68c78cbd47-6frw4:/var/run/secrets/kubernetes.io/serviceaccount#
+
+k8s-dashboardroot@k8s-dashboard-deployment-68c78cbd47-6frw4:/var/run/secrets/kubernetes.io/serviceaccount# cat token
+eyJhbGciOiJSUzI1NiIsImtpZCI6IlBUT3BGZmJGU2k5VjdVTzVtNDV3Vk9jajBxWElWRHJiTXNoeW9tODBiVkkifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjcwMTY4MDEzLCJpYXQiOjE2Mzg2MzIwMTMsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrOHMtZGFzaGJvYXJkIiwicG9kIjp7Im5hbWUiOiJrOHMtZGFzaGJvYXJkLWRlcGxveW1lbnQtNjhjNzhjYmQ0Ny02ZnJ3NCIsInVpZCI6IjJjZmMwNGYzLTk0OGMtNGUwYy05ZGM4LWIyYTk0ZDY4ZjY3ZCJ9LCJzZXJ2aWNlYWNjb3VudCI6eyJuYW1lIjoiZGVmYXVsdCIsInVpZCI6ImFiOGNjNGUxLTlmNTMtNDA3Yy1hODRjLTA5YTMyY2Y1YzE5YyJ9LCJ3YXJuYWZ0ZXIiOjE2Mzg2MzU2MjB9LCJuYmYiOjE2Mzg2MzIwMTMsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprOHMtZGFzaGJvYXJkOmRlZmF1bHQifQ.sqkzPmw7A_nNEuEaBcJBgMdKGjmUA0I5_Gf6HRxH0vfKdaQT2Ob-Zre_dhUJIyWyDSEv1wBb1b9tBOFm1-KOaWZSn6aMpSiwRnts9SVtppgltfogeF96cOSRFJCI6-HKWMyl1RDOSmyQ5szz3YU_MtSbbyWXG9Qx-SvX9EpEEOFB7yVyXaW18ju_zXGnGxKs-iyYsQsUuzSPLE1T5HKEpfBpCuHh8X0l83v2HvdYtP9mNl3HD2Xai8zXQZBgzEIf9Gm_nPZ0L9KxstNbx3RCp2aqq6kruO_DQsCvJtBQhko0bw542mbZm4i6ei1RVTvVhFwzD2oE_TqSfkz0UXQAAA
+
+# com este token é possível a fazer chamada ao api service do kubernetes diretamente, importantíssimo ter o mínimo de 
+  permissionamento para o service account, por que se este pod for acessado, da para sofrer um ataque.

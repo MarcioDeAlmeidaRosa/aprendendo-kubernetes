@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-dashboard-deployment
+  namespace: k8s-dashboard
+  labels:
+    app: k8s-dashboard
+spec:
+  selector:
+    matchLabels:
+      app: k8s-dashboard
+  template:
+    metadata:
+      labels:
+        app: k8s-dashboard
+    spec:
+      containers:
+      - name: k8s-dashboard
+        image: kubedevio/k8s-dashboard:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development

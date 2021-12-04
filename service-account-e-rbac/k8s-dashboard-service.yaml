@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-dashboard-service
+  namespace: k8s-dashboard
+  labels:
+    app: k8s-dashboard
+spec:
+  selector:
+    app: k8s-dashboard
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+    - port: 443
+      targetPort: 443
+      name: https
+  type: LoadBalancer
