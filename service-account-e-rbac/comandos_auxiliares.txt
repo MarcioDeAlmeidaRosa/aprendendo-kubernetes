@@ -170,5 +170,57 @@ NAME                 SECRETS   AGE
 default              1         35m
 k8s-dashboard-user   1         57s
 
+# verificando detalhes do serviceaccount
+kubectl describe serviceaccounts k8s-dashboard-user --namespace=k8s-dashboard
+
+$ kubectl describe serviceaccounts k8s-dashboard-user --namespace=k8s-dashboard
+Name:                k8s-dashboard-user
+Namespace:           k8s-dashboard
+Labels:              app=k8s-dashboard
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   k8s-dashboard-user-token-hw8mr
+Tokens:              k8s-dashboard-user-token-hw8mr
+Events:              <none>
+
 # aplicando serviceaccount no deployment
 kubectl apply -f ./service-account-e-rbac/k8s-dashboard-deployment.yaml
+
+# conferinado serviceaccount atrelado ao pod
+kubectl describe pods --namespace=k8s-dashboard
+
+$ kubectl describe pods --namespace=k8s-dashboard
+Name:         k8s-dashboard-deployment-5f59d958dc-bcthq
+Namespace:    k8s-dashboard
+Priority:     0
+Node:         scw-k8s-reverent-euclid-default-1414ee20edee4d/10.64.10.185
+Start Time:   Sat, 04 Dec 2021 13:53:05 -0300
+Labels:       app=k8s-dashboard
+              pod-template-hash=5f59d958dc
+Annotations:  <none>
+Status:       Running
+IP:           100.64.0.219
+IPs:
+  IP:           100.64.0.219
+Controlled By:  ReplicaSet/k8s-dashboard-deployment-5f59d958dc
+Containers:
+  k8s-dashboard:
+    Container ID:   containerd://270bf039596234581a78e365c1ba887770ec3705fe13766ace4f0ffef20b39a4
+    Image:          kubedevio/k8s-dashboard:v1
+    Image ID:       docker.io/kubedevio/k8s-dashboard@sha256:d5a79ca561fcd2b0ba1cb37f52399d759a4fe87b7b9f65d0edbc0177d67cab82
+    Ports:          80/TCP, 443/TCP
+    Host Ports:     0/TCP, 0/TCP
+    State:          Running
+      Started:      Sat, 04 Dec 2021 13:53:07 -0300
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  128Mi
+    Requests:
+      cpu:     500m
+      memory:  128Mi
+    Environment:
+      ASPNETCORE_ENVIRONMENT:  Development
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9glxn (ro)
