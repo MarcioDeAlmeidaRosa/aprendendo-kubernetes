@@ -169,3 +169,6 @@ kubectl get serviceaccounts --namespace=k8s-dashboard
 NAME                 SECRETS   AGE
 default              1         35m
 k8s-dashboard-user   1         57s
+
+# aplicando serviceaccount no deployment
+kubectl apply -f ./service-account-e-rbac/k8s-dashboard-deployment.yaml
