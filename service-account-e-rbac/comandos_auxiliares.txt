@@ -153,3 +153,9 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6IlBUT3BGZmJGU2k5VjdVTzVtNDV3Vk9jajBxWElWRHJiTXNoeW9t
 
 # com este token é possível a fazer chamada ao api service do kubernetes diretamente, importantíssimo ter o mínimo de 
   permissionamento para o service account, por que se este pod for acessado, da para sofrer um ataque.
+
+# acessando a web para ver o dashboard, não é possível ter acesso as recursos pois não existem permissionamento para isso
+http://51.159.9.92/Deployment
+
+An unhandled exception occurred while processing the request.
+HttpOperationException: Operation returned an invalid status code 'Forbidden'
