@@ -249,3 +249,7 @@ PolicyRule:
   Resources  Non-Resource URLs  Resource Names  Verbs
   ---------  -----------------  --------------  -----
   pods       []                 []              [get list watch]
+
+  # aplicando binding para vincular o serviceaccount a role criada
+
+  kubectl apply -f ./service-account-e-rbac/k8s-dashboard-service-account-role-binding.yaml
