@@ -701,6 +701,8 @@ Semana 04
 		  --> por padrão toda a comunicação entre pods e namespaces é liberada com o default do kubernetes, porém isso não é seguro, em um cenário que alguém ao invadir sua aplicação consegue acessar os outros serviços do cluster kubernetes sem nenhuma dificuldade, somente sabendo o endereço dos serviços. O NetworkPolicy permite criar regra de comunicação entre os pods, bloqueando quem não pode ser acessado, e libera quem precisa acessar algum recurso.
 
 		* ServiceAccount e RBAC
+		  --> (ServiceAccount) contas de serviço para que os pods/aplicações tenham os recursos necessários para acessos específicos. É uma boa prática sempre que criar um ServiceAccount com o mínimo de permissão possível, garantindo segurança no clustes kubernetes.
+		  --> RBAC regras (permissões) de segurança do kubernetes baseadas em role (regras de recurso) e rolebinding (vincula as regras ao ServiceAccount).
 	
 	Expondo a sua aplicação com Ingress Controller
 		* Introduçao
