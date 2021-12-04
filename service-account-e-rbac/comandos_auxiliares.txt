@@ -159,3 +159,13 @@ http://51.159.9.92/Deployment
 
 An unhandled exception occurred while processing the request.
 HttpOperationException: Operation returned an invalid status code 'Forbidden'
+
+# aplicando serviceaccount criado
+kubectl apply -f ./service-account-e-rbac/k8s-dashboard-service-account.yaml
+
+# conferindo serviceaccount (k8s-dashboard-user) criado
+kubectl get serviceaccounts --namespace=k8s-dashboard
+
+NAME                 SECRETS   AGE
+default              1         35m
+k8s-dashboard-user   1         57s
